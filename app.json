@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "budgetmgm",
+    "name": "budgetmanagement",
     "slug": "budget",
     "privacy": "public",
     "sdkVersion": "35.0.0",

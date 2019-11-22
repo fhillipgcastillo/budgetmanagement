@@ -3,12 +3,15 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
 import Dashboard from "./dashboard";
 import NewItem from "./newItem";
+import AccountDetail from './acountDetail';
+
 // emitter.setMaxListener = 2;
 const budgetKey = "budget_acount";
 
 const PAGES = {
   dashboard: 0,
-  newItem: 1
+  newItem: 1,
+  detail: 2
 };
 
 var ACOUNT_MODEL = [
@@ -47,7 +50,8 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentView: PAGES.dashboard
+      currentView: PAGES.dashboard,
+      acountDetail: {},
     };
   };
   componentDidMount(){
@@ -90,6 +94,18 @@ class App extends Component {
     console.log("cancel");
     this.setState({currentView: PAGES.dashboard});
   };
+  handleShowDetail = (detail)=>{
+    this.setState({
+      currentView: PAGES.detail,
+      acountDetail: detail
+    });
+  };
+  handleBack = ()=>{
+    this.setState({
+      currentView: PAGES.dashboard,
+      acountDetail: {}
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -101,8 +117,12 @@ class App extends Component {
             onCancelClick={this.handleCancel}
           />
         </View>
+        : this.state.currentView === PAGES.detail
+        ? <AccountDetail {...this.state.acountDetail} />
         : <Dashboard 
             onCreationClick={this.handleCreation}
+            showDetail={this.handleShowDetail}
+            handleBack={this.handleBack}
           />
         }
       </View>
@@ -116,11 +136,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 0,
-    width: "100%",
-    height:"100%",
+    backgroundColor: '#fff'
   },
 });
