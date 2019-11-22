@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet , FlatList} from 'react-native';
-
+import { View, Text, StyleSheet , FlatList, Button, AsyncStorage} from 'react-native';
+import Title from './Title';
 
 const DATA = [
   {
@@ -26,6 +26,65 @@ const DATA = [
   },
 ];
 
+const budgetKey = "budget_acount";
+
+const TYPEOFPAYMENTS = {
+  Monthly: 1,
+  Unique: 2,
+  Quaterly: 3,
+  Custom : 0, /* OPTIONAL or Nice to have */
+};
+
+const SPENTS_CATEGORIES = {
+  FixRent: 1,
+  TransportSpences: 2,
+  Utilities: 3,
+  Food: 4,
+  Dept: 5,
+  Entertainment: 6,
+  Pregnancy: 7
+};
+
+/* 
+  When TYPEOFPAYMENTS is UniquePayment
+    requires maxDayToPay
+    dayOfMothToPay and maxDayOfMothToPay are optionals
+      or could be auto setup by maxDayToPay
+  When TYPEOFPAYMENTS is Montly
+
+*/
+
+var ACOUNT_MODEL = [
+  {
+    id: "1",
+    title:"Internet Claro Fibra",/* account title */
+    description: "",
+    amount: 1460,
+    uniquePayement: false,
+    dayOfMothToPay: 0,
+    maxDayOfMothToPay: 0,
+    customDateToPay: "",
+    maxDateToPay: "11/16/2019",
+    category: SPENTS_CATEGORIES.FixRent,
+    type: TYPEOFPAYMENTS.MonthlyPayment,
+    amountLimit: 0
+  },
+  {
+    id: "2",
+    title:"Sonography",/* account title */
+    description: "",
+    amount: 2600,
+    uniquePayement: true,
+    dayOfMothToPay: 15,
+    maxDayOfMothToPay: 28,
+    customDateToPay: "11/13/2019",
+    maxDateToPay: "11/16/2019",
+    category: SPENTS_CATEGORIES.FixRent,
+    type: TYPEOFPAYMENTS.UniquePayment, /* paymentType */
+    amountLimit: 0
+  }
+];
+
 const Item = ({title}) => {
   return (
     <View style={styles.item}>
@@ -36,21 +95,62 @@ const Item = ({title}) => {
 
 // create a component
 class Dashboard extends Component {
-  props
+  constructor(props){
+    super(props);
+
+    this.state = {
+      Acounts: [],
+      updateIndID: null
+    }
+  };
+  componentDidMount(){
+    //getting and formating data
+    // let intervalIdentifier = setInterval(()=>{
+      console.log("Updating list...");
+      this.updateDataFromDB();
+      console.log("List Updated");
+    // }, 10000);
+
+    // this.setState({updateIndID: intervalIdentifier});
+  };
+  componentWillUnmount(){
+    clearInterval(this.state.updateIndID); 
+  };
+  updateDataFromDB = async () => {
+    console.log("retrieving the data");
+    let dbPure = await AsyncStorage.getItem(budgetKey);
+    console.log("god pured data", dbPure);
+    let db = JSON.parse(dbPure);
+  
+    this.setState({Acounts: db});
+    console.log("new data", db);
+    // if(this.state.updateIndID)
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Dashboard</Text>
+        <Title 
+          text="Dashboard"
+        />
         <FlatList 
-          data={DATA}
+          data={this.state.Acounts}
           renderItem={({ item }) => <Item title={item.title} /> }
           keyExtractor={item=>item.id}
         />
+        <View>
+          <Button 
+            title="New One"
+            onPress={this.props.onCreationClick}
+          />
+          <Button
+            title="Update data"
+            onPress={this.updateDataFromDB}
+          />
+        </View>
       </View>
     );
   }
-}
-
+};
 
 
 // define your styles
@@ -61,6 +161,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2c3e50',
     width: "100%",
+    paddingTop:50,
   },
   item:{
     backgroundColor: '#f9c2ff',
@@ -70,6 +171,7 @@ const styles = StyleSheet.create({
   },
   title:{
     fontSize: 32,
+    color: "#fff"
   }
 });
 
