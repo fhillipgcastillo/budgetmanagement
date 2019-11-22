@@ -49,7 +49,7 @@ class NewItem extends Component {
       customDateToPay: "",
       maxDateToPay: "",
       category: SPENTS_CATEGORIES.FixRent,
-      paymentType: TYPEOFPAYMENTS.MonthlyPayment,
+      paymentType: TYPEOFPAYMENTS.Monthly,
       amountLimit: 0
     }
   }
@@ -84,7 +84,7 @@ class NewItem extends Component {
       customDateToPay: "",
       maxDateToPay: "",
       category: SPENTS_CATEGORIES.FixRent,
-      paymentType: TYPEOFPAYMENTS.MonthlyPayment,
+      paymentType: TYPEOFPAYMENTS.Monthly,
       amountLimit: 0
     });
   }
@@ -113,29 +113,29 @@ class NewItem extends Component {
           <TextInput
             style={styles.inputTitle} 
             placeholder="Amount"
-            onChangeText={text=>{this.setState({amount:text})}}
-            value={this.state.amount}
+            onChangeText={amount=>{this.setState({amount:parseFloat(amount)})}}
+            value={this.state.amount.toString()}
           />
 
           <TextInput
             style={styles.inputTitle} 
             placeholder="uniquePayement"
-            onChangeText={text=>{this.setState({uniquePayement:text})}}
-            value={this.state.uniquePayement}
+            onChangeText={text=>{this.setState({uniquePayement:text === "true"})}}
+            value={this.state.uniquePayement.toString()}
           />
 
           <TextInput
             style={styles.inputTitle} 
             placeholder="dayOfMothToPay"
-            onChangeText={text=>{this.setState({dayOfMothToPay:text})}}
-            value={this.state.dayOfMothToPay}
+            onChangeText={text=>{this.setState({dayOfMothToPay:parseInt(text)})}}
+            value={this.state.dayOfMothToPay.toString()}
           />
 
           <TextInput
             style={styles.inputTitle} 
             placeholder="maxDayOfMothToPay"
-            onChangeText={text=>{this.setState({maxDayOfMothToPay:text})}}
-            value={this.state.maxDayOfMothToPay}
+            onChangeText={text=>{this.setState({maxDayOfMothToPay:parseInt(text)})}}
+            value={this.state.maxDayOfMothToPay.toString()}
           />
 
           <TextInput
@@ -155,22 +155,22 @@ class NewItem extends Component {
           <TextInput
             style={styles.inputTitle} 
             placeholder="category"
-            onChangeText={text=>{this.setState({category:text})}}
-            value={this.state.category}
+            onChangeText={text=>{this.setState({category:parseIng(text)})}}
+            value={this.state.category.toString()}
           />
           
           <TextInput
             style={styles.inputTitle} 
             placeholder="paymentType"
-            onChangeText={text=>{this.setState({paymentType:text})}}
-            value={this.state.paymentType}
+            onChangeText={text=>{this.setState({paymentType:parseInt(text)})}}
+            value={this.state.paymentType.toString()}
           />
 
           <TextInput
             style={styles.inputTitle} 
             placeholder="amountLimit"
-            onChangeText={text=>{this.setState({amountLimit:text})}}
-            value={this.state.amountLimit}
+            onChangeText={text=>{this.setState({amountLimit:parseFloat(text)})}}
+            value={this.state.amountLimit.toString()}
           />
         </ScrollView>
         <View style={styles.actionContainer}>
@@ -198,7 +198,7 @@ class NewItem extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2c3e50',

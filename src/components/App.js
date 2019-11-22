@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
 import Dashboard from "./dashboard";
 import NewItem from "./newItem";
 // emitter.setMaxListener = 2;
@@ -54,10 +54,14 @@ class App extends Component {
     this.constructDB();
   }
   constructDB = async ()=>{
-    console.log("construction db...", ACOUNT_MODEL);
-    await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
-    console.log("db constructed");
-
+    console.log("construction db...");
+    var dbPure = await AsyncStorage.getItem(budgetKey);
+    let db = JSON.parse(dbPure);
+    console.log("DB", db);
+    if(db.length <= 0){
+      await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
+      console.log("db constructed");
+    }
   };
   handleCreation = ()=>{
     console.log("creation");
@@ -89,6 +93,7 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+         <StatusBar hidden={true}/>  
         {this.state.currentView === PAGES.newItem 
         ? <View n-ote="Actions Container">
            <NewItem 
@@ -114,7 +119,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 15,
-    paddingBottom: 15
+    padding: 0,
+    width: "100%",
+    height:"100%",
   },
 });

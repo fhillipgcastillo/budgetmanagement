@@ -116,6 +116,10 @@ class Dashboard extends Component {
   componentWillUnmount(){
     clearInterval(this.state.updateIndID); 
   };
+  resetDbData = async () => {
+    await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
+    console.log("data reseted");
+  }
   updateDataFromDB = async () => {
     console.log("retrieving the data");
     let dbPure = await AsyncStorage.getItem(budgetKey);
@@ -137,14 +141,21 @@ class Dashboard extends Component {
           renderItem={({ item }) => <Item title={item.title} /> }
           keyExtractor={item=>item.id}
         />
-        <View>
+        <View style={styles.actionContainer}>
           <Button 
+            style={styles.actionBtn}
             title="New One"
             onPress={this.props.onCreationClick}
           />
           <Button
+            style={styles.actionBtn}
             title="Update data"
             onPress={this.updateDataFromDB}
+          />
+           <Button
+            style={styles.actionBtn}
+            title="reset data"
+            onPress={this.resetDbData}
           />
         </View>
       </View>
@@ -172,6 +183,17 @@ const styles = StyleSheet.create({
   title:{
     fontSize: 32,
     color: "#fff"
+  },
+  actionContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexDirection: "row",
+    maxHeight: 30,
+    marginBottom: 10,
+  },
+  actionBtn: {
+    height: 20,
+    margin: 5,
   }
 });
 
