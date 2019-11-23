@@ -1,132 +1,100 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, StatusBar, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Dashboard from "./dashboard";
 import NewItem from "./newItem";
 import AccountDetail from './acountDetail';
-
-// emitter.setMaxListener = 2;
-const budgetKey = "budget_acount";
-
-const PAGES = {
-  dashboard: 0,
-  newItem: 1,
-  detail: 2
-};
-
-var ACOUNT_MODEL = [
-  {
-    id: "1",
-    title:"Internet Claro Fibra",/* account title */
-    description: "",
-    amount: 1460,
-    uniquePayement: false,
-    dayOfMothToPay: 0,
-    maxDayOfMothToPay: 0,
-    customDateToPay: "",
-    maxDateToPay: "11/16/2019",
-    category: 1,
-    type: 1,
-    amountLimit: 0
-  },
-  {
-    id: "2",
-    title:"Sonography",/* account title */
-    description: "",
-    amount: 2600,
-    uniquePayement: true,
-    dayOfMothToPay: 15,
-    maxDayOfMothToPay: 28,
-    customDateToPay: "11/13/2019",
-    maxDateToPay: "11/16/2019",
-    category: 1,
-    type: 4, /* paymentType */
-    amountLimit: 0
-  }
-];
+import {PAGES, DBKEY, ACOUNT_MODEL } from '../constants';
+import { changeAccountDetail, changeCurrentView} from '../actions'
 
 // create a component
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      currentView: PAGES.dashboard,
-      acountDetail: {},
-    };
+  componentWillMount(){
+    console.log('App props', this.props);
+    this.setState({...this.props.states});
   };
   componentDidMount(){
     this.constructDB();
   }
   constructDB = async ()=>{
-    console.log("construction db...");
-    var dbPure = await AsyncStorage.getItem(budgetKey);
+    // console.log("construction db...");
+    var dbPure = await AsyncStorage.getItem(DBKEY);
     let db = JSON.parse(dbPure);
-    console.log("DB", db);
+    // console.log("DB", db);
     if(db.length <= 0){
-      await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
-      console.log("db constructed");
+      await AsyncStorage.setItem(DBKEY, JSON.stringify(ACOUNT_MODEL));
+      // console.log("db constructed");
     }
   };
   handleCreation = ()=>{
-    console.log("creation");
     this.setState({currentView: PAGES.newItem});
   };
   handleSave = async (data)=>{
     //getting and formating data
-    var dbPure = await AsyncStorage.getItem(budgetKey);
+    var dbPure = await AsyncStorage.getItem(DBKEY);
     let db = JSON.parse(dbPure);
-    console.log("db constructed", db);
+    // console.log("db constructed", db);
 
     data.id = db.length+1;
 
     //Adding new value
     db.push(data);
     dbPure = JSON.stringify(db);
-    console.log("saving...", data);
-    console.log("as...", db);
+    // console.log("saving...", data);
+    // console.log("as...", db);
     //commiting changes
-    await AsyncStorage.setItem(budgetKey, dbPure);
+    await AsyncStorage.setItem(DBKEY, dbPure);
     
     this.setState({currentView: PAGES.dashboard});
 
   };
   handleCancel = ()=>{
-    console.log("cancel");
     this.setState({currentView: PAGES.dashboard});
   };
   handleShowDetail = (detail)=>{
-    this.setState({
-      currentView: PAGES.detail,
-      acountDetail: detail
-    });
+    // this.setState({
+    //   currentView: PAGES.detail,
+    //   accountDetail: detail
+    // });
+    // this.props.accountDetail = detail;
+    console.log(`Handling show detail, detail ${detail}`)
+    this.props.changeAccountDetail(detail);
+    this.props.goTo(PAGES.detail);
+    // this.setState({currentView: PAGES.detail});
   };
   handleBack = ()=>{
     this.setState({
       currentView: PAGES.dashboard,
-      acountDetail: {}
+      accountDetail: {}
     });
+    this.props.goTo(PAGES.dashboard);
   };
   render() {
     return (
-      <View style={styles.container}>
-         <StatusBar hidden={true}/>  
-        {this.state.currentView === PAGES.newItem 
-        ? <View n-ote="Actions Container">
+      <ScrollView style={styles.container}>
+         <StatusBar hidden={true}/> 
+        {  this.props.states.currentView === PAGES.dashboard
+        ? <Dashboard 
+            onCreationClick={this.handleCreation}
+            showDetail={this.handleShowDetail}
+            handleBack={this.handleBack}
+          />
+        : this.props.states.currentView === PAGES.newItem 
+        ? <View>
            <NewItem 
             onSaveClick={this.handleSave}
             onCancelClick={this.handleCancel}
           />
         </View>
-        : this.state.currentView === PAGES.detail
-        ? <AccountDetail {...this.state.acountDetail} />
-        : <Dashboard 
-            onCreationClick={this.handleCreation}
-            showDetail={this.handleShowDetail}
-            handleBack={this.handleBack}
-          />
+        : this.props.states.currentView === PAGES.detail
+        ? <AccountDetail {...this.props.states.accountDetail} />
+        : <Text>Current View {this.props.states.currentView}</Text>
         }
-      </View>
+        <ScrollView>
+          <Text>State: {JSON.stringify(this.props.states)}</Text>
+        </ScrollView>
+      </ScrollView>
     );
   }
 }
@@ -140,15 +108,23 @@ const styles = StyleSheet.create({
 
 function mapStateToProps (state) {
   return {
-    accounts: state.accounts
+    states : {
+      accounts: state.accountStates.accounts,
+      currentView: state.accountStates.currentView,
+      accountDetail: state.accountStates.accountDetail,
+      DUMMY_DATA:  state.accountStates.ACOUNT_MODEL
+    }
   }
-}
-import { getAccounts } from '../actions';
-
+};
 
 function mapDispatchToProps (dispatch) {
   return {
-    getAccounts: () => dispatch(getAccounts())
+    // actions: {
+    //   ...
+    // },
+    // getAccounts: () => dispatch(getAccounts())
+    goTo: (page) => dispatch(changeCurrentView(page)),
+    changeAccountDetail: account => dispatch(changeAccountDetail(account))
   }
 }
 

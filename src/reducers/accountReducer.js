@@ -1,16 +1,28 @@
 import { combineReducers } from 'redux';
+import { PAGES, ACOUNT_MODEL, CHANGE_CURRENT_VIEW, CHANGE_CURRENT_ACCOUNT_DETAIL } from '../constants';
 
 const INITIAL_STATE = {
-  accounts: []
+  accounts: [],
+  currentView: PAGES.dashboard,
+  accountDetail: {},
+  ACCOUTN_MODEL: ACOUNT_MODEL,
 };
 
-const AcountReducer = (state = INITIAL_STATE, action)=>{
+export default AccountReducer = (prevState = INITIAL_STATE, action)=>{
+  console.log(`reducer - executing action ${action.type} with payload ${JSON.stringify(action.payload)}`);
   switch (action.type){
+    case CHANGE_CURRENT_VIEW:
+      return {
+        ...prevState,
+        currentView: action.payload
+      }
+    case CHANGE_CURRENT_ACCOUNT_DETAIL:
+      return {
+        ...prevState,
+        accountDetail: action.payload
+      }
     default:
-      return state
+      return prevState
   }
 };
 
-export default combineReducers({
-  account: AcountReducer,
-})

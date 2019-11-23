@@ -1,14 +1,39 @@
 export const AN_ACTION = "AN_ACTION";
-
-
-
-/*
-* action creators
-*/
-
-export function DO_ACTION(stateValue){
-  return {
-    trype: AN_ACTION,
-    stateValue
+export const PAGES = {
+  dashboard: 0,
+  newItem: 1,
+  detail: 2
+};
+export const DBKEY = "budget_acount";
+export const ACOUNT_MODEL = [
+  {
+    id: "1",
+    title:"Internet Claro Fibra",/* account title */
+    description: "",
+    amount: 1460,
+    uniquePayement: false,
+    dayOfMothToPay: 0,
+    maxDayOfMothToPay: 0,
+    customDateToPay: "",
+    maxDateToPay: "11/16/2019",
+    category: 1,
+    type: 1,
+    amountLimit: 0
+  },
+  {
+    id: "2",
+    title:"Sonography",/* account title */
+    description: "",
+    amount: 2600,
+    uniquePayement: true,
+    dayOfMothToPay: 15,
+    maxDayOfMothToPay: 28,
+    customDateToPay: "11/13/2019",
+    maxDateToPay: "11/16/2019",
+    category: 1,
+    type: 4, /* paymentType */
+    amountLimit: 0
   }
-}
+];
+export const CHANGE_CURRENT_VIEW = "CHANGE_CURRENT_VIEW";
+export const CHANGE_CURRENT_ACCOUNT_DETAIL = "CHANGE_CURRENT_ACCOUNT_DETAIL";

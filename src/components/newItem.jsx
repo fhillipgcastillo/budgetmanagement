@@ -99,7 +99,7 @@ class NewItem extends Component {
           <TextInput
             style={styles.inputTitle} 
             placeholder="Acount title"
-            onChangeText={ text => (this.setState({title:text}) && console.log(this)) }
+            onChangeText={ text => (this.setState({title:text})) }
             value={this.state.title}
           />
           
