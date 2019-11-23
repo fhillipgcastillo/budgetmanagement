@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 import Dashboard from "./dashboard";
 import NewItem from "./newItem";
 import AccountDetail from './acountDetail';
@@ -130,12 +131,30 @@ class App extends Component {
   }
 }
 
-//make this component available to the app
-export default App;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff'
   },
 });
+
+function mapStateToProps (state) {
+  return {
+    accounts: state.accounts
+  }
+}
+import { getAccounts } from '../actions';
+
+
+function mapDispatchToProps (dispatch) {
+  return {
+    getAccounts: () => dispatch(getAccounts())
+  }
+}
+
+//make this component available to the app
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
