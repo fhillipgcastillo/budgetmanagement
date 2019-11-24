@@ -2,25 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
 import Title from './Title';
-
-
-const TYPEOFPAYMENTS = {
-  Monthly: 1,
-  Unique: 2,
-  Quaterly: 3,
-  Custom : 0, /* OPTIONAL or Nice to have */
-};
-
-const SPENTS_CATEGORIES = {
-  FixRent: 1,
-  TransportSpences: 2,
-  Utilities: 3,
-  Food: 4,
-  Dept: 5,
-  Entertainment: 6,
-  Pregnancy: 7
-};
-
+import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES } from '../constants';
+import { connect } from 'react-redux';
+import { changeAccountDetail, changeCurrentView } from '../actions';
 
 const LabelInputForm = props => (
     <View>
@@ -53,6 +37,9 @@ class NewItem extends Component {
       amountLimit: 0
     }
   }
+  componentWillMount(){
+
+  }
   handleSave = ()=>{
     this.props.onSaveClick({
       id: this.state.id,
@@ -69,8 +56,24 @@ class NewItem extends Component {
       amountLimit: this.state.amountLimit,
     });
   };
+  resetItemState = ()=>{
+    this.setState({
+      id: 0,
+      title:"",/* account title */
+      description: "",
+      amount: 0,
+      uniquePayement: false,
+      dayOfMothToPay: 0,
+      maxDayOfMothToPay: 0,
+      customDateToPay: "",
+      maxDateToPay: "",
+      category: SPENTS_CATEGORIES.FixRent,
+      paymentType: TYPEOFPAYMENTS.Monthly,
+      amountLimit: 0
+    });
+  };
   handleCancel = ()=>{
-    this.props.onCancelClick();
+    this.props.actions.goTo(PAGES.dashboard);
   };
   handleTest = ()=>{
     this.setState({
@@ -220,5 +223,21 @@ const styles = StyleSheet.create({
   },
 });
 
+
+function mapStateToProps (state) {
+  return {
+    states: {
+      currentView: state.accountStates.currentView,
+    }
+  }
+};
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions:{
+      goTo: (page) => dispatch(changeCurrentView(page)),
+    },
+  }
+};
 //make this component available to the app
-export default NewItem;
+export default connect(mapStateToProps, mapDispatchToProps)(NewItem);

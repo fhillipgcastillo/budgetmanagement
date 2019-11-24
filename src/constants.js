@@ -37,3 +37,18 @@ export const ACOUNT_MODEL = [
 ];
 export const CHANGE_CURRENT_VIEW = "CHANGE_CURRENT_VIEW";
 export const CHANGE_CURRENT_ACCOUNT_DETAIL = "CHANGE_CURRENT_ACCOUNT_DETAIL";
+export const SPENTS_CATEGORIES = {
+  FixRent: 1,
+  TransportSpences: 2,
+  Utilities: 3,
+  Food: 4,
+  Dept: 5,
+  Entertainment: 6,
+  Pregnancy: 7
+};
+export const TYPEOFPAYMENTS = {
+  Monthly: 1,
+  Unique: 2,
+  Quaterly: 3,
+  Custom : 0, /* OPTIONAL or Nice to have */
+};

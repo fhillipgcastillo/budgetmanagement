@@ -38,6 +38,9 @@ class Dashboard extends Component {
     // console.log("new data", db);
     // if(this.state.updateIndID)
   };
+  handleCreateNewPress = ()=>{
+    this.props.goTo(PAGES.newItem);
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -53,7 +56,7 @@ class Dashboard extends Component {
           <Button 
             style={styles.actionBtn}
             title="New One"
-            onPress={this.props.onCreationClick}
+            onPress={this.handleCreateNewPress}
           />
           <Button
             style={styles.actionBtn}
