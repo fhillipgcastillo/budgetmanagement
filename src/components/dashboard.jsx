@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { connect } from 'react-redux';
-import { changeAccountDetail, changeCurrentView } from '../actions';
+import { changeAccountDetail, changeCurrentView, getAccounts } from '../actions';
 import { PAGES, ACOUNT_MODEL } from '../constants';
 import Title from './Title';
 import DashboardItem from './dashboardItem';
@@ -12,30 +12,15 @@ const budgetKey = "budget_acount";
 // create a component
 class Dashboard extends Component {
   componentWillMount(){
-    this.setState(this.props.states);
+    this.updateDataFromDB();
   };
   componentDidMount(){
-    //getting and formating data
-    // let intervalIdentifier = setInterval(()=>{
-      // console.log("Updating list...");
-      this.updateDataFromDB();
-      // console.log("List Updated");
-    // }, 10000);
-
-    // this.setState({updateIndID: intervalIdentifier});
   };
   resetDbData = async () => {
     await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
   };
   updateDataFromDB = async () => {
-    // console.log("retrieving the data");
-    let dbPure = await AsyncStorage.getItem(budgetKey);
-    // console.log("god pured data", dbPure);
-    let db = JSON.parse(dbPure);
-  
-    this.setState({accounts: db});
-    // console.log("new data", db);
-    // if(this.state.updateIndID)
+    this.props.actions.getAccounts();
   };
   handleCreateNewPress = ()=>{
     this.props.goTo(PAGES.newItem);
@@ -47,7 +32,7 @@ class Dashboard extends Component {
           text="Dashboard"
         />
         <FlatList 
-          data={this.state.accounts}
+          data={this.props.states.accounts}
           renderItem={({ item }) => <DashboardItem account={item} /> }
           keyExtractor={item => item.id.toString()}
         />
@@ -123,6 +108,7 @@ function mapDispatchToProps (dispatch) {
     actions:{
       goTo: (page) => dispatch(changeCurrentView(page)),
       changeAccountDetail: account => dispatch(changeAccountDetail(account)),
+      getAccounts: ()=> dispatch(getAccounts(dispatch)),
     },
     goTo: (page) => dispatch(changeCurrentView(page))
   }

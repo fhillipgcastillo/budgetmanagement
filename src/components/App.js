@@ -72,29 +72,31 @@ class App extends Component {
   };
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
          <StatusBar hidden={true}/> 
-        {  this.props.states.currentView === PAGES.dashboard
-        ? <Dashboard 
-            onCreationClick={this.handleCreation}
-            showDetail={this.handleShowDetail}
-            handleBack={this.handleBack}
-          />
-        : this.props.states.currentView === PAGES.newItem 
-        ? <View>
-           <NewItem 
+         <ScrollView style={{flex:8, flexBasis: "80%"}}>
+          {  this.props.states.currentView === PAGES.dashboard
+          ? <Dashboard 
+              onCreationClick={this.handleCreation}
+              showDetail={this.handleShowDetail}
+              handleBack={this.handleBack}
+            />
+          : this.props.states.currentView === PAGES.newItem 
+          ? 
+          <NewItem 
             onSaveClick={this.handleSave}
             onCancelClick={this.handleCancel}
           />
-        </View>
-        : this.props.states.currentView === PAGES.detail
-        ? <AccountDetail {...this.props.states.accountDetail} />
-        : <Text>Current View {this.props.states.currentView}</Text>
-        }
-        <ScrollView>
+          
+          : this.props.states.currentView === PAGES.detail
+          ? <AccountDetail style={{flex:8}} {...this.props.states.accountDetail} />
+          : <Text>Current View {this.props.states.currentView}</Text>
+          }
+        </ScrollView>
+        <ScrollView style={{flex:2, flexBasis: "20%", alignSelf: "flex-end"}}>
           <Text>Props: {JSON.stringify(this.props)}</Text>
         </ScrollView>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -102,7 +104,7 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#2c3e50'
   },
 });
 
@@ -122,7 +124,6 @@ function mapDispatchToProps (dispatch) {
     // actions: {
     //   ...
     // },
-    // getAccounts: () => dispatch(getAccounts())
     goTo: (page) => dispatch(changeCurrentView(page)),
     changeAccountDetail: account => dispatch(changeAccountDetail(account))
   }

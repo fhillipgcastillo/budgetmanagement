@@ -15,13 +15,35 @@ const updateDB = async (newDBData) => {
 };
 
 export default API = {
+  getAccounts: async function(){
+    let success = false;
+    let fail = false;
+    let failMessage;
+    let db = [];
+    
+    try {
+      db = await getDB();
+      success = true;
+    } catch (error) {
+      fail = false;
+      failMessage = error;
+      console.log("fail retrieving accounts", error);
+    }
+    
+    return {
+      success: success,
+      fail: fail,
+      failMessage: failMessage,
+      data: db
+    };
+  },
   createNewAccount : async function(account) {
     let success = false;
     let fail = false;
     let failMessage;
 
     try {
-      let db = await getDB();
+      db = await getDB();
       account.id = db.length+1;
       //TODO: validate the same title doesn't exist
       db.push(account);
