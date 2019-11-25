@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { connect } from 'react-redux';
 import { changeAccountDetail, changeCurrentView } from '../actions';
-import { PAGES } from '../constants';
-import { ACOUNT_MODEL } from '../models/acount_data';
+import { PAGES, ACOUNT_MODEL } from '../constants';
 import Title from './Title';
 import DashboardItem from './dashboardItem';
 

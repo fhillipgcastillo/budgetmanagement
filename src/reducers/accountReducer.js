@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { PAGES, ACOUNT_MODEL, CHANGE_CURRENT_VIEW, CHANGE_CURRENT_ACCOUNT_DETAIL } from '../constants';
+import { PAGES, ACOUNT_MODEL, CHANGE_CURRENT_VIEW, CHANGE_CURRENT_ACCOUNT_DETAIL, CREATE_NEW_ACCOUNT } from '../constants';
 
 const INITIAL_STATE = {
   accounts: [],
@@ -20,6 +20,11 @@ export default AccountReducer = (prevState = INITIAL_STATE, action)=>{
       return {
         ...prevState,
         accountDetail: action.payload
+      };
+    case CREATE_NEW_ACCOUNT:
+      return {
+        ...prevState,
+        newAccount: action.payload
       }
     default:
       return prevState

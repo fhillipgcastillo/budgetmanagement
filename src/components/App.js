@@ -92,7 +92,7 @@ class App extends Component {
         : <Text>Current View {this.props.states.currentView}</Text>
         }
         <ScrollView>
-          <Text>State: {JSON.stringify(this.props.states)}</Text>
+          <Text>Props: {JSON.stringify(this.props)}</Text>
         </ScrollView>
       </ScrollView>
     );

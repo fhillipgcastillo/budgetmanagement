@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Button, TextInput, ScrollView } from 'react-nat
 import Title from './Title';
 import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES } from '../constants';
 import { connect } from 'react-redux';
-import { changeAccountDetail, changeCurrentView } from '../actions';
+import { changeAccountDetail, createNewAccount, changeCurrentView } from '../actions';
 
 const LabelInputForm = props => (
     <View>
@@ -40,8 +40,8 @@ class NewItem extends Component {
   componentWillMount(){
 
   }
-  handleSave = ()=>{
-    this.props.onSaveClick({
+  handleSave = async ()=>{
+    await this.props.actions.createNewAccount({
       id: this.state.id,
       title: this.state.title,
       description: this.state.description,
@@ -55,6 +55,8 @@ class NewItem extends Component {
       paymentType: this.state.paymentType,
       amountLimit: this.state.amountLimit,
     });
+    this.props.actions.goTo(PAGES.dashboard);
+    //we could go dirrectly to the new Item Value /account detail
   };
   resetItemState = ()=>{
     this.setState({
@@ -236,6 +238,7 @@ function mapDispatchToProps (dispatch) {
   return {
     actions:{
       goTo: (page) => dispatch(changeCurrentView(page)),
+      createNewAccount: (account) => dispatch(createNewAccount(account))
     },
   }
 };

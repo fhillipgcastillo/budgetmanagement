@@ -1,4 +1,5 @@
-import { FETCHING_ACCOUNTS, CHANGE_CURRENT_VIEW, CHANGE_CURRENT_ACCOUNT_DETAIL } from './constants';
+import { FETCHING_ACCOUNTS, CHANGE_CURRENT_VIEW, CHANGE_CURRENT_ACCOUNT_DETAIL, CREATE_NEW_ACCOUNT } from './constants';
+import API from './api';
 
 /**
  * Template
@@ -27,5 +28,12 @@ export function changeAccountDetail(account){
   return {
     type: CHANGE_CURRENT_ACCOUNT_DETAIL,
     payload: account
+  };
+};
+
+export async function createNewAccount(account){
+  return {
+    type: CREATE_NEW_ACCOUNT,
+    payload: await API.createNewAccount(account)
   };
 };
