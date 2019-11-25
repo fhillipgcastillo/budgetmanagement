@@ -1,29 +1,32 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { connect } from 'react-redux';
+import { PAGES } from '../constants';
+import {changeCurrentView} from '../actions';
+
 
 // create a component
 class AccountDetail extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      id: props.id,
-      title: props.title,
-      description: props.description,
-      amount: props.amount,
-      uniquePayement: props.uniquePayement,
-      dayOfMothToPay: props.dayOfMothToPay,
-      maxDayOfMothToPay: props.maxDayOfMothToPay,
-      customDateToPay: props.customDateToPay,
-      maxDateToPay: props.maxDateToPay,
-      category: props.category,
-      paymentType: props.paymentType,
-      amountLimit: props.amountLimit,
-    }
+  componentWillMount(){ 
+    this.setState({
+      ...this.props.states,
+      id: this.props.id,
+      title: this.props.title,
+      description: this.props.description,
+      amount: this.props.amount,
+      uniquePayement: this.props.uniquePayement,
+      dayOfMothToPay: this.props.dayOfMothToPay,
+      maxDayOfMothToPay: this.props.maxDayOfMothToPay,
+      customDateToPay: this.props.customDateToPay,
+      maxDateToPay: this.props.maxDateToPay,
+      category: this.props.category,
+      paymentType: this.props.paymentType,
+      amountLimit: this.props.amountLimit,
+    });
   };
   handleBack = ()=>{
-    this.props.goBack();
+    this.props.goBackTo(PAGES.dashboard);
   };
   render() {
     return (
@@ -106,5 +109,20 @@ const styles = StyleSheet.create({
   }
 });
 
+
+function mapStateToProps (state) {
+  return {
+    states: {
+      currentView: state.currentView
+    }
+  }
+};
+
+function mapDispatchToProps (dispatch) {
+  return {
+    goBackTo: (page) => dispatch(changeCurrentView(page))
+  }
+};
+
 //make this component available to the app
-export default AccountDetail;
+export default connect(mapStateToProps, mapDispatchToProps)(AccountDetail);

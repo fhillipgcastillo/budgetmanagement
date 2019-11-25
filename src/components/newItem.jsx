@@ -2,25 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
 import Title from './Title';
-
-
-const TYPEOFPAYMENTS = {
-  Monthly: 1,
-  Unique: 2,
-  Quaterly: 3,
-  Custom : 0, /* OPTIONAL or Nice to have */
-};
-
-const SPENTS_CATEGORIES = {
-  FixRent: 1,
-  TransportSpences: 2,
-  Utilities: 3,
-  Food: 4,
-  Dept: 5,
-  Entertainment: 6,
-  Pregnancy: 7
-};
-
+import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES } from '../constants';
+import { connect } from 'react-redux';
+import { changeAccountDetail, createNewAccount, changeCurrentView } from '../actions';
 
 const LabelInputForm = props => (
     <View>
@@ -53,8 +37,11 @@ class NewItem extends Component {
       amountLimit: 0
     }
   }
-  handleSave = ()=>{
-    this.props.onSaveClick({
+  componentWillMount(){
+
+  }
+  handleSave = async ()=>{
+    await this.props.actions.createNewAccount({
       id: this.state.id,
       title: this.state.title,
       description: this.state.description,
@@ -68,9 +55,27 @@ class NewItem extends Component {
       paymentType: this.state.paymentType,
       amountLimit: this.state.amountLimit,
     });
+    this.props.actions.goTo(PAGES.dashboard);
+    //we could go dirrectly to the new Item Value /account detail
+  };
+  resetItemState = ()=>{
+    this.setState({
+      id: 0,
+      title:"",/* account title */
+      description: "",
+      amount: 0,
+      uniquePayement: false,
+      dayOfMothToPay: 0,
+      maxDayOfMothToPay: 0,
+      customDateToPay: "",
+      maxDateToPay: "",
+      category: SPENTS_CATEGORIES.FixRent,
+      paymentType: TYPEOFPAYMENTS.Monthly,
+      amountLimit: 0
+    });
   };
   handleCancel = ()=>{
-    this.props.onCancelClick();
+    this.props.actions.goTo(PAGES.dashboard);
   };
   handleTest = ()=>{
     this.setState({
@@ -99,7 +104,7 @@ class NewItem extends Component {
           <TextInput
             style={styles.inputTitle} 
             placeholder="Acount title"
-            onChangeText={ text => (this.setState({title:text}) && console.log(this)) }
+            onChangeText={ text => (this.setState({title:text})) }
             value={this.state.title}
           />
           
@@ -220,5 +225,22 @@ const styles = StyleSheet.create({
   },
 });
 
+
+function mapStateToProps (state) {
+  return {
+    states: {
+      currentView: state.accountStates.currentView,
+    }
+  }
+};
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions:{
+      goTo: (page) => dispatch(changeCurrentView(page)),
+      createNewAccount: (account) => dispatch(createNewAccount(account))
+    },
+  }
+};
 //make this component available to the app
-export default NewItem;
+export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
