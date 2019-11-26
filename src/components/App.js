@@ -73,7 +73,7 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-         <StatusBar hidden={true}/> 
+         {/* <StatusBar hidden={true}/>  */}
          <ScrollView style={{flex:8, flexBasis: "80%"}}>
           {  this.props.states.currentView === PAGES.dashboard
           ? <Dashboard 
@@ -93,9 +93,9 @@ class App extends Component {
           : <Text>Current View {this.props.states.currentView}</Text>
           }
         </ScrollView>
-        <ScrollView style={{flex:2, flexBasis: "20%", alignSelf: "flex-end"}}>
+        {/* <ScrollView style={{flex:2, flexBasis: "20%", alignSelf: "flex-end"}}>
           <Text>Props: {JSON.stringify(this.props)}</Text>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     );
   }
