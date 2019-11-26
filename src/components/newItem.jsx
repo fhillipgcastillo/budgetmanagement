@@ -20,6 +20,7 @@ import {
   changeCurrentView
 } from "../actions";
 import CategorySelect from './categorySelect';
+import PaymentTypeSelect from "./paymentTypeSelect";
 
 
 const LabelInputForm = props => (
@@ -113,10 +114,19 @@ class NewItem extends Component {
   getPaymentType = key => {
     return getPaymentType(key);
   };
-  handleSelectedValueChange=(newValue)=>{
-    console.log(`New Item ${this.getCategory(newValue)} for ${newValue}`);
+  handleSelectedCategoryChange=(newValue)=>{
     this.setState({ category: newValue });
-    //or use props.handleOnValueChange
+  };
+  handleSelectedPaymentTypeChange=(newValue)=>{
+    this.setState({ paymentType: newValue });
+  };
+  fromTextToFloat = (text)=>{
+    //validate and extract all not numbers from text
+    cleanText = text.split('').filter(c=>!isNaN(c)).join("").trim();
+    return parseFloat(cleanText);
+  }
+  handleAmountLimitChange = (text) => {
+    this.setState({ amountLimit: this.fromTextToFloat(text)});
   };
   render() {
     return (
@@ -198,25 +208,20 @@ class NewItem extends Component {
           
           <CategorySelect 
             category={this.state.category}
-            handleSelectedValueChange={this.handleSelectedValueChange}
+            handleSelectedValueChange={this.handleSelectedCategoryChange}
             enabled={true}
           />
-          
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="paymentType"
-            onChangeText={text => {
-              this.setState({ paymentType: parseInt(text) });
-            }}
-            value={this.state.paymentType.toString()}
-          />
 
+          <PaymentTypeSelect 
+            paymentType={this.state.paymentType}
+            handleSelectedValueChange={this.handleSelectedPaymentTypeChange}
+            enabled={true}
+          />
           <TextInput
             style={styles.inputTitle}
             placeholder="amountLimit"
-            onChangeText={text => {
-              this.setState({ amountLimit: parseFloat(text) });
-            }}
+            selectTextOnFocus={true}
+            onChangeText={this.handleAmountLimitChange}
             value={this.state.amountLimit.toString()}
           />
         </ScrollView>

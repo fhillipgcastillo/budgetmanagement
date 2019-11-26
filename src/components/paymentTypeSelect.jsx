@@ -1,42 +1,40 @@
 //import liraries
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Picker } from "react-native";
-import { SPENTS_CATEGORIES, getCategory } from "../constants";
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Picker } from 'react-native';
+import { SPENTS_CATEGORIES, getCategory, getPaymentType, TYPEOFPAYMENTS } from '../constants';
+
 
 // create a component
-class CategorySelect extends Component {
-  constructor(props) {
+class PaymentTypeSelect extends Component {
+  constructor(props){
     super(props);
     this.state = {
-      category: props.category || 1,
+      paymentType: props.paymentType || 1,
       enabled: props.enabled || false
-    };
-  }
-  getCategory = key => {
-    return getCategory(key);
+    }
   };
-  handleSelectedValueChange = newValue => {
-    console.log(
-      `Category select ${this.getCategory(newValue)} for ${newValue}`
-    );
-    this.setState({ category: newValue });
-    this.props.handleSelectedValueChange &&
-      this.props.handleSelectedValueChange(newValue);
+  getPaymentType=(key)=>{
+    return getPaymentType(key);
+  };
+  handleSelectedValueChange=(newValue)=>{
+    this.setState({ paymentType: newValue });
+    this.props.handleSelectedValueChange 
+    && this.props.handleSelectedValueChange(newValue);
   };
   render() {
     return (
       <View style={{ flexDirection: "column" }}>
-        <Text style={styles.inputTitle}>Category: </Text>
+        <Text style={styles.inputTitle}>Payment Type: </Text>
         <Picker
-          selectedValue={this.state.category}
+          selectedValue={this.state.paymentType}
           onValueChange={this.handleSelectedValueChange}
           enabled={this.state.enabled}
         >
-          {Object.keys(SPENTS_CATEGORIES).map(cat => (
+          {Object.keys(TYPEOFPAYMENTS).map(cat => (
             <Picker.Item
-              key={SPENTS_CATEGORIES[cat].toString()}
+              key={TYPEOFPAYMENTS[cat].toString()}
               label={cat}
-              value={SPENTS_CATEGORIES[cat]}
+              value={TYPEOFPAYMENTS[cat]}
             />
           ))}
         </Picker>
@@ -45,6 +43,7 @@ class CategorySelect extends Component {
   }
 }
 
+// define your styles
 // define your styles
 const styles = StyleSheet.create({
   container: {
@@ -75,4 +74,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default CategorySelect;
+export default PaymentTypeSelect;
