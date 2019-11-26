@@ -12,16 +12,21 @@ import {
   TimePickerAndroid
 } from "react-native";
 import Title from "./Title";
-import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES, getCategory, getPaymentType } from "../constants";
+import {
+  SPENTS_CATEGORIES,
+  TYPEOFPAYMENTS,
+  PAGES,
+  getCategory,
+  getPaymentType
+} from "../constants";
 import { connect } from "react-redux";
 import {
   changeAccountDetail,
   createNewAccount,
   changeCurrentView
 } from "../actions";
-import CategorySelect from './categorySelect';
+import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
-
 
 const LabelInputForm = props => (
   <View>
@@ -109,54 +114,65 @@ class NewItem extends Component {
     });
   };
   getCategory = key => {
-    return getCategory(key)
+    return getCategory(key);
   };
   getPaymentType = key => {
     return getPaymentType(key);
   };
-  handleSelectedCategoryChange=(newValue)=>{
+  handleSelectedCategoryChange = newValue => {
     this.setState({ category: newValue });
   };
-  handleSelectedPaymentTypeChange=(newValue)=>{
+  handleSelectedPaymentTypeChange = newValue => {
     this.setState({ paymentType: newValue });
   };
-  fromTextToFloat = (text)=>{
+  fromTextToFloat = text => {
     //validate and extract all not numbers from text
-    cleanText = text.split('').filter(c=>!isNaN(c)).join("").trim();
+    cleanText = text
+      .split("")
+      .filter(c => !isNaN(c))
+      .join("")
+      .trim();
     return parseFloat(cleanText);
-  }
-  handleAmountLimitChange = (text) => {
-    this.setState({ amountLimit: this.fromTextToFloat(text)});
+  };
+  handleAmountLimitChange = text => {
+    this.setState({ amountLimit: this.fromTextToFloat(text) });
   };
   render() {
     return (
       <View style={styles.container}>
         <Title text="New Acount Creation" />
         <ScrollView>
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="Acount title"
-            onChangeText={text => this.setState({ title: text })}
-            value={this.state.title}
-          />
-
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="Description"
-            onChangeText={text => {
-              this.setState({ description: text });
-            }}
-            value={this.state.description}
-          />
-
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="Amount"
-            onChangeText={amount => {
-              this.setState({ amount: parseFloat(amount) });
-            }}
-            value={this.state.amount.toString()}
-          />
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Title: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="Acount title"
+              onChangeText={text => this.setState({ title: text })}
+              value={this.state.title}
+            />
+          </View>
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Description: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="Description"
+              onChangeText={text => {
+                this.setState({ description: text });
+              }}
+              value={this.state.description}
+            />
+          </View>
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Amount: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="Amount"
+              onChangeText={amount => {
+                this.setState({ amount: parseFloat(amount) });
+              }}
+              value={this.state.amount.toString()}
+            />
+          </View>
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>Unique payment:</Text>
             <Switch
@@ -167,32 +183,39 @@ class NewItem extends Component {
               value={this.state.uniquePayement}
             />
           </View>
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="dayOfMothToPay"
-            onChangeText={text => {
-              this.setState({ dayOfMothToPay: parseInt(text) });
-            }}
-            value={this.state.dayOfMothToPay.toString()}
-          />
-
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="maxDayOfMothToPay"
-            onChangeText={text => {
-              this.setState({ maxDayOfMothToPay: parseInt(text) });
-            }}
-            value={this.state.maxDayOfMothToPay.toString()}
-          />
-
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="customDateToPay"
-            onChangeText={text => {
-              this.setState({ customDateToPay: text });
-            }}
-            value={this.state.customDateToPay}
-          />
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Day Of MothT o Pay: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="dayOfMothToPay"
+              onChangeText={text => {
+                this.setState({ dayOfMothToPay: parseInt(text) });
+              }}
+              value={this.state.dayOfMothToPay.toString()}
+            />
+          </View>
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Max Day Of Moth ToP ay: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="maxDayOfMothToPay"
+              onChangeText={text => {
+                this.setState({ maxDayOfMothToPay: parseInt(text) });
+              }}
+              value={this.state.maxDayOfMothToPay.toString()}
+            />
+          </View>
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>customDateToPay: </Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="customDateToPay"
+              onChangeText={text => {
+                this.setState({ customDateToPay: text });
+              }}
+              value={this.state.customDateToPay}
+            />
+          </View>
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>Max date to pay:</Text>
             <TextInput
@@ -205,14 +228,13 @@ class NewItem extends Component {
             />
           </View>
 
-          
-          <CategorySelect 
+          <CategorySelect
             category={this.state.category}
             handleSelectedValueChange={this.handleSelectedCategoryChange}
             enabled={true}
           />
 
-          <PaymentTypeSelect 
+          <PaymentTypeSelect
             paymentType={this.state.paymentType}
             handleSelectedValueChange={this.handleSelectedPaymentTypeChange}
             enabled={true}
@@ -255,7 +277,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#2c3e50",
     width: "100%",
-    height: "100%"
+    height: "100%",
+    padding: 20
   },
   actionContainer: {
     // flex:1,
@@ -282,7 +305,7 @@ function mapStateToProps(state) {
       currentView: state.accountStates.currentView
     }
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -291,6 +314,6 @@ function mapDispatchToProps(dispatch) {
       createNewAccount: account => dispatch(createNewAccount(account))
     }
   };
-};
+}
 //make this component available to the app
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
