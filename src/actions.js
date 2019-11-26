@@ -49,9 +49,19 @@ export function changeAccountDetail(account) {
   };
 };
 
-export async function createNewAccount(account) {
+export function createAccount(account){
   return {
     type: CREATE_NEW_ACCOUNT,
-    payload: await API.createNewAccount(account)
+    payload: account
   };
+};
+
+export function createNewAccount(account) {
+  return dispatch => 
+    API
+      .createNewAccount(account)
+      .then(res => {
+        return dispatch(createAccount(res.data));
+      })
+      .catch(console.error);
 };
