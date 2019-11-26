@@ -19,6 +19,10 @@ class Dashboard extends Component {
   resetDbData = async () => {
     await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
   };
+  fullDataReset = async () => {
+    await AsyncStorage.setItem(budgetKey, JSON.stringify([]));
+    this.updateDataFromDB();
+  };
   updateDataFromDB = async () => {
     this.props.actions.getAccounts();
   };
@@ -44,8 +48,8 @@ class Dashboard extends Component {
           />
           <Button
             style={styles.actionBtn}
-            title="Update data"
-            onPress={this.updateDataFromDB}
+            title="Full data reset"
+            onPress={this.fullDataReset}
           />
            <Button
             style={styles.actionBtn}
