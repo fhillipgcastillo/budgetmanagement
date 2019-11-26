@@ -1,30 +1,46 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
-import Title from './Title';
-import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES } from '../constants';
-import { connect } from 'react-redux';
-import { changeAccountDetail, createNewAccount, changeCurrentView } from '../actions';
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  ScrollView,
+  Switch,
+  Picker,
+  TimePickerAndroid
+} from "react-native";
+import Title from "./Title";
+import { SPENTS_CATEGORIES, TYPEOFPAYMENTS, PAGES, getCategory, getPaymentType } from "../constants";
+import { connect } from "react-redux";
+import {
+  changeAccountDetail,
+  createNewAccount,
+  changeCurrentView
+} from "../actions";
+import CategorySelect from './categorySelect';
+
 
 const LabelInputForm = props => (
-    <View>
-      {/* <Text style={styles.imputTitle}>{props.title}</Text> */}
-      <TextInput 
-        placeholder={props.title}
-        onChangeText={props.onChangeText}
-        value={props.value} 
-      />
-    </View>
+  <View>
+    {/* <Text style={styles.imputTitle}>{props.title}</Text> */}
+    <TextInput
+      placeholder={props.title}
+      onChangeText={props.onChangeText}
+      value={props.value}
+    />
+  </View>
 );
 
 // create a component
 class NewItem extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
     this.state = {
       id: 0,
-      title:"",/* account title */
+      title: "",
       description: "",
       amount: 0,
       uniquePayement: false,
@@ -35,12 +51,10 @@ class NewItem extends Component {
       category: SPENTS_CATEGORIES.FixRent,
       paymentType: TYPEOFPAYMENTS.Monthly,
       amountLimit: 0
-    }
+    };
   }
-  componentWillMount(){
-
-  }
-  handleSave = async ()=>{
+  componentWillMount() {}
+  handleSave = async () => {
     await this.props.actions.createNewAccount({
       id: this.state.id,
       title: this.state.title,
@@ -53,15 +67,15 @@ class NewItem extends Component {
       maxDateToPay: this.state.maxDateToPay,
       category: this.state.category,
       paymentType: this.state.paymentType,
-      amountLimit: this.state.amountLimit,
+      amountLimit: this.state.amountLimit
     });
     this.props.actions.goTo(PAGES.dashboard);
     //we could go dirrectly to the new Item Value /account detail
   };
-  resetItemState = ()=>{
+  resetItemState = () => {
     this.setState({
       id: 0,
-      title:"",/* account title */
+      title: "",
       description: "",
       amount: 0,
       uniquePayement: false,
@@ -74,13 +88,13 @@ class NewItem extends Component {
       amountLimit: 0
     });
   };
-  handleCancel = ()=>{
+  handleCancel = () => {
     this.props.actions.goTo(PAGES.dashboard);
   };
-  handleTest = ()=>{
+  handleTest = () => {
     this.setState({
       id: 0,
-      title:"Plan Claro Test",/* account title */
+      title: "Plan Claro Test",
       description: "Testing Plan Claro",
       amount: 600,
       uniquePayement: false,
@@ -92,89 +106,117 @@ class NewItem extends Component {
       paymentType: TYPEOFPAYMENTS.Monthly,
       amountLimit: 0
     });
-  }
+  };
+  getCategory = key => {
+    return getCategory(key)
+  };
+  getPaymentType = key => {
+    return getPaymentType(key);
+  };
+  handleSelectedValueChange=(newValue)=>{
+    console.log(`New Item ${this.getCategory(newValue)} for ${newValue}`);
+    this.setState({ category: newValue });
+    //or use props.handleOnValueChange
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Title 
-          text="New Acount Creation"
-        />
+        <Title text="New Acount Creation" />
         <ScrollView>
-
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="Acount title"
-            onChangeText={ text => (this.setState({title:text})) }
+            onChangeText={text => this.setState({ title: text })}
             value={this.state.title}
           />
-          
+
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="Description"
-            onChangeText={(text)=>{this.setState({description:text})}}
-              value={this.state.description}
+            onChangeText={text => {
+              this.setState({ description: text });
+            }}
+            value={this.state.description}
           />
-          
+
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="Amount"
-            onChangeText={amount=>{this.setState({amount:parseFloat(amount)})}}
+            onChangeText={amount => {
+              this.setState({ amount: parseFloat(amount) });
+            }}
             value={this.state.amount.toString()}
           />
-
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Unique payment:</Text>
+            <Switch
+              style={{ color: "white" }}
+              onValueChange={text => {
+                this.setState({ uniquePayement: text });
+              }}
+              value={this.state.uniquePayement}
+            />
+          </View>
           <TextInput
-            style={styles.inputTitle} 
-            placeholder="uniquePayement"
-            onChangeText={text=>{this.setState({uniquePayement:text === "true"})}}
-            value={this.state.uniquePayement.toString()}
-          />
-
-          <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="dayOfMothToPay"
-            onChangeText={text=>{this.setState({dayOfMothToPay:parseInt(text)})}}
+            onChangeText={text => {
+              this.setState({ dayOfMothToPay: parseInt(text) });
+            }}
             value={this.state.dayOfMothToPay.toString()}
           />
 
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="maxDayOfMothToPay"
-            onChangeText={text=>{this.setState({maxDayOfMothToPay:parseInt(text)})}}
+            onChangeText={text => {
+              this.setState({ maxDayOfMothToPay: parseInt(text) });
+            }}
             value={this.state.maxDayOfMothToPay.toString()}
           />
 
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="customDateToPay"
-            onChangeText={text=>{this.setState({customDateToPay:text})}}
+            onChangeText={text => {
+              this.setState({ customDateToPay: text });
+            }}
             value={this.state.customDateToPay}
           />
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Max date to pay:</Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="maxDateToPay"
+              onChangeText={text => {
+                this.setState({ maxDateToPay: text });
+              }}
+              value={this.state.maxDateToPay}
+            />
+          </View>
 
-          <TextInput
-            style={styles.inputTitle} 
-            placeholder="maxDateToPay"
-            onChangeText={text=>{this.setState({maxDateToPay:text})}}
-            value={this.state.maxDateToPay}
-          />
-
-          <TextInput
-            style={styles.inputTitle} 
-            placeholder="category"
-            onChangeText={text=>{this.setState({category:parseIng(text)})}}
-            value={this.state.category.toString()}
+          
+          <CategorySelect 
+            category={this.state.category}
+            handleSelectedValueChange={this.handleSelectedValueChange}
+            enabled={true}
           />
           
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="paymentType"
-            onChangeText={text=>{this.setState({paymentType:parseInt(text)})}}
+            onChangeText={text => {
+              this.setState({ paymentType: parseInt(text) });
+            }}
             value={this.state.paymentType.toString()}
           />
 
           <TextInput
-            style={styles.inputTitle} 
+            style={styles.inputTitle}
             placeholder="amountLimit"
-            onChangeText={text=>{this.setState({amountLimit:parseFloat(text)})}}
+            onChangeText={text => {
+              this.setState({ amountLimit: parseFloat(text) });
+            }}
             value={this.state.amountLimit.toString()}
           />
         </ScrollView>
@@ -204,18 +246,18 @@ class NewItem extends Component {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-    width: '100%',
-    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2c3e50",
+    width: "100%",
+    height: "100%"
   },
   actionContainer: {
     // flex:1,
     flexDirection: "row",
     justifyContent: "space-around"
   },
-  inputTitle:{
+  inputTitle: {
     color: "#fff",
     fontSize: 20
   },
@@ -223,24 +265,27 @@ const styles = StyleSheet.create({
     height: 20,
     margin: 5
   },
+  LabelInputForm: {
+    display: "flex",
+    flexDirection: "row"
+  }
 });
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     states: {
-      currentView: state.accountStates.currentView,
+      currentView: state.accountStates.currentView
     }
-  }
+  };
 };
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions:{
-      goTo: (page) => dispatch(changeCurrentView(page)),
-      createNewAccount: (account) => dispatch(createNewAccount(account))
-    },
-  }
+    actions: {
+      goTo: page => dispatch(changeCurrentView(page)),
+      createNewAccount: account => dispatch(createNewAccount(account))
+    }
+  };
 };
 //make this component available to the app
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);

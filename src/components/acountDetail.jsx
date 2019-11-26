@@ -1,10 +1,9 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Switch } from 'react-native';
 import { connect } from 'react-redux';
-import { PAGES } from '../constants';
+import { PAGES, SPENTS_CATEGORIES, TYPEOFPAYMENTS, getCategory, getPaymentType } from '../constants';
 import {changeCurrentView} from '../actions';
-
 
 // create a component
 class AccountDetail extends Component {
@@ -28,6 +27,12 @@ class AccountDetail extends Component {
   handleBack = ()=>{
     this.props.goBackTo(PAGES.dashboard);
   };
+  getCategory = key => {
+    return getCategory(key)
+  };
+  getPaymentType = key => {
+    return getPaymentType(key);
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -44,7 +49,11 @@ class AccountDetail extends Component {
         </View>
         <View style={styles.inlineDetails}>
           <Text style={styles.detail, styles.label}>uniquePayement: </Text>
-          <Text style={styles.detail}>{this.state.uniquePayement}</Text>
+          <Switch 
+            onValueChange={text=>{this.setState({uniquePayement:text === "true"})}}
+            value={this.state.uniquePayement}
+            disabled={true}
+          />
         </View>
         <View style={styles.inlineDetails}>
           <Text style={styles.detail, styles.label}>dayOfMothToPay: </Text>
@@ -64,11 +73,11 @@ class AccountDetail extends Component {
         </View>
         <View style={styles.inlineDetails}>
           <Text style={styles.detail, styles.label}>category: </Text>
-          <Text style={styles.detail}>{this.state.category}</Text>
+          <Text style={styles.detail}>{this.getCategory(this.state.category)}</Text>
         </View>
         <View style={styles.inlineDetails}>
           <Text style={styles.detail, styles.label}>paymentType: </Text>
-          <Text style={styles.detail}>{this.state.paymentType}</Text>
+          <Text style={styles.detail}>{this.getPaymentType(this.state.paymentType)}</Text>
         </View>
         <View style={styles.inlineDetails}>
           <Text style={styles.detail, styles.label}>amountLimit: </Text>
@@ -101,7 +110,8 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   inlineDetails: {
-    flexDirection: "row"
+    flexDirection: "row",
+    color: "white",
   },
   label:{ 
     fontWeight: "bold",

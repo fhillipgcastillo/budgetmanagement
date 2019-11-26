@@ -62,3 +62,22 @@ export const ACOUNT_MODEL = [
     amountLimit: 0
   }
 ];
+
+
+//Functions
+export const getPaymentType = key => {
+  let category = "";
+  Object.keys(TYPEOFPAYMENTS).forEach(x => {
+    if (TYPEOFPAYMENTS[x] === key) category = x;
+  });
+  return category;
+};
+
+export const getCategory = key => {
+  let category = "";
+  Object.keys(SPENTS_CATEGORIES).forEach(x => {
+    if (SPENTS_CATEGORIES[x] === key) category = x;
+  });
+  return category;
+};
+
