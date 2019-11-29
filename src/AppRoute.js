@@ -4,6 +4,8 @@ import { createAppContainer } from "react-navigation";
 import App from "./components/App";
 import Dashboard from "./components/dashboard";
 import NewAccount from "./components/newItem";
+import AccountDetail from "./components/acountDetail";
+
 
 const MainNavigator = createStackNavigator(
   {
@@ -23,8 +25,13 @@ const MainNavigator = createStackNavigator(
       navigationOptions: {
         title: "Create new Account"
       }
+    },
+    AccountDetail:{
+      screen: AccountDetail,
+      navigationOptions:{
+        title:"Details"
+      }
     }
-    // Profile: {screen: ProfileScreen},
   },
   {
     initialRouteName: "Dashboard"

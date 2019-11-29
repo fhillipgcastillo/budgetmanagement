@@ -12,7 +12,6 @@ const budgetKey = "budget_acount";
 // create a component
 class Dashboard extends Component {
   componentWillMount(){
-    console.log("Dashboard props ", this.props);
     this.updateDataFromDB();
   };
   componentDidMount(){
@@ -38,7 +37,7 @@ class Dashboard extends Component {
         />
         <FlatList 
           data={this.props.states.accounts}
-          renderItem={({ item }) => <DashboardItem account={item} /> }
+          renderItem={({ item }) => <DashboardItem account={item} navigation={this.props.navigation} /> }
           keyExtractor={item => item.id.toString()}
         />
         <View style={styles.actionContainer}>

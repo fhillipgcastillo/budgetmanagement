@@ -61,7 +61,7 @@ class NewItem extends Component {
   }
   componentWillMount() {}
   handleSave = async () => {
-    await this.props.actions.createNewAccount({
+    let account = {
       id: this.state.id,
       title: this.state.title,
       description: this.state.description,
@@ -74,9 +74,11 @@ class NewItem extends Component {
       category: this.state.category,
       paymentType: this.state.paymentType,
       amountLimit: this.state.amountLimit
-    });
-    this.props.actions.goTo(PAGES.dashboard);
-    //we could go dirrectly to the new Item Value /account detail
+    };
+    await this.props.actions.createNewAccount(account);
+    this.props.navigation.goBack();
+    // if wants to go to the details screen
+    // this.props.navigation.navigate("AccountDetail", {account: account});
   };
   resetItemState = () => {
     this.setState({
@@ -95,7 +97,7 @@ class NewItem extends Component {
     });
   };
   handleCancel = () => {
-    this.props.actions.goTo(PAGES.dashboard);
+    this.props.navigation.goBack();
   };
   handleTest = () => {
     this.setState({

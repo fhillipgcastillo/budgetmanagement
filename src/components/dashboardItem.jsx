@@ -8,7 +8,7 @@ import { PAGES } from '../constants';
 const DashboardItem = (props) => {
   let handleShowDetail = ()=>{
     props.actions.changeAccountDetail(props.account);
-    props.actions.goTo(PAGES.detail);
+    props.navigation && props.navigation.navigate("AccountDetail", {account: props.account});
   };
   return (
     <View style={styles.item}>
