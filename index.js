@@ -5,19 +5,11 @@ import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import { createAppContainer } from "react-navigation";
 
-const MainNavigator = createStackNavigator({
-  Home: { screen: HomeScreen }
-  // Profile: {screen: ProfileScreen},
-},
-{
-  initialRouteName: 'Home',
-});
-
-const AppContainer = createAppContainer(MainNavigator);
+import AppRouting from './src/AppRoute';
 
 const store = configureStore();
 export default () => (
   <Provider store={store}>
-      <AppContainer />
+      <AppRouting />
   </Provider>
 );

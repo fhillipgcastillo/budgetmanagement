@@ -44,7 +44,7 @@ export default API = {
 
     try {
       db = await getDB();
-      account.id = db.length+1;
+      account.id = db ? db.length+1 : 1;
       //TODO: validate the same title doesn't exist
       db.push(account);
       await updateDB(db);

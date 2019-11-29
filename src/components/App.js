@@ -22,7 +22,7 @@ class App extends Component {
     var dbPure = await AsyncStorage.getItem(DBKEY);
     let db = JSON.parse(dbPure);
     // console.log("DB", db);
-    if(db.length <= 0){
+    if(db !== null && db.length <= 0){
       await AsyncStorage.setItem(DBKEY, JSON.stringify(ACOUNT_MODEL));
       // console.log("db constructed");
     }
@@ -71,6 +71,8 @@ class App extends Component {
     this.props.goTo(PAGES.dashboard);
   };
   render() {
+    // const {navigate} = this.props.navigation;
+    console.log(this.props);
     return (
       <View style={styles.container}>
          {/* <StatusBar hidden={true}/>  */}

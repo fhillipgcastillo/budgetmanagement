@@ -12,6 +12,7 @@ const budgetKey = "budget_acount";
 // create a component
 class Dashboard extends Component {
   componentWillMount(){
+    console.log("Dashboard props ", this.props);
     this.updateDataFromDB();
   };
   componentDidMount(){
@@ -27,7 +28,7 @@ class Dashboard extends Component {
     this.props.actions.getAccounts();
   };
   handleCreateNewPress = ()=>{
-    this.props.goTo(PAGES.newItem);
+    this.props.navigation.navigate("NewAccount");
   };
   render() {
     return (
