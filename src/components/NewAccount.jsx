@@ -8,8 +8,7 @@ import {
   TextInput,
   ScrollView,
   Switch,
-  Picker,
-  TimePickerAndroid
+  DatePickerAndroid
 } from "react-native";
 import Title from "./Title";
 import {
@@ -20,11 +19,7 @@ import {
   getPaymentType
 } from "../constants";
 import { connect } from "react-redux";
-import {
-  changeAccountDetail,
-  createNewAccount,
-  changeCurrentView
-} from "../actions";
+import { createNewAccount, changeCurrentView } from "../actions";
 import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
 
@@ -38,6 +33,53 @@ const LabelInputForm = props => (
     />
   </View>
 );
+
+const DatePicker = (props) => {
+  props.date = props.date || "2019-11-29";
+  props.style = props.style || {};
+  props.changeValue = props.changeValue || function() {};
+
+  console.log("Datepicker prosp", props);
+  // const fromDateToString
+  const openPicker = async function() {
+    let date = props.date
+      ? new Date(props.date)
+      : new Date();
+    console.log(
+      "openPIcker",
+      `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
+    );
+    try {
+      const { action, year, month, day } = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: date
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+        console.log(`Action ${action} and date ${year}-${month + 1}-${day}`);
+        props.changeValue(`${year}-${month + 1}-${day}`);
+      }
+    } catch ({ code, message }) {
+      console.warn(`Cannot open date picker code ${code}`, message);
+    }
+  };
+  const trigetOpenPicker = async ()=>{
+    await openPicker();
+  };
+  return (
+    <View>
+      <TextInput
+        style={props.style}
+        placeholder="Select a date"
+        value={props.date}
+        onFocus={openPicker}
+        selectTextOnFocus={true}
+        onSelectionChange={trigetOpenPicker}
+      />
+    </View>
+  );
+};
 
 // create a component
 class NewAccount extends Component {
@@ -219,14 +261,13 @@ class NewAccount extends Component {
             />
           </View>
           <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Max date to pay:</Text>
-            <TextInput
+            <Text style={styles.inputTitle}>Max date to pay: </Text>
+
+            <DatePicker
+              date={this.state.maxDateToPay}
               style={styles.inputTitle}
-              placeholder="maxDateToPay"
-              onChangeText={text => {
-                this.setState({ maxDateToPay: text });
-              }}
-              value={this.state.maxDateToPay}
+              selectTextOnFocus={true}
+              changeValue={value => this.setState({ maxDateToPay: value })}
             />
           </View>
 
@@ -241,7 +282,7 @@ class NewAccount extends Component {
             handleSelectedValueChange={this.handleSelectedPaymentTypeChange}
             enabled={true}
           />
-          
+
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>Amount Limit:</Text>
             <TextInput
@@ -249,7 +290,7 @@ class NewAccount extends Component {
               placeholder="amountLimit"
               selectTextOnFocus={true}
               onChangeText={this.handleAmountLimitChange}
-              value={this.state.maxDateToPay}
+              value={this.state.amountLimit}
             />
           </View>
         </ScrollView>
