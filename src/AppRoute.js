@@ -1,17 +1,16 @@
 import { createStackNavigator } from "react-navigation-stack";
-import HomeScreen from "./screens/HomeScreen";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import App from "./components/App";
-import Dashboard from "./components/dashboard";
-import NewAccount from "./components/newItem";
-import AccountDetail from "./components/acountDetail";
+import ManageAccounts from "./components/ManageAccounts";
+import NewAccount from "./components/NewAccount";
+import AccountDetail from "./components/AcountDetail";
 
 
-const MainNavigator = createStackNavigator(
+const ManageAccountNavigator = createStackNavigator(
   {
     Home: { screen: App },
-    Dashboard: {
-      screen: Dashboard,
+    ManageAccounts: {
+      screen: ManageAccounts, 
       navigationOptions: {
         title: "Manage Accounts",
         headerStyle: {
@@ -34,8 +33,14 @@ const MainNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Dashboard"
+    initialRouteName: "ManageAccounts"
   }
 );
 
-export default createAppContainer(MainNavigator);
+const MainNavigation = createSwitchNavigator({
+  ManageAccountsNav: ManageAccountNavigator
+},
+{
+  initialRouteName: "ManageAccountsNav"
+})
+export default createAppContainer(MainNavigation);

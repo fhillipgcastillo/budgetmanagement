@@ -1,21 +1,33 @@
 //import liraries
-import React, { Component } from 'react';
-import { AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { connect } from 'react-redux';
-import { changeAccountDetail, changeCurrentView, getAccounts } from '../actions';
-import { PAGES, ACOUNT_MODEL } from '../constants';
-import Title from './Title';
-import DashboardItem from './dashboardItem';
+import React, { Component } from "react";
+import {
+  AsyncStorage,
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  ScrollView
+} from "react-native";
+import { connect } from "react-redux";
+import {
+  changeAccountDetail,
+  changeCurrentView,
+  getAccounts
+} from "../actions";
+import { PAGES, ACOUNT_MODEL } from "../constants";
+import Title from "./Title";
+import AccountPreviewItem from "./AccountPreviewItem";
 
 const budgetKey = "budget_acount";
 
 // create a component
-class Dashboard extends Component {
-  componentWillMount(){
+class ManageAccounts extends Component {
+  componentWillMount() {
     this.updateDataFromDB();
-  };
-  componentDidMount(){
-  };
+  }
+  componentDidMount() {}
   resetDbData = async () => {
     await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
   };
@@ -26,22 +38,27 @@ class Dashboard extends Component {
   updateDataFromDB = async () => {
     this.props.actions.getAccounts();
   };
-  handleCreateNewPress = ()=>{
+  handleCreateNewPress = () => {
     this.props.navigation.navigate("NewAccount");
   };
   render() {
     return (
       <View style={styles.container}>
-        <Title 
-          text="Dashboard"
-        />
-        <FlatList 
-          data={this.props.states.accounts}
-          renderItem={({ item }) => <DashboardItem account={item} navigation={this.props.navigation} /> }
-          keyExtractor={item => item.id.toString()}
-        />
+        {/* <Title text="Active Accounts" style={{ flex: 1 }} /> */}
+        <ScrollView style={{ flex: 4 }}>
+          <FlatList
+            data={this.props.states.accounts}
+            renderItem={({ item }) => (
+              <AccountPreviewItem
+                account={item}
+                navigation={this.props.navigation}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </ScrollView>
         <View style={styles.actionContainer}>
-          <Button 
+          <Button
             style={styles.actionBtn}
             title="New One"
             onPress={this.handleCreateNewPress}
@@ -51,7 +68,7 @@ class Dashboard extends Component {
             title="Full data reset"
             onPress={this.fullDataReset}
           />
-           <Button
+          <Button
             style={styles.actionBtn}
             title="reset data"
             onPress={this.resetDbData}
@@ -60,26 +77,25 @@ class Dashboard extends Component {
       </View>
     );
   }
-};
+}
 
 // define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2c3e50",
     width: "100%",
-    height: "100%",
-    paddingTop:50,
+    height: "100%"
   },
-  item:{
-    backgroundColor: '#f9c2ff',
+  item: {
+    backgroundColor: "#f9c2ff",
     padding: 20,
     marginVertical: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 16
   },
-  title:{
+  title: {
     fontSize: 32,
     color: "#fff"
   },
@@ -89,34 +105,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     maxHeight: 30,
     marginBottom: 10,
+    marginTop: 15
   },
   actionBtn: {
     height: 20,
-    margin: 5,
+    margin: 5
   }
 });
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     states: {
       accounts: state.accountStates.accounts,
       currentView: state.accountStates.currentView,
       accountDetail: state.accountStates.accountDetail,
-      DUMMY_DATA:  state.accountStates.ACOUNT_MODEL
+      DUMMY_DATA: state.accountStates.ACOUNT_MODEL
     }
-  }
-};
+  };
+}
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    actions:{
-      goTo: (page) => dispatch(changeCurrentView(page)),
+    actions: {
+      goTo: page => dispatch(changeCurrentView(page)),
       changeAccountDetail: account => dispatch(changeAccountDetail(account)),
-      getAccounts: ()=> dispatch(getAccounts(dispatch)),
+      getAccounts: () => dispatch(getAccounts(dispatch))
     },
-    goTo: (page) => dispatch(changeCurrentView(page))
-  }
-};
+    goTo: page => dispatch(changeCurrentView(page))
+  };
+}
 
 //make this component available to the app
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageAccounts);

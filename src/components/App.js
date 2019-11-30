@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, StatusBar, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import Dashboard from "./dashboard";
-import NewItem from "./newItem";
-import AccountDetail from './acountDetail';
+import Dashboard from "./ManageAccounts";
+import NewAccount from "./NewAccount";
+import AccountDetail from './AcountDetail';
 import {PAGES, DBKEY, ACOUNT_MODEL } from '../constants';
 import { changeAccountDetail, changeCurrentView} from '../actions'
 
@@ -85,7 +85,7 @@ class App extends Component {
             />
           : this.props.states.currentView === PAGES.newItem 
           ? 
-          <NewItem 
+          <NewAccount 
             onSaveClick={this.handleSave}
             onCancelClick={this.handleCancel}
           />

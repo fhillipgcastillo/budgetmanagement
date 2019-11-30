@@ -40,7 +40,7 @@ const LabelInputForm = props => (
 );
 
 // create a component
-class NewItem extends Component {
+class NewAccount extends Component {
   constructor(props) {
     super(props);
 
@@ -241,13 +241,17 @@ class NewItem extends Component {
             handleSelectedValueChange={this.handleSelectedPaymentTypeChange}
             enabled={true}
           />
-          <TextInput
-            style={styles.inputTitle}
-            placeholder="amountLimit"
-            selectTextOnFocus={true}
-            onChangeText={this.handleAmountLimitChange}
-            value={this.state.amountLimit.toString()}
-          />
+          
+          <View style={styles.LabelInputForm}>
+            <Text style={styles.inputTitle}>Amount Limit:</Text>
+            <TextInput
+              style={styles.inputTitle}
+              placeholder="amountLimit"
+              selectTextOnFocus={true}
+              onChangeText={this.handleAmountLimitChange}
+              value={this.state.maxDateToPay}
+            />
+          </View>
         </ScrollView>
         <View style={styles.actionContainer}>
           <Button
@@ -318,4 +322,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 //make this component available to the app
-export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAccount);

@@ -87,11 +87,7 @@ class AccountDetail extends Component {
           <Text style={styles.detail, styles.label}>amountLimit: </Text>
           <Text style={styles.detail}>{this.state.amountLimit}</Text>
         </View>
-        <View>
-          <Button
-            title="Back"
-            onPress={this.handleBack}
-          />
+        <View title="actionContainer">
         </View>
       </View>
     );
