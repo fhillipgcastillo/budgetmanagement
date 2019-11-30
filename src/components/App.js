@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, StatusBar, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import Dashboard from "./dashboard";
-import NewItem from "./newItem";
-import AccountDetail from './acountDetail';
+import Dashboard from "./ManageAccounts";
+import NewAccount from "./NewAccount";
+import AccountDetail from './AcountDetail';
 import {PAGES, DBKEY, ACOUNT_MODEL } from '../constants';
 import { changeAccountDetail, changeCurrentView} from '../actions'
 
@@ -22,7 +22,7 @@ class App extends Component {
     var dbPure = await AsyncStorage.getItem(DBKEY);
     let db = JSON.parse(dbPure);
     // console.log("DB", db);
-    if(db.length <= 0){
+    if(db !== null && db.length <= 0){
       await AsyncStorage.setItem(DBKEY, JSON.stringify(ACOUNT_MODEL));
       // console.log("db constructed");
     }
@@ -71,9 +71,11 @@ class App extends Component {
     this.props.goTo(PAGES.dashboard);
   };
   render() {
+    // const {navigate} = this.props.navigation;
+    console.log(this.props);
     return (
       <View style={styles.container}>
-         <StatusBar hidden={true}/> 
+         {/* <StatusBar hidden={true}/>  */}
          <ScrollView style={{flex:8, flexBasis: "80%"}}>
           {  this.props.states.currentView === PAGES.dashboard
           ? <Dashboard 
@@ -83,7 +85,7 @@ class App extends Component {
             />
           : this.props.states.currentView === PAGES.newItem 
           ? 
-          <NewItem 
+          <NewAccount 
             onSaveClick={this.handleSave}
             onCancelClick={this.handleCancel}
           />
@@ -93,9 +95,9 @@ class App extends Component {
           : <Text>Current View {this.props.states.currentView}</Text>
           }
         </ScrollView>
-        <ScrollView style={{flex:2, flexBasis: "20%", alignSelf: "flex-end"}}>
+        {/* <ScrollView style={{flex:2, flexBasis: "20%", alignSelf: "flex-end"}}>
           <Text>Props: {JSON.stringify(this.props)}</Text>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     );
   }

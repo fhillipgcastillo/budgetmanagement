@@ -7,25 +7,29 @@ import {changeCurrentView} from '../actions';
 
 // create a component
 class AccountDetail extends Component {
+  // static navigationOptions = {
+  //   title: this.state.title || "Details"
+  // };
   componentWillMount(){ 
+    let account = this.props.navigation.getParam("account");
     this.setState({
       ...this.props.states,
-      id: this.props.id,
-      title: this.props.title,
-      description: this.props.description,
-      amount: this.props.amount,
-      uniquePayement: this.props.uniquePayement,
-      dayOfMothToPay: this.props.dayOfMothToPay,
-      maxDayOfMothToPay: this.props.maxDayOfMothToPay,
-      customDateToPay: this.props.customDateToPay,
-      maxDateToPay: this.props.maxDateToPay,
-      category: this.props.category,
-      paymentType: this.props.paymentType,
-      amountLimit: this.props.amountLimit,
+      id: account.id,
+      title: account.title,
+      description: account.description,
+      amount: account.amount,
+      uniquePayement: account.uniquePayement,
+      dayOfMothToPay: account.dayOfMothToPay,
+      maxDayOfMothToPay: account.maxDayOfMothToPay,
+      customDateToPay: account.customDateToPay,
+      maxDateToPay: account.maxDateToPay,
+      category: account.category,
+      paymentType: account.paymentType,
+      amountLimit: account.amountLimit,
     });
   };
   handleBack = ()=>{
-    this.props.goBackTo(PAGES.dashboard);
+    this.props.navigation.goBack();
   };
   getCategory = key => {
     return getCategory(key)
@@ -83,11 +87,7 @@ class AccountDetail extends Component {
           <Text style={styles.detail, styles.label}>amountLimit: </Text>
           <Text style={styles.detail}>{this.state.amountLimit}</Text>
         </View>
-        <View>
-          <Button
-            title="Back"
-            onPress={this.handleBack}
-          />
+        <View title="actionContainer">
         </View>
       </View>
     );
@@ -123,14 +123,12 @@ const styles = StyleSheet.create({
 function mapStateToProps (state) {
   return {
     states: {
-      currentView: state.currentView
     }
   }
 };
 
 function mapDispatchToProps (dispatch) {
   return {
-    goBackTo: (page) => dispatch(changeCurrentView(page))
   }
 };
 
