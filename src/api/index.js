@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { DBKEY } from '../constants';
+import { DBKEY, TYPEOFPAYMENTS } from '../constants';
 
 //TODO: Add encription to DB with some unique key for the phone
 const getDB = async  () => {
@@ -15,7 +15,7 @@ const updateDB = async (newDBData) => {
 };
 
 export default API = {
-  getAccounts: async function(){
+  getAccounts: async ()=> {
     let success = false;
     let fail = false;
     let failMessage;
@@ -37,7 +37,7 @@ export default API = {
       data: db
     };
   },
-  createNewAccount : async function(account) {
+  createNewAccount : async (account) => {
     let success = false;
     let fail = false;
     let failMessage;
@@ -61,7 +61,7 @@ export default API = {
       data: account
     };
   },
-  removeAccountById: async function(accountId){
+  removeAccountById: async (accountId)=> {
     let db = null;
     let result = {
       success: false,
@@ -86,5 +86,31 @@ export default API = {
     }
 
     return result;
+  },
+  getAccountsByDateRange: async (initialDate, endingDate) => {
+    let success = false;
+    let fail = false;
+    let failMessage;
+    let data = [];
+    
+    try {
+      let db = await getDB();
+      data = db.filter(a => {
+        let date = new Date(a.maxDateToPay);
+        return (date >= initialDate && date <= endingDate ) || a.paymentType === TYPEOFPAYMENTS.Monthly; /* || (a.type === TYPEOFPAYMENTS.QUATERLU && a.lastTimePayed < initialDate) */
+      });
+      success = true;
+    } catch (error) {
+      fail = false;
+      failMessage = error;
+      console.log("fail retrieving accounts", error);
+    }
+    
+    return {
+      success: success,
+      fail: fail,
+      failMessage: failMessage,
+      data: data
+    };
   }
 };

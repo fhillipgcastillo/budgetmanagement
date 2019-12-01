@@ -4,7 +4,9 @@ import {
   CHANGE_CURRENT_ACCOUNT_DETAIL,
   CREATE_NEW_ACCOUNT,
   UPDATE_ACCOUNTS,
-  ACCOUNT_REMOVED
+  ACCOUNT_REMOVED,
+  UPDATE_ACCOUNTS_OF_THE_MONTH,
+  ACCOUNTS_SYNC
 } from "./constants";
 import API from "./api";
 
@@ -66,22 +68,53 @@ export function createNewAccount(account) {
   return dispatch =>
     API.createNewAccount(account)
       .then(res => {
-        newAccount = dispatch(createAccount(res.data));
-        dispatch(getAccounts());
+        let newAccount = dispatch(createAccount(res.data));
+        dispatch(updateAccountsDependantes());
         return newAccount;
       })
       .catch(console.error);
 }
 
-export function removeAccount(accountId) {
+export const removeAccount = (accountId) => {
   return dispatch => {
-    console.log("Remove account triggered");
     API.removeAccountById(accountId)
       .then(res => {
         dispatch(accountRemoved());
-        dispatch(getAccounts());
+        dispatch(updateAccountsDependantes());
         return res;
       })
       .catch(console.error);
   };
 }
+export const UpdateAcountsOfTheMonth = accounts =>{
+  return {
+    type: UPDATE_ACCOUNTS_OF_THE_MONTH,
+    payload: accounts
+  }
+};
+
+export const accountsSync = ()=>{
+  return {
+    type: ACCOUNTS_SYNC
+  }
+};
+
+export const updateAccountsDependantes = ()=>{
+  var date = new Date();
+  var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  
+  return dispatch => {
+    dispatch(getAccounts());
+    dispatch(getAccountsByDateRange(firstDay, lastDay));
+    dispatch(accountsSync());
+  }
+};
+
+export const getAccountsByDateRange = (initialDate, endingDate) =>{
+  return dispatch => {
+    API.
+    getAccountsByDateRange(initialDate, endingDate)
+    .then(res=>dispatch(UpdateAcountsOfTheMonth(res.data)));
+  }
+};
