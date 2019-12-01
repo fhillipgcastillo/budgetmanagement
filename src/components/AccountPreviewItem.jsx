@@ -14,7 +14,7 @@ const AccountPreviewItem = props => {
   return (
     <TouchableHighlight onPress={handleShowDetail}>
       <View style={styles.itemContainer}>
-        <Text>{props.account.title}</Text>
+        <Text>{props.account.title} </Text>
         <Text>${props.account.amount}</Text>
       </View>
     </TouchableHighlight>
