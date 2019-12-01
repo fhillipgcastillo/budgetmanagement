@@ -11,7 +11,6 @@ import { changeAccountDetail, changeCurrentView} from '../actions'
 // create a component
 class App extends Component {
   componentWillMount(){
-    console.log('App props', this.props);
     this.setState({...this.props.states});
   };
   componentDidMount(){
@@ -58,7 +57,6 @@ class App extends Component {
     //   accountDetail: detail
     // });
     // this.props.accountDetail = detail;
-    console.log(`Handling show detail, detail ${detail}`)
     this.props.changeAccountDetail(detail);
     this.props.goTo(PAGES.detail);
     // this.setState({currentView: PAGES.detail});
@@ -72,7 +70,6 @@ class App extends Component {
   };
   render() {
     // const {navigate} = this.props.navigation;
-    console.log(this.props);
     return (
       <View style={styles.container}>
          {/* <StatusBar hidden={true}/>  */}

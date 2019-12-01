@@ -16,18 +16,16 @@ class CategorySelect extends Component {
     return getCategory(key);
   };
   handleSelectedValueChange = newValue => {
-    console.log(
-      `Category select ${this.getCategory(newValue)} for ${newValue}`
-    );
     this.setState({ category: newValue });
     this.props.handleSelectedValueChange &&
       this.props.handleSelectedValueChange(newValue);
   };
   render() {
     return (
-      <View style={{ flexDirection: "column" }}>
+      <View style={styles.LabelInputForm}>
         <Text style={styles.inputTitle}>Category: </Text>
         <Picker
+          style={(styles.inputTitle)}
           selectedValue={this.state.category}
           onValueChange={this.handleSelectedValueChange}
           enabled={this.state.enabled}
@@ -61,6 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around"
   },
   inputTitle: {
+    flex: 1,
     color: "#fff",
     fontSize: 20
   },

@@ -23,9 +23,10 @@ class PaymentTypeSelect extends Component {
   };
   render() {
     return (
-      <View style={{ flexDirection: "column" }}>
+      <View style={styles.LabelInputForm}>
         <Text style={styles.inputTitle}>Payment Type: </Text>
         <Picker
+          style={styles.inputTitle}
           selectedValue={this.state.paymentType}
           onValueChange={this.handleSelectedValueChange}
           enabled={this.state.enabled}
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around"
   },
   inputTitle: {
+    flex: 1,
     color: "#fff",
     fontSize: 20
   },

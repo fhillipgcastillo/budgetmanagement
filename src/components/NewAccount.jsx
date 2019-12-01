@@ -5,10 +5,8 @@ import {
   Text,
   StyleSheet,
   Button,
-  TextInput,
   ScrollView,
-  Switch,
-  DatePickerAndroid
+  Switch
 } from "react-native";
 import Title from "./Title";
 import {
@@ -22,64 +20,10 @@ import { connect } from "react-redux";
 import { createNewAccount, changeCurrentView } from "../actions";
 import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
-
-const LabelInputForm = props => (
-  <View>
-    {/* <Text style={styles.imputTitle}>{props.title}</Text> */}
-    <TextInput
-      placeholder={props.title}
-      onChangeText={props.onChangeText}
-      value={props.value}
-    />
-  </View>
-);
-
-const DatePicker = (props) => {
-  props.date = props.date || "2019-11-29";
-  props.style = props.style || {};
-  props.changeValue = props.changeValue || function() {};
-
-  console.log("Datepicker prosp", props);
-  // const fromDateToString
-  const openPicker = async function() {
-    let date = props.date
-      ? new Date(props.date)
-      : new Date();
-    console.log(
-      "openPIcker",
-      `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
-    );
-    try {
-      const { action, year, month, day } = await DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
-        date: date
-      });
-      if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-        console.log(`Action ${action} and date ${year}-${month + 1}-${day}`);
-        props.changeValue(`${year}-${month + 1}-${day}`);
-      }
-    } catch ({ code, message }) {
-      console.warn(`Cannot open date picker code ${code}`, message);
-    }
-  };
-  const trigetOpenPicker = async ()=>{
-    await openPicker();
-  };
-  return (
-    <View>
-      <TextInput
-        style={props.style}
-        placeholder="Select a date"
-        value={props.date}
-        onFocus={openPicker}
-        selectTextOnFocus={true}
-        onSelectionChange={trigetOpenPicker}
-      />
-    </View>
-  );
-};
+import { DatePicker } from "./DatePicker";
+import { LabeledFloatInputForm } from "./LabeledFloatInputForm";
+import { LabeledIntegerInputForm } from "./LabeledIntegerInputForm";
+import { LabeledInputForm } from "./LabeledInputForm";
 
 // create a component
 class NewAccount extends Component {
@@ -186,37 +130,26 @@ class NewAccount extends Component {
       <View style={styles.container}>
         <Title text="New Acount Creation" />
         <ScrollView>
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Title: </Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="Acount title"
-              onChangeText={text => this.setState({ title: text })}
-              value={this.state.title}
-            />
-          </View>
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Description: </Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="Description"
-              onChangeText={text => {
-                this.setState({ description: text });
-              }}
-              value={this.state.description}
-            />
-          </View>
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Amount: </Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="Amount"
-              onChangeText={amount => {
-                this.setState({ amount: parseFloat(amount) });
-              }}
-              value={this.state.amount.toString()}
-            />
-          </View>
+          <LabeledInputForm
+            title={"Account name"}
+            value={this.state.title}
+            onChangeText={text => this.setState({ title: text })}
+          />
+
+          <LabeledInputForm
+            title="Description"
+            value={this.state.description}
+            onChangeText={text => {
+              this.setState({ description: text });
+            }}
+          />
+
+          <LabeledFloatInputForm
+            title="Dept amount"
+            value={this.state.amount}
+            onChangeText={amount => this.setState({ amount: amount })}
+          />
+
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>Unique payment:</Text>
             <Switch
@@ -227,46 +160,38 @@ class NewAccount extends Component {
               value={this.state.uniquePayement}
             />
           </View>
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Day Of MothT o Pay: </Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="dayOfMothToPay"
-              onChangeText={text => {
-                this.setState({ dayOfMothToPay: parseInt(text) });
-              }}
-              value={this.state.dayOfMothToPay.toString()}
-            />
-          </View>
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Max Day Of Moth ToP ay: </Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="maxDayOfMothToPay"
-              onChangeText={text => {
-                this.setState({ maxDayOfMothToPay: parseInt(text) });
-              }}
-              value={this.state.maxDayOfMothToPay.toString()}
-            />
-          </View>
+
+          <LabeledIntegerInputForm
+            title="Day Of Month to pay"
+            value={this.state.dayOfMothToPay}
+            onChangeText={dayOfMothToPay =>
+              this.setState({ dayOfMothToPay: dayOfMothToPay })
+            }
+          />
+
+          <LabeledIntegerInputForm
+            title="Max day Of Month to pay"
+            value={this.state.maxDayOfMothToPay}
+            onChangeText={maxDayOfMothToPay =>
+              his.setState({ maxDayOfMothToPay: maxDayOfMothToPay })
+            }
+          />
+
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>customDateToPay: </Text>
-            <TextInput
+            <DatePicker
+              date={this.state.customDateToPay}
               style={styles.inputTitle}
-              placeholder="customDateToPay"
-              onChangeText={text => {
-                this.setState({ customDateToPay: text });
-              }}
-              value={this.state.customDateToPay}
+              selectTextOnFocus={true}
+              changeValue={value => this.setState({ customDateToPay: value })}
             />
           </View>
+
           <View style={styles.LabelInputForm}>
             <Text style={styles.inputTitle}>Max date to pay: </Text>
-
             <DatePicker
               date={this.state.maxDateToPay}
               style={styles.inputTitle}
-              selectTextOnFocus={true}
               changeValue={value => this.setState({ maxDateToPay: value })}
             />
           </View>
@@ -283,16 +208,12 @@ class NewAccount extends Component {
             enabled={true}
           />
 
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Amount Limit:</Text>
-            <TextInput
-              style={styles.inputTitle}
-              placeholder="amountLimit"
-              selectTextOnFocus={true}
-              onChangeText={this.handleAmountLimitChange}
-              value={this.state.amountLimit}
-            />
-          </View>
+          <LabeledFloatInputForm
+            title="Amount Limit"
+            value={this.state.amountLimit}
+            onChangeText={amountLimit => this.setState({ amountLimit: amountLimit })}
+          />
+
         </ScrollView>
         <View style={styles.actionContainer}>
           <Button
@@ -317,7 +238,7 @@ class NewAccount extends Component {
 }
 
 // define your styles
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     // flex: 1,
     justifyContent: "center",
