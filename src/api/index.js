@@ -43,8 +43,8 @@ export default API = {
     let failMessage;
 
     try {
-      db = await getDB();
-      account.id = db ? db.length+1 : 1;
+      let db = await getDB();
+      account.id = db && db.length > 0 ? db.sort(x=>-x.id)[0].id + 1 : 1;
       //TODO: validate the same title doesn't exist
       db.push(account);
       await updateDB(db);
@@ -60,5 +60,31 @@ export default API = {
       failMessage: failMessage,
       data: account
     };
+  },
+  removeAccountById: async function(accountId){
+    let db = null;
+    let result = {
+      success: false,
+      fail: false,
+      failMessage: null,
+      data: null
+    };
+
+    try {
+      db = await getDB();
+      if(db.find(a=>a.id === accountId)){
+        let filtered = db.filter(account => account.id !== accountId);
+        await updateDB(filtered);
+        result.success = true;
+      } else {
+        result.fail = true;
+        result.failMessage ="account id doesn't exist";
+      }
+    } catch (error) {
+      result.fail = true;
+      result.failMessage = error;
+    }
+
+    return result;
   }
 };

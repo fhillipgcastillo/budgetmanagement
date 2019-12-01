@@ -1,4 +1,3 @@
-import { combineReducers } from "redux";
 import {
   PAGES,
   ACOUNT_MODEL,
@@ -7,6 +6,7 @@ import {
   CREATE_NEW_ACCOUNT,
   GET_ALL_ACCOUNTS,
   UPDATE_ACCOUNTS,
+  ACCOUNT_REMOVED,
 } from "../constants";
 
 const INITIAL_STATE = {
@@ -40,14 +40,16 @@ export default AccountReducer = (prevState = INITIAL_STATE, action) => {
       };
     case UPDATE_ACCOUNTS:
       return {
-          ...prevState,
-          accounts: action.payload
-        };
+        ...prevState,
+        accounts: action.payload
+      };
     case GET_ALL_ACCOUNTS:
       return {
         ...prevState,
         accounts: action.payload
       };
+    case ACCOUNT_REMOVED:
+      return prevState;
     default:
       return prevState;
   }
