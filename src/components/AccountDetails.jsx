@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Button, Switch } from "react-native";
+import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import { connect } from "react-redux";
 import {
   PAGES,
@@ -9,7 +9,7 @@ import {
   getCategory,
   getPaymentType
 } from "../constants";
-import { changeCurrentView } from "../actions";
+import { changeCurrentView, removeAccount } from "../actions";
 
 // create a component
 class AccountDetail extends Component {
@@ -43,6 +43,26 @@ class AccountDetail extends Component {
   getPaymentType = key => {
     return getPaymentType(key);
   };
+  handleRemove = () => {
+    Alert.alert(
+      "Delete Account",
+      "Are you sure want to delete this account?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            this.props.removeAccount(this.state.id);
+            this.props.navigation.goBack();
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -69,22 +89,30 @@ class AccountDetail extends Component {
         {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
           <React.Fragment>
             <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>Limit to Spend: </Text>
+              <Text style={(styles.detail, styles.label)}>
+                Limit to Spend:{" "}
+              </Text>
               <Text style={styles.detail}>{this.state.amountLimit}</Text>
             </View>
             <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>Day of month to pay: </Text>
+              <Text style={(styles.detail, styles.label)}>
+                Day of month to pay:{" "}
+              </Text>
               <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
             </View>
             <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>Max day of month to pay: </Text>
+              <Text style={(styles.detail, styles.label)}>
+                Max day of month to pay:{" "}
+              </Text>
               <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
             </View>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>customDateToPay: </Text>
+              <Text style={(styles.detail, styles.label)}>
+                customDateToPay:{" "}
+              </Text>
               <Text style={styles.detail}>{this.state.customDateToPay}</Text>
             </View>
             <View style={styles.inlineDetails}>
@@ -94,7 +122,13 @@ class AccountDetail extends Component {
           </React.Fragment>
         )}
 
-        <View title="actionContainer"></View>
+        <View title="actionContainer" style={styles.actionContainer}>
+          <Button
+            style={styles.actionBtn}
+            title="Remove"
+            onPress={this.handleRemove}
+          />
+        </View>
       </View>
     );
   }
@@ -122,17 +156,31 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "bold",
     fontSize: 20
+  },
+  actionContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexDirection: "row",
+    maxHeight: 30,
+    marginBottom: 10,
+    marginTop: 15
+  },
+  actionBtn: {
+    height: 20,
+    margin: 5
   }
 });
 
 function mapStateToProps(state) {
   return {
-    states: {}
+    // states: {accountDetail:state.accountDetail}
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    removeAccount: accountId => dispatch(removeAccount(accountId))
+  };
 }
 
 //make this component available to the app
