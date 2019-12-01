@@ -1,16 +1,22 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Switch } from 'react-native';
-import { connect } from 'react-redux';
-import { PAGES, SPENTS_CATEGORIES, TYPEOFPAYMENTS, getCategory, getPaymentType } from '../constants';
-import {changeCurrentView} from '../actions';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, Button, Switch } from "react-native";
+import { connect } from "react-redux";
+import {
+  PAGES,
+  SPENTS_CATEGORIES,
+  TYPEOFPAYMENTS,
+  getCategory,
+  getPaymentType
+} from "../constants";
+import { changeCurrentView } from "../actions";
 
 // create a component
 class AccountDetail extends Component {
   // static navigationOptions = {
   //   title: this.state.title || "Details"
   // };
-  componentWillMount(){ 
+  componentWillMount() {
     let account = this.props.navigation.getParam("account");
     this.setState({
       ...this.props.states,
@@ -25,14 +31,14 @@ class AccountDetail extends Component {
       maxDateToPay: account.maxDateToPay,
       category: account.category,
       paymentType: account.paymentType,
-      amountLimit: account.amountLimit,
+      amountLimit: account.amountLimit
     });
-  };
-  handleBack = ()=>{
+  }
+  handleBack = () => {
     this.props.navigation.goBack();
   };
   getCategory = key => {
-    return getCategory(key)
+    return getCategory(key);
   };
   getPaymentType = key => {
     return getPaymentType(key);
@@ -42,53 +48,53 @@ class AccountDetail extends Component {
       <View style={styles.container}>
         <View style={styles.inlineDetails}>
           <Text style={styles.title}>{this.state.title}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>description: </Text>
           <Text style={styles.detail}>{this.state.description}</Text>
         </View>
         <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>amount: </Text>
+          <Text style={(styles.detail, styles.label)}>Dept of </Text>
           <Text style={styles.detail}>{this.state.amount}</Text>
         </View>
         <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>uniquePayement: </Text>
-          <Switch 
-            onValueChange={text=>{this.setState({uniquePayement:text === "true"})}}
-            value={this.state.uniquePayement}
-            disabled={true}
-          />
+          <Text style={(styles.detail, styles.label)}>Category: </Text>
+          <Text style={styles.detail}>
+            {this.getCategory(this.state.category)}
+          </Text>
         </View>
         <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>dayOfMothToPay: </Text>
-          <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
+          <Text style={(styles.detail, styles.label)}>Payment type: </Text>
+          <Text style={styles.detail}>
+            {this.getPaymentType(this.state.paymentType)}
+          </Text>
         </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>maxDayOfMothToPay: </Text>
-          <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>customDateToPay: </Text>
-          <Text style={styles.detail}>{this.state.customDateToPay}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>maxDateToPay: </Text>
-          <Text style={styles.detail}>{this.state.maxDateToPay}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>category: </Text>
-          <Text style={styles.detail}>{this.getCategory(this.state.category)}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>paymentType: </Text>
-          <Text style={styles.detail}>{this.getPaymentType(this.state.paymentType)}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.detail, styles.label}>amountLimit: </Text>
-          <Text style={styles.detail}>{this.state.amountLimit}</Text>
-        </View>
-        <View title="actionContainer">
-        </View>
+        {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
+          <React.Fragment>
+            <View style={styles.inlineDetails}>
+              <Text style={(styles.detail, styles.label)}>Limit to Spend: </Text>
+              <Text style={styles.detail}>{this.state.amountLimit}</Text>
+            </View>
+            <View style={styles.inlineDetails}>
+              <Text style={(styles.detail, styles.label)}>Day of month to pay: </Text>
+              <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
+            </View>
+            <View style={styles.inlineDetails}>
+              <Text style={(styles.detail, styles.label)}>Max day of month to pay: </Text>
+              <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
+            </View>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <View style={styles.inlineDetails}>
+              <Text style={(styles.detail, styles.label)}>customDateToPay: </Text>
+              <Text style={styles.detail}>{this.state.customDateToPay}</Text>
+            </View>
+            <View style={styles.inlineDetails}>
+              <Text style={(styles.detail, styles.label)}>maxDateToPay: </Text>
+              <Text style={styles.detail}>{this.state.maxDateToPay}</Text>
+            </View>
+          </React.Fragment>
+        )}
+
+        <View title="actionContainer"></View>
       </View>
     );
   }
@@ -98,11 +104,11 @@ class AccountDetail extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2c3e50"
   },
-  title:{
+  title: {
     fontSize: 28,
     color: "#fff"
   },
@@ -111,26 +117,23 @@ const styles = StyleSheet.create({
   },
   inlineDetails: {
     flexDirection: "row",
-    color: "white",
+    color: "white"
   },
-  label:{ 
+  label: {
     fontWeight: "bold",
     fontSize: 20
   }
 });
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    states: {
-    }
-  }
-};
+    states: {}
+  };
+}
 
-function mapDispatchToProps (dispatch) {
-  return {
-  }
-};
+function mapDispatchToProps(dispatch) {
+  return {};
+}
 
 //make this component available to the app
 export default connect(mapStateToProps, mapDispatchToProps)(AccountDetail);

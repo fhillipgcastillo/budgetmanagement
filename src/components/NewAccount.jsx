@@ -150,52 +150,6 @@ class NewAccount extends Component {
             onChangeText={amount => this.setState({ amount: amount })}
           />
 
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Unique payment:</Text>
-            <Switch
-              style={{ color: "white" }}
-              onValueChange={text => {
-                this.setState({ uniquePayement: text });
-              }}
-              value={this.state.uniquePayement}
-            />
-          </View>
-
-          <LabeledIntegerInputForm
-            title="Day Of Month to pay"
-            value={this.state.dayOfMothToPay}
-            onChangeText={dayOfMothToPay =>
-              this.setState({ dayOfMothToPay: dayOfMothToPay })
-            }
-          />
-
-          <LabeledIntegerInputForm
-            title="Max day Of Month to pay"
-            value={this.state.maxDayOfMothToPay}
-            onChangeText={maxDayOfMothToPay =>
-              his.setState({ maxDayOfMothToPay: maxDayOfMothToPay })
-            }
-          />
-
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>customDateToPay: </Text>
-            <DatePicker
-              date={this.state.customDateToPay}
-              style={styles.inputTitle}
-              selectTextOnFocus={true}
-              changeValue={value => this.setState({ customDateToPay: value })}
-            />
-          </View>
-
-          <View style={styles.LabelInputForm}>
-            <Text style={styles.inputTitle}>Max date to pay: </Text>
-            <DatePicker
-              date={this.state.maxDateToPay}
-              style={styles.inputTitle}
-              changeValue={value => this.setState({ maxDateToPay: value })}
-            />
-          </View>
-
           <CategorySelect
             category={this.state.category}
             handleSelectedValueChange={this.handleSelectedCategoryChange}
@@ -208,12 +162,55 @@ class NewAccount extends Component {
             enabled={true}
           />
 
-          <LabeledFloatInputForm
-            title="Amount Limit"
-            value={this.state.amountLimit}
-            onChangeText={amountLimit => this.setState({ amountLimit: amountLimit })}
-          />
+          {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
+            <React.Fragment>
+              <LabeledFloatInputForm
+                title="Amount Limit"
+                value={this.state.amountLimit}
+                onChangeText={amountLimit =>
+                  this.setState({ amountLimit: amountLimit })
+                }
+              />
+              <LabeledIntegerInputForm
+                title="Day Of Month to pay"
+                value={this.state.dayOfMothToPay}
+                onChangeText={dayOfMothToPay =>
+                  this.setState({ dayOfMothToPay: dayOfMothToPay })
+                }
+              />
 
+              <LabeledIntegerInputForm
+                title="Max day Of Month to pay"
+                value={this.state.maxDayOfMothToPay}
+                onChangeText={maxDayOfMothToPay =>
+                  this.setState({ maxDayOfMothToPay: maxDayOfMothToPay })
+                }
+              />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <View style={styles.LabelInputForm}>
+                <Text style={styles.inputTitle}>customDateToPay: </Text>
+                <DatePicker
+                  date={this.state.customDateToPay}
+                  style={styles.inputTitle}
+                  selectTextOnFocus={true}
+                  changeValue={value =>
+                    this.setState({ customDateToPay: value })
+                  }
+                />
+              </View>
+
+              <View style={styles.LabelInputForm}>
+                <Text style={styles.inputTitle}>Max date to pay: </Text>
+                <DatePicker
+                  date={this.state.maxDateToPay}
+                  style={styles.inputTitle}
+                  changeValue={value => this.setState({ maxDateToPay: value })}
+                />
+              </View>
+            </React.Fragment>
+          )}
         </ScrollView>
         <View style={styles.actionContainer}>
           <Button
