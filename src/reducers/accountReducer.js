@@ -7,13 +7,15 @@ import {
   GET_ALL_ACCOUNTS,
   UPDATE_ACCOUNTS,
   ACCOUNT_REMOVED,
+  UPDATE_ACCOUNTS_OF_THE_MONTH,
 } from "../constants";
 
 const INITIAL_STATE = {
   accounts: [],
   currentView: PAGES.dashboard,
   accountDetail: {},
-  ACCOUTN_MODEL: ACOUNT_MODEL
+  ACCOUTN_MODEL: ACOUNT_MODEL,
+  accountsOfTheMonth: []
 };
 
 export default AccountReducer = (prevState = INITIAL_STATE, action) => {
@@ -48,8 +50,12 @@ export default AccountReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         accounts: action.payload
       };
+    case UPDATE_ACCOUNTS_OF_THE_MONTH:
+      return {
+        ...prevState,
+        accountsOfTheMonth: action.payload
+      }
     case ACCOUNT_REMOVED:
-      return prevState;
     default:
       return prevState;
   }

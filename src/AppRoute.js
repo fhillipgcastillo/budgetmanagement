@@ -43,7 +43,7 @@ const MainSwitchNavigation = createSwitchNavigator(
     MainNavigation: MainNavigation,
   },
   {
-    initialRouteName: "noLogedInSplash"
+    initialRouteName: "MainNavigation"
   }
 );
 export default createAppContainer(MainSwitchNavigation);
