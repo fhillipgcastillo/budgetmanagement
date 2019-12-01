@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, AsyncStorage, StatusBar, ScrollView } from 'rea
 import { connect } from 'react-redux';
 import Dashboard from "./ManageAccounts";
 import NewAccount from "./NewAccount";
-import AccountDetail from './AcountDetail';
+import AccountDetail from './AccountPreviewItem';
 import {PAGES, DBKEY, ACOUNT_MODEL } from '../constants';
 import { changeAccountDetail, changeCurrentView} from '../actions'
 

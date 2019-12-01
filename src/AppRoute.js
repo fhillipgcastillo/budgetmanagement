@@ -3,7 +3,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import App from "./components/App";
 import ManageAccounts from "./components/ManageAccounts";
 import NewAccount from "./components/NewAccount";
-import AccountDetail from "./components/AcountDetail";
+import AccountDetail from "./components/AccountDetails"
 
 
 const ManageAccountNavigator = createStackNavigator(
