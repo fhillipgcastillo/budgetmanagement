@@ -6,7 +6,9 @@ import {
   UPDATE_ACCOUNTS,
   ACCOUNT_REMOVED,
   UPDATE_ACCOUNTS_OF_THE_MONTH,
-  ACCOUNTS_SYNC
+  ACCOUNTS_SYNC,
+  UPDATE_CURRENT_WEEK,
+  UPDATE_NEXT_WEEK
 } from "./constants";
 import API from "./api";
 
@@ -19,7 +21,8 @@ import API from "./api";
     }
   };
  */
-const getPayloadFromResponse = response => (response.fail ? response.error : response.data);
+const getPayloadFromResponse = response =>
+  response.fail ? response.error : response.data;
 
 export function updateAccounts(accounts) {
   return {
@@ -110,16 +113,99 @@ export const updateAccountsDependantes = () => {
     dispatch(getAccounts());
     dispatch(getAccountsByDateRange(firstDay, lastDay));
     dispatch(accountsSync());
-    
   };
 };
 
 export const getAccountsByDateRange = (initialDate, endingDate) => {
   return dispatch => {
-    API.getAccountsByDateRange(initialDate, endingDate).then(res =>
+    return API.getAccountsByDateRange(initialDate, endingDate).then(res =>
       dispatch(UpdateAcountsOfTheMonth(res.data))
     );
   };
+};
+
+export const UpdateThisWeek = account => ({
+  type: UPDATE_CURRENT_WEEK,
+  payload: account
+});
+
+export const UpdateNextWeek = account => ({
+  type: UPDATE_NEXT_WEEK,
+  payload: account
+});
+
+// current Date is 5
+// this week is gonna be from 1 to 14
+ const getFilteredThisWeekData = (currentDate, fullMonth) => {
+  let isDayBwFirstBisweek = currentDate.getDay() >= 1 && currentDate.getDay() <= 14 ;
+  let thisWeekInicialDate = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    isDayBwFirstBisweek ? 1 : 15
+  );
+  let lastDay = new Date(
+    currentDate.getFullYear(),
+    isDayBwFirstBisweek
+      ? currentDate.getMonth()
+      : currentDate.getMonth() + 1,
+      isDayBwFirstBisweek ? 14 : 0
+  );
+  let filtered = fullMonth.filter(ac => {
+    let date;
+    if(ac.maxDateToPay){
+      date = new Date(ac.maxDateToPay);
+    } else {
+      date = new Date();
+      date.setDate(ac.dayOfMothToPay)
+    }
+    return date >= thisWeekInicialDate && date <= lastDay;
+  });
+
+  
+  return filtered;
+};
+const getFilteredNextWeekData = (currentDate, fullMonth) => {
+  let firstDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate >= 1 && currentDate <= 14 ? 15 : 1
+  );
+  let lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate >= 1 && currentDate <= 14
+      ? currentDate.getMonth() + 1
+      : currentDate.getMonth(),
+    0
+  );
+  let filtered = fullMonth.filter(ac => {
+    let date;
+    if(ac.maxDateToPay){
+      date = new Date(ac.maxDateToPay);
+    } else {
+      date = new Date();
+      date.setDate(ac.dayOfMothToPay)
+    }
+    return date >= firstDay && date <= lastDay;
+  });
+  return filtered;
+};
+
+export const syncMonthlyScheduleByCurrentDate = currentDate => {
+  let firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  let lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  );
+  return dispatch => 
+    API.getAccountsByDateRange(firstDay, lastDay)
+    .then(res =>{
+      let thisWeekData = getFilteredThisWeekData(currentDate, res.data);
+      let nextWeekData = getFilteredNextWeekData(currentDate, res.data);
+      dispatch(UpdateAcountsOfTheMonth(res.data));
+      dispatch(UpdateThisWeek(thisWeekData));
+      dispatch(UpdateNextWeek(nextWeekData));
+    });
 };
 
 export function accountUpdated(payload) {
