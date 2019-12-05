@@ -165,17 +165,18 @@ export const UpdateNextWeek = account => ({
   return filtered;
 };
 const getFilteredNextWeekData = (currentDate, fullMonth) => {
+  let isDayBwFirstBisweek = currentDate.getDay() >= 1 && currentDate.getDay() <= 14 ;
   let firstDay = new Date(
     currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate >= 1 && currentDate <= 14 ? 15 : 1
+    isDayBwFirstBisweek ? currentDate.getMonth() :  currentDate.getMonth()+1,
+    isDayBwFirstBisweek ? 15 : 1
   );
   let lastDay = new Date(
     currentDate.getFullYear(),
-    currentDate >= 1 && currentDate <= 14
+    isDayBwFirstBisweek
       ? currentDate.getMonth() + 1
       : currentDate.getMonth(),
-    0
+    isDayBwFirstBisweek ? 0 : 14
   );
   let filtered = fullMonth.filter(ac => {
     let date;

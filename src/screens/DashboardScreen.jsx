@@ -57,7 +57,7 @@ class DashboardScreen extends Component {
           <Text style={styles.subtitle}>Next week</Text>
           <ScrollView style={{ flex: 4 }}>
             <FlatList
-              data={this.props.states.currentWeek}
+              data={this.props.states.nextWeek}
               renderItem={({ item }) => (
                 <AccountPreviewItem
                   key={item.id}
