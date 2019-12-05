@@ -1,18 +1,23 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 // create a component
-const Title = (props) => {
-  return (
-    <Text style={styles.title}>{props.text}</Text>
-  );
+const Title = props => {
+  return <Text style={styles.title}>{props.text}</Text>;
 };
+export const SubTitle = props => (
+  <Text style={styles.subtitle}>{props.text}</Text>
+);
 
 // define your styles
 const styles = StyleSheet.create({
-  title:{
+  title: {
     fontSize: 32,
+    color: "#fff"
+  },
+  subtitle: {
+    fontSize: 18,
     color: "#fff"
   }
 });

@@ -8,6 +8,8 @@ import {
   UPDATE_ACCOUNTS,
   ACCOUNT_REMOVED,
   UPDATE_ACCOUNTS_OF_THE_MONTH,
+  UPDATE_CURRENT_WEEK,
+  UPDATE_NEXT_WEEK,
 } from "../constants";
 
 const INITIAL_STATE = {
@@ -15,7 +17,9 @@ const INITIAL_STATE = {
   currentView: PAGES.dashboard,
   accountDetail: {},
   ACCOUTN_MODEL: ACOUNT_MODEL,
-  accountsOfTheMonth: []
+  accountsOfTheMonth: [],
+  currentWeek: [],
+  nextWeek: [],
 };
 
 export default AccountReducer = (prevState = INITIAL_STATE, action) => {
@@ -55,6 +59,16 @@ export default AccountReducer = (prevState = INITIAL_STATE, action) => {
         ...prevState,
         accountsOfTheMonth: action.payload
       }
+    case UPDATE_CURRENT_WEEK:
+      return {
+        ...prevState,
+        currentWeek: action.payload
+      }
+    case UPDATE_NEXT_WEEK:
+        return {
+          ...prevState,
+          nextWeek: action.payload
+        }
     case ACCOUNT_REMOVED:
     default:
       return prevState;

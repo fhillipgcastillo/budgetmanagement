@@ -11,9 +11,23 @@ const AccountPreviewItem = props => {
     props.navigation &&
       props.navigation.navigate("AccountDetail", { account: props.account });
   };
+  let bg = "#f9c2ff";
+  if(props.type){
+    if(props.type === "current" ){
+      bg = "#1db91d" 
+    } else if(props.type === "next" ){
+      bg = "#4691df"
+    } 
+  }
+    
+  const _style = {};
+  for (key in styles.itemContainer) {
+    _style[key] = styles.itemContainer[key];
+  }
+  _style.backgroundColor = bg;
   return (
     <TouchableHighlight onPress={handleShowDetail}>
-      <View style={styles.itemContainer}>
+      <View style={_style}>
         <Text>{props.account.title} </Text>
         <Text>${props.account.amount}</Text>
       </View>
