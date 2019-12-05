@@ -17,7 +17,12 @@ import {
   getPaymentType
 } from "../constants";
 import { connect } from "react-redux";
-import { createNewAccount, changeCurrentView } from "../actions";
+import {
+  createNewAccount,
+  changeCurrentView,
+  updateAccount,
+  changeAccountDetail
+} from "../actions";
 import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
 import { DatePicker } from "./DatePicker";
@@ -27,26 +32,38 @@ import { LabeledInputForm } from "./LabeledInputForm";
 
 // create a component
 class NewAccount extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title:
+      navigation.state.params && navigation.state.params.editMode
+        ? `Edit Account`
+        : "New Account"
+  });
   constructor(props) {
     super(props);
+    let isEditMode = this.props.navigation.getParam("editMode");
+    let account = this.props.navigation.getParam("account");
+
+    // this.navigationOptions.title = isEditMode ? `Modifying ${account.title}` : "Create new Account";
 
     this.state = {
-      id: 0,
-      title: "",
-      description: "",
-      amount: 0,
-      uniquePayement: false,
-      dayOfMothToPay: 0,
-      maxDayOfMothToPay: 0,
-      customDateToPay: "",
-      maxDateToPay: "",
-      category: SPENTS_CATEGORIES.FixRent,
-      paymentType: TYPEOFPAYMENTS.Monthly,
-      amountLimit: 0
+      id: isEditMode ? account.id : 0,
+      title: isEditMode ? account.title : "",
+      description: isEditMode ? account.description : "",
+      amount: isEditMode ? account.amount : 0,
+      uniquePayement: isEditMode ? account.uniquePayement : false,
+      dayOfMothToPay: isEditMode ? account.dayOfMothToPay : 0,
+      maxDayOfMothToPay: isEditMode ? account.maxDayOfMothToPay : 0,
+      customDateToPay: isEditMode ? account.customDateToPay : "",
+      maxDateToPay: isEditMode ? account.maxDateToPay : "",
+      category: isEditMode ? account.category : SPENTS_CATEGORIES.FixRent,
+      paymentType: isEditMode ? account.paymentType : TYPEOFPAYMENTS.Monthly,
+      amountLimit: isEditMode ? account.amountLimit : 0,
+      isEditMode: isEditMode || false
     };
   }
+
   componentWillMount() {}
-  handleSave = async () => {
+  handleSave = () => {
     let account = {
       id: this.state.id,
       title: this.state.title,
@@ -61,10 +78,25 @@ class NewAccount extends Component {
       paymentType: this.state.paymentType,
       amountLimit: this.state.amountLimit
     };
-    await this.props.actions.createNewAccount(account);
-    this.props.navigation.goBack();
+
+    if (this.state.isEditMode && account.id > 0) {
+      this.update(account);
+    } else {
+      this.save(account);
+    }
     // if wants to go to the details screen
     // this.props.navigation.navigate("AccountDetail", {account: account});
+  };
+  save = async account => {
+    await this.props.actions.createNewAccount(account);
+    this.props.navigation.goBack();
+  };
+  update = async account => {
+    this.props.actions.updateAccount(account).then(res => {
+      res.data && this.props.actions.changeAccountDetail(res.data);
+      this.props.navigation.state.params.refleshAccount && this.props.navigation.state.params.refleshAccount(res.data);
+      this.props.navigation.goBack();
+    });
   };
   resetItemState = () => {
     this.setState({
@@ -128,7 +160,6 @@ class NewAccount extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Title text="New Acount Creation" />
         <ScrollView>
           <LabeledInputForm
             title={"Account name"}
@@ -276,7 +307,9 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       goTo: page => dispatch(changeCurrentView(page)),
-      createNewAccount: account => dispatch(createNewAccount(account))
+      createNewAccount: account => dispatch(createNewAccount(account)),
+      updateAccount: account => dispatch(updateAccount(account)),
+      changeAccountDetail: account => dispatch(changeAccountDetail(account))
     }
   };
 }
