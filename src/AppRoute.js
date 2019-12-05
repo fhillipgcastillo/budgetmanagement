@@ -23,9 +23,6 @@ const MainNavigation = createStackNavigator(
     },
     NewAccount: {
       screen: NewAccount,
-      navigationOptions: {
-        title: "Create new Account"
-      }
     },
     AccountDetail: {
       screen: AccountDetail,

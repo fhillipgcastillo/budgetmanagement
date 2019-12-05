@@ -66,6 +66,11 @@ export const ACOUNT_MODEL = [
   }
 ];
 
+//Navigation
+export const NAVIGATION_SCREENS = {
+  BashBoard: "BashBoard",
+  NewAccount: "NewAccount",
+};
 
 //Functions
 export const getPaymentType = key => {

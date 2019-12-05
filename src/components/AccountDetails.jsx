@@ -7,7 +7,8 @@ import {
   SPENTS_CATEGORIES,
   TYPEOFPAYMENTS,
   getCategory,
-  getPaymentType
+  getPaymentType,
+  NAVIGATION_SCREENS
 } from "../constants";
 import { changeCurrentView, removeAccount } from "../actions";
 
@@ -18,21 +19,7 @@ class AccountDetail extends Component {
   // };
   componentWillMount() {
     let account = this.props.navigation.getParam("account");
-    this.setState({
-      ...this.props.states,
-      id: account.id,
-      title: account.title,
-      description: account.description,
-      amount: account.amount,
-      uniquePayement: account.uniquePayement,
-      dayOfMothToPay: account.dayOfMothToPay,
-      maxDayOfMothToPay: account.maxDayOfMothToPay,
-      customDateToPay: account.customDateToPay,
-      maxDateToPay: account.maxDateToPay,
-      category: account.category,
-      paymentType: account.paymentType,
-      amountLimit: account.amountLimit
-    });
+    this.refleshAccount(account);
   }
   handleBack = () => {
     this.props.navigation.goBack();
@@ -63,70 +50,92 @@ class AccountDetail extends Component {
       { cancelable: false }
     );
   };
+  refleshAccount = (account)=>{
+    this.setState({
+      ...this.props.states,
+      ...account
+    });
+  }
+  handleEdit = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREENS.NewAccount, {
+      account: this.props.navigation.getParam("account"),
+      editMode: true,
+      refleshAccount: (account) => this.refleshAccount(account),
+    });
+  };
   render() {
+    let account = this.props.navigation.getParam("account");
+
     return (
       <View style={styles.container}>
-        <View style={styles.inlineDetails}>
-          <Text style={styles.title}>{this.state.title}</Text>
-          <Text style={styles.detail}>{this.state.description}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={(styles.detail, styles.label)}>Dept of </Text>
-          <Text style={styles.detail}>{this.state.amount}</Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={(styles.detail, styles.label)}>Category: </Text>
-          <Text style={styles.detail}>
-            {this.getCategory(this.state.category)}
-          </Text>
-        </View>
-        <View style={styles.inlineDetails}>
-          <Text style={(styles.detail, styles.label)}>Payment type: </Text>
-          <Text style={styles.detail}>
-            {this.getPaymentType(this.state.paymentType)}
-          </Text>
-        </View>
-        {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
-          <React.Fragment>
-            <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>
-                Limit to Spend:{" "}
-              </Text>
-              <Text style={styles.detail}>{this.state.amountLimit}</Text>
-            </View>
-            <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>
-                Day of month to pay:{" "}
-              </Text>
-              <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
-            </View>
-            <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>
-                Max day of month to pay:{" "}
-              </Text>
-              <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
-            </View>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>
-                customDateToPay:{" "}
-              </Text>
-              <Text style={styles.detail}>{this.state.customDateToPay}</Text>
-            </View>
-            <View style={styles.inlineDetails}>
-              <Text style={(styles.detail, styles.label)}>maxDateToPay: </Text>
-              <Text style={styles.detail}>{this.state.maxDateToPay}</Text>
-            </View>
-          </React.Fragment>
-        )}
-
-        <View title="actionContainer" style={styles.actionContainer}>
+        <React.Fragment>
+          <View style={styles.inlineDetails}>
+            <Text style={styles.title}>{this.state.title}</Text>
+            <Text style={styles.detail}>{this.state.description}</Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.detail, styles.label)}>Dept of </Text>
+            <Text style={styles.detail}>{this.state.amount}</Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.detail, styles.label)}>Category: </Text>
+            <Text style={styles.detail}>
+              {this.getCategory(this.state.category)}
+            </Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.detail, styles.label)}>Payment type: </Text>
+            <Text style={styles.detail}>
+              {this.getPaymentType(this.state.paymentType)}
+            </Text>
+          </View>
+          {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
+            <React.Fragment>
+              <View style={styles.inlineDetails}>
+                <Text style={(styles.detail, styles.label)}>
+                  Limit to Spend:{" "}
+                </Text>
+                <Text style={styles.detail}>{this.state.amountLimit}</Text>
+              </View>
+              <View style={styles.inlineDetails}>
+                <Text style={(styles.detail, styles.label)}>
+                  Day of month to pay:{" "}
+                </Text>
+                <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
+              </View>
+              <View style={styles.inlineDetails}>
+                <Text style={(styles.detail, styles.label)}>
+                  Max day of month to pay:{" "}
+                </Text>
+                <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
+              </View>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <View style={styles.inlineDetails}>
+                <Text style={(styles.detail, styles.label)}>
+                  customDateToPay:{" "}
+                </Text>
+                <Text style={styles.detail}>{this.state.customDateToPay}</Text>
+              </View>
+              <View style={styles.inlineDetails}>
+                <Text style={(styles.detail, styles.label)}>maxDateToPay: </Text>
+                <Text style={styles.detail}>{this.state.maxDateToPay}</Text>
+              </View>
+            </React.Fragment>
+          )}
+        </React.Fragment>
+        <View style={styles.actionContainer}>
           <Button
             style={styles.actionBtn}
             title="Remove"
             onPress={this.handleRemove}
+          />
+          <Button
+            style={styles.actionBtn}
+            title="Edit"
+            onPress={this.handleEdit}
+            disabled={account === null || account.id <= 0}
           />
         </View>
       </View>

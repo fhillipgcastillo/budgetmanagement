@@ -19,6 +19,7 @@ import API from "./api";
     }
   };
  */
+const getPayloadFromResponse = response => (response.fail ? response.error : response.data);
 
 export function updateAccounts(accounts) {
   return {
@@ -57,6 +58,7 @@ export function createAccount(account) {
     payload: account
   };
 }
+
 export function accountRemoved(accountId) {
   //show a alert
   return {
@@ -75,7 +77,7 @@ export function createNewAccount(account) {
       .catch(console.error);
 }
 
-export const removeAccount = (accountId) => {
+export const removeAccount = accountId => {
   return dispatch => {
     API.removeAccountById(accountId)
       .then(res => {
@@ -85,36 +87,55 @@ export const removeAccount = (accountId) => {
       })
       .catch(console.error);
   };
-}
-export const UpdateAcountsOfTheMonth = accounts =>{
+};
+export const UpdateAcountsOfTheMonth = accounts => {
   return {
     type: UPDATE_ACCOUNTS_OF_THE_MONTH,
     payload: accounts
-  }
+  };
 };
 
-export const accountsSync = ()=>{
+export const accountsSync = () => {
   return {
     type: ACCOUNTS_SYNC
-  }
+  };
 };
 
-export const updateAccountsDependantes = ()=>{
+export const updateAccountsDependantes = () => {
   var date = new Date();
   var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  
+
   return dispatch => {
     dispatch(getAccounts());
     dispatch(getAccountsByDateRange(firstDay, lastDay));
     dispatch(accountsSync());
-  }
+    
+  };
 };
 
-export const getAccountsByDateRange = (initialDate, endingDate) =>{
+export const getAccountsByDateRange = (initialDate, endingDate) => {
   return dispatch => {
-    API.
-    getAccountsByDateRange(initialDate, endingDate)
-    .then(res=>dispatch(UpdateAcountsOfTheMonth(res.data)));
-  }
+    API.getAccountsByDateRange(initialDate, endingDate).then(res =>
+      dispatch(UpdateAcountsOfTheMonth(res.data))
+    );
+  };
+};
+
+export function accountUpdated(payload) {
+  //show a alert
+  return {
+    type: ACCOUNT_REMOVED,
+    payload: payload || null
+  };
+}
+
+export const updateAccount = account => {
+  return dispatch =>
+    API.updateAccount(account).then(res => {
+      let payload = getPayloadFromResponse(res);
+      dispatch(accountUpdated(payload));
+      dispatch(updateAccountsDependantes());
+      return res;
+    });
 };
