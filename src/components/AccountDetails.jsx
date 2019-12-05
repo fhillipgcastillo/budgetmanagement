@@ -74,37 +74,37 @@ class AccountDetail extends Component {
             <Text style={styles.detail}>{this.state.description}</Text>
           </View>
           <View style={styles.inlineDetails}>
-            <Text style={(styles.detail, styles.label)}>Dept of </Text>
+            <Text style={styles.label, styles.detail}>Dept of </Text>
             <Text style={styles.detail}>{this.state.amount}</Text>
           </View>
           <View style={styles.inlineDetails}>
-            <Text style={(styles.detail, styles.label)}>Category: </Text>
+            <Text style={styles.label, styles.detail}>Category as </Text>
             <Text style={styles.detail}>
               {this.getCategory(this.state.category)}
             </Text>
           </View>
           <View style={styles.inlineDetails}>
-            <Text style={(styles.detail, styles.label)}>Payment type: </Text>
             <Text style={styles.detail}>
               {this.getPaymentType(this.state.paymentType)}
             </Text>
+            <Text style={styles.label, styles.detail}>Payment </Text>
           </View>
           {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
             <React.Fragment>
               <View style={styles.inlineDetails}>
-                <Text style={(styles.detail, styles.label)}>
+                <Text style={styles.label, styles.detail}>
                   Limit to Spend:{" "}
                 </Text>
                 <Text style={styles.detail}>{this.state.amountLimit}</Text>
               </View>
               <View style={styles.inlineDetails}>
-                <Text style={(styles.detail, styles.label)}>
+                <Text style={styles.label, styles.detail}>
                   Day of month to pay:{" "}
                 </Text>
                 <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
               </View>
               <View style={styles.inlineDetails}>
-                <Text style={(styles.detail, styles.label)}>
+                <Text style={styles.label, styles.detail}>
                   Max day of month to pay:{" "}
                 </Text>
                 <Text style={styles.detail}>{this.state.maxDayOfMothToPay}</Text>
@@ -113,7 +113,7 @@ class AccountDetail extends Component {
           ) : (
             <React.Fragment>
               <View style={styles.inlineDetails}>
-                <Text style={(styles.detail, styles.label)}>
+                <Text style={styles.label, styles.detail}>
                   customDateToPay:{" "}
                 </Text>
                 <Text style={styles.detail}>{this.state.customDateToPay}</Text>
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     color: "#fff"
   },
   detail: {
-    fontSize: 18
+    fontSize: 18,
+    color: "#fff",
   },
   inlineDetails: {
     flexDirection: "row",
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
   },
   actionContainer: {
     flex: 1,
