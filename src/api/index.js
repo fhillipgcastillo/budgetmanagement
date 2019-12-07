@@ -49,7 +49,7 @@ export default API = {
 
     try {
       let db = await getDB();
-      account.id = db && db.length > 0 ? (db.sort(x => -x.id)[0]).id+1 : 1; 
+      account.id = db && db.length > 0 ? db.sort(x => -x.id)[0].id + 1 : 1;
       //TODO: validate the same title doesn't exist
       db.push(account);
       await updateDB(db);
@@ -101,19 +101,22 @@ export default API = {
     try {
       let db = await getDB();
       data = db.filter(a => {
-        let date = new Date(a.maxDateToPay);
+        let date = new Date();
+        if (a.dayOfMothToPay <= 0 ) {
+          date = new Date(a.maxDateToPay);
+        } else {
+          date = new Date();
+          date.setDate(a.dayOfMothToPay);
+        }
         return (
-          (date >= initialDate && date <= endingDate) ||
-          a.paymentType === TYPEOFPAYMENTS.Monthly
+          date >= initialDate && date <= endingDate
         ); /* || (a.type === TYPEOFPAYMENTS.QUATERLU && a.lastTimePayed < initialDate) */
       });
       success = true;
     } catch (error) {
       fail = false;
       failMessage = error;
-      console.log("fail retrieving accounts", error);
     }
-
     return {
       success: success,
       fail: fail,
@@ -127,9 +130,9 @@ export default API = {
 
     try {
       db = await getDB();
-      
-      let accountIndex = db.findIndex(a=>a.id === account.id);
-      if(!accountIndex) throw "Account doesn't exist";
+
+      let accountIndex = db.findIndex(a => a.id === account.id);
+      if (!accountIndex) throw "Account doesn't exist";
       db[accountIndex] = account;
 
       await updateDB(db);
