@@ -137,35 +137,36 @@ export const UpdateNextWeek = account => ({
 // current Date is 5
 // this week is gonna be from 1 to 14
  const getFilteredThisWeekData = (currentDate, fullMonth) => {
-  let isDayBwFirstBisweek = currentDate.getDay() >= 1 && currentDate.getDay() <= 14 ;
-  let thisWeekInicialDate = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    isDayBwFirstBisweek ? 1 : 15
-  );
-  let lastDay = new Date(
-    currentDate.getFullYear(),
-    isDayBwFirstBisweek
-      ? currentDate.getMonth()
-      : currentDate.getMonth() + 1,
-      isDayBwFirstBisweek ? 14 : 0
-  );
+  let isDayBwFirstBisweek = currentDate.getDate() >= 1 && currentDate.getDate() <= 14 ;
+
   let filtered = fullMonth.filter(ac => {
     let date;
-    if(ac.maxDateToPay){
+    let thisWeekInicialDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      isDayBwFirstBisweek ? 1 : 15
+    );
+    let lastDay = new Date(
+      currentDate.getFullYear(),
+      isDayBwFirstBisweek
+        ? currentDate.getMonth()
+        : currentDate.getMonth() + 1,
+        isDayBwFirstBisweek ? 14 : 0
+    );
+
+    if(ac.maxDateToPay && !ac.dayOfMothToPay){
       date = new Date(ac.maxDateToPay);
     } else {
       date = new Date();
       date.setDate(ac.dayOfMothToPay)
     }
-    return date >= thisWeekInicialDate && date <= lastDay;
+    return date >= thisWeekInicialDate && date <= lastDay
   });
 
-  
   return filtered;
 };
 const getFilteredNextWeekData = (currentDate, fullMonth) => {
-  let isDayBwFirstBisweek = currentDate.getDay() >= 1 && currentDate.getDay() <= 14 ;
+  let isDayBwFirstBisweek = currentDate.getDate() >= 1 && currentDate.getDate() <= 14 ;
   let firstDay = new Date(
     currentDate.getFullYear(),
     isDayBwFirstBisweek ? currentDate.getMonth() :  currentDate.getMonth()+1,
@@ -186,6 +187,7 @@ const getFilteredNextWeekData = (currentDate, fullMonth) => {
       date = new Date();
       date.setDate(ac.dayOfMothToPay)
     }
+    
     return date >= firstDay && date <= lastDay;
   });
   return filtered;
