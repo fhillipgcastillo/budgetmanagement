@@ -35,59 +35,71 @@ class DashboardScreen extends Component {
     // let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.props.actions.syncMonthlyScheduleByCurrentDate(date);
   };
+  getWeekTotalSpends = accounts => {
+    let total = 0.0;
+    accounts.forEach(a => (total += a.amount));
+    return total;
+  };
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 6, display: "flex" }}>
-          <Text style={styles.subtitle}>Current week</Text>
-          <ScrollView style={{ flex: 4 }}>
-            <FlatList
-              data={this.props.states.currentWeek}
-              renderItem={({ item }) => (
-                <AccountPreviewItem
-                  key={item.id}
-                  account={item}
-                  type="current"
-                  navigation={this.props.navigation}
-                />
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
-          </ScrollView>
-          <Text style={styles.subtitle}>Next week</Text>
-          <ScrollView style={{ flex: 4 }}>
-            <FlatList
-              data={this.props.states.nextWeek}
-              renderItem={({ item }) => (
-                <AccountPreviewItem
-                  key={item.id}
-                  type="next"
-                  account={item}
-                  navigation={this.props.navigation}
-                />
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
-          </ScrollView>
-          <Text style={styles.subtitle}>All of the month</Text>
-          <ScrollView style={{ flex: 4 }}>
-            <FlatList
-              data={this.props.states.accountsOfTheMonth}
-              renderItem={({ item }) => (
-                <AccountPreviewItem
-                  key={item.id}
-                  account={item}
-                  navigation={this.props.navigation}
-                />
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
-          </ScrollView>
+        <ScrollView style={{ flex: 6, display: "flex", paddingVertical: 10, marginBottom: 10 }}>
+          <Text style={{ ...styles.subtitle, ...styles.centerText }}>
+            Current week $
+            {this.getWeekTotalSpends(this.props.states.currentWeek)}
+          </Text>
+
+          <FlatList
+            data={this.props.states.currentWeek}
+            renderItem={({ item }) => (
+              <AccountPreviewItem
+                key={item.id}
+                account={item}
+                type="current"
+                navigation={this.props.navigation}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+
+          <Text style={{ ...styles.subtitle, ...styles.centerText }}>
+            Next week ${this.getWeekTotalSpends(this.props.states.nextWeek)}
+          </Text>
+
+          <FlatList
+            data={this.props.states.nextWeek}
+            renderItem={({ item }) => (
+              <AccountPreviewItem
+                key={item.id}
+                type="next"
+                account={item}
+                navigation={this.props.navigation}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+          <Text style={{ ...styles.subtitle, ...styles.centerText }}>
+            All of the month $
+            {this.getWeekTotalSpends(this.props.states.accountsOfTheMonth)}
+          </Text>
+
+          <FlatList
+            data={this.props.states.accountsOfTheMonth}
+            renderItem={({ item }) => (
+              <AccountPreviewItem
+                key={item.id}
+                account={item}
+                navigation={this.props.navigation}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
         </ScrollView>
-        
+
         <Button
           title="Go to Accouts"
           onPress={() => this.props.navigation.navigate("ManageAccounts")}
+          style={styles.button}
         />
       </View>
     );
@@ -100,11 +112,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#2c3e50",
+    paddingVertical: 10
   },
   subtitle: {
-    fontSize: 16,
-    color: "#fff"
+    fontSize: 22,
+    color: "#fff",
+    marginTop: 15
+  },
+  centerText: {
+    textAlign: "center"
+  },
+  button: {
+    margin: 5,
+    borderRadius: 20,
   }
 });
 

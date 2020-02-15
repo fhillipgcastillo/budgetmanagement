@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   item: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: "#4691df",
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16

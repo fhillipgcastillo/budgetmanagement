@@ -11,7 +11,7 @@ const AccountPreviewItem = props => {
     props.navigation &&
       props.navigation.navigate("AccountDetail", { account: props.account });
   };
-  let bg = "#f9c2ff";
+  let bg = "#ff6c6c";
   if(props.type){
     if(props.type === "current" ){
       bg = "#1db91d" 
@@ -28,8 +28,8 @@ const AccountPreviewItem = props => {
   return (
     <TouchableHighlight onPress={handleShowDetail}>
       <View style={_style}>
-        <Text>{props.account.title} </Text>
-        <Text>${props.account.amount}</Text>
+        <Text style={styles.itemTitle}>{props.account.title} </Text>
+        <Text style={styles.itemTitle}>${props.account.amount}</Text>
       </View>
     </TouchableHighlight>
   );
@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    borderRadius: 30,
   },
-  title: {
-    fontSize: 32,
+  itemTitle: {
+    fontSize: 18,
     color: "#fff"
   }
 });
