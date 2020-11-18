@@ -9,16 +9,23 @@ import DashboardScreen from "./screens/DashboardScreen";
 const MainNavigation = createStackNavigator(
   {
     BashBoard: {
-      screen: DashboardScreen
+      screen: DashboardScreen,
+      navigationOptions: {
+        title: "Weekly Payments Control",
+        headerStyle: {
+          backgroundColor: "#fff"
+        },
+        headerTintColor: "#2c3e50"
+      },
     },
     ManageAccounts: {
       screen: ManageAccounts,
       navigationOptions: {
         title: "Manage Accounts",
         headerStyle: {
-          backgroundColor: "#2c3e50"
+          backgroundColor: "#fff"
         },
-        headerTintColor: "#fff"
+        headerTintColor: "#2c3e50"
       }
     },
     NewAccount: {
