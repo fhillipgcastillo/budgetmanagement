@@ -19,6 +19,7 @@ import {
 import { PAGES, ACOUNT_MODEL } from "../constants";
 import Title from "./Title";
 import AccountPreviewItem from "./AccountPreviewItem";
+import AccountListCard from "./AccountListCard";
 
 const budgetKey = "budget_acount";
 
@@ -45,16 +46,10 @@ class ManageAccounts extends Component {
     return (
       <View style={styles.container}>
         {/* <Title text="Active Accounts" style={{ flex: 1 }} /> */}
-        <ScrollView style={{ flex: 4 }}>
-          <FlatList
+        <ScrollView style={{ flex: 4, width: "100%" }}>
+        <AccountListCard
             data={this.props.states.accounts}
-            renderItem={({ item }) => (
-              <AccountPreviewItem
-                account={item}
-                navigation={this.props.navigation}
-              />
-            )}
-            keyExtractor={item => item.id.toString()}
+            navigation={this.props.navigation}
           />
         </ScrollView>
         <View style={styles.actionContainer}>

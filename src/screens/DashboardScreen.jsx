@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Button,
   FlatList,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from "react-native";
 import { connect } from "react-redux";
 import AccountPreviewItem from "../components/AccountPreviewItem";
@@ -16,16 +17,10 @@ import {
 } from "../actions";
 import { SubTitle } from "../components/Title";
 
+import AccountListCard from "../components/AccountListCard";
+
 // create a component
 class DashboardScreen extends Component {
-  static navigationOptions = {
-    title: "Central control",
-    headerStyle: {
-      backgroundColor: "#2c3e50"
-    },
-    headerTintColor: "#fff"
-  };
-
   componentDidMount() {
     this.getAccountsForThisMonth();
   }
@@ -43,56 +38,37 @@ class DashboardScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 6, display: "flex", paddingVertical: 10, marginBottom: 10 }}>
+        <ScrollView style={{  display: "flex", flex:1, width:"100%", paddingVertical: 10, marginBottom: 10 }}>
           <Text style={{ ...styles.subtitle, ...styles.centerText }}>
             Current week $
             {this.getWeekTotalSpends(this.props.states.currentWeek)}
           </Text>
 
-          <FlatList
+          <AccountListCard 
             data={this.props.states.currentWeek}
-            renderItem={({ item }) => (
-              <AccountPreviewItem
-                key={item.id}
-                account={item}
-                type="current"
-                navigation={this.props.navigation}
-              />
-            )}
-            keyExtractor={item => item.id.toString()}
+            type="current"
+            navigation={this.props.navigation}
           />
 
           <Text style={{ ...styles.subtitle, ...styles.centerText }}>
             Next week ${this.getWeekTotalSpends(this.props.states.nextWeek)}
           </Text>
 
-          <FlatList
+          <AccountListCard 
             data={this.props.states.nextWeek}
-            renderItem={({ item }) => (
-              <AccountPreviewItem
-                key={item.id}
-                type="next"
-                account={item}
-                navigation={this.props.navigation}
-              />
-            )}
-            keyExtractor={item => item.id.toString()}
+            type="next"
+            navigation={this.props.navigation}
           />
+
           <Text style={{ ...styles.subtitle, ...styles.centerText }}>
             All of the month $
             {this.getWeekTotalSpends(this.props.states.accountsOfTheMonth)}
           </Text>
 
-          <FlatList
+          <AccountListCard 
             data={this.props.states.accountsOfTheMonth}
-            renderItem={({ item }) => (
-              <AccountPreviewItem
-                key={item.id}
-                account={item}
-                navigation={this.props.navigation}
-              />
-            )}
-            keyExtractor={item => item.id.toString()}
+            type="All month"
+            navigation={this.props.navigation}
           />
         </ScrollView>
 
@@ -110,10 +86,12 @@ class DashboardScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: "#2c3e50",
-    paddingVertical: 10
+    paddingVertical: 10,
+    width: "100%"
   },
   subtitle: {
     fontSize: 22,
