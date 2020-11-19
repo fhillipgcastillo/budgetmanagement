@@ -1,7 +1,7 @@
 //import liraries
+import { Body, CardItem, H2, H3, Icon } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { Icon, ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { changeAccountDetail, changeCurrentView } from "../actions";
 import { PAGES } from "../constants";
@@ -28,14 +28,14 @@ const AccountPreviewItem = props => {
   _style.backgroundColor = bg;
   return (
     <TouchableHighlight onPress={handleShowDetail}>
-      <ListItem key={props.key} bottomDivider>
-        <Icon name={'av-timer'} />
-        <ListItem.Content>
-          <ListItem.Title>{props.account.title}</ListItem.Title>
-          <ListItem.Subtitle style>${props.account.amount}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+      <CardItem key={props.key} bottomDivider>
+        <Icon name={'timer'} />
+        <Body>
+          <H2>{props.account.title}</H2>
+          <H3 style>${props.account.amount}</H3>
+        </Body>
+        <Icon name={"md-arrow-forward"}/>
+      </CardItem>
     </TouchableHighlight>
   );
 };
