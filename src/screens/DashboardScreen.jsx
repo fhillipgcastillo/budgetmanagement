@@ -91,7 +91,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#2c3e50",
     paddingVertical: 10,
-    width: "100%"
+    width: "100%",
+    padding: 15,
+    paddingTop: 0,
+    paddingBottom: 15,
   },
   subtitle: {
     fontSize: 22,
