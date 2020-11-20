@@ -9,15 +9,18 @@ import DashboardScreen from "./screens/DashboardScreen";
 import React from 'react';
 import { Button, Icon } from "native-base";
 
+const DrawerMenu = ({scene}) => (
+  <Button transparent onPress={()=> (scene.descriptor.navigation.openDrawer())} style={{top: 20}}>
+    <Icon name="menu" style={{color: "#000", width: 50, height: 50 }} />
+  </Button>
+);
+
 const accoutsNavitation = createStackNavigator({
   ManageAccounts: {
     screen: ManageAccountsScreen,
     navigationOptions: {
       title: "Manage Accounts",
-      headerStyle: {
-        backgroundColor: "#fff"
-      },
-      headerTintColor: "#2c3e50"
+      headerLeft: DrawerMenu,
     }
   },
   NewAccount: {
@@ -28,7 +31,7 @@ const accoutsNavitation = createStackNavigator({
     navigationOptions: {
       title: "Details"
     }
-  }
+  },
 });
 
 const mainNvigation = createStackNavigator(
@@ -37,15 +40,7 @@ const mainNvigation = createStackNavigator(
       screen: DashboardScreen,
       navigationOptions: {
         title: "Dashboard",
-        headerStyle: {
-          backgroundColor: "#fff"
-        },
-        headerTintColor: "#2c3e50",
-        headerLeft: () => (
-          <Button transparent onPress={()=> (alert(" hello") && DrawerActions.openDrawer())} >
-            <Icon name="menu" style={{color: "#000"}} />
-          </Button>
-        ),
+        headerLeft: DrawerMenu,
       },
     }
   }
@@ -55,7 +50,14 @@ const drawerNavigation = createDrawerNavigator (
   {
     Dashboard: mainNvigation,
     Accounts: accoutsNavitation
-  },
+  },{
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "#2c3e50"
+    }
+  }
 );
 
 const MainSwitchNavigation = createSwitchNavigator(
