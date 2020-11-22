@@ -6,14 +6,8 @@ import NewAccount from "./components/NewAccount";
 import AccountDetail from "./components/AccountDetails";
 import NoLogedScreen from "./screens/NoLogedScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import React from 'react';
-import { Button, Icon } from "native-base";
-
-const DrawerMenu = ({scene}) => (
-  <Button transparent onPress={()=> (scene.descriptor.navigation.openDrawer())} style={{top: 20}}>
-    <Icon name="menu" style={{color: "#000", width: 50, height: 50 }} />
-  </Button>
-);
+import transactionsNavigation from "./navigations/transactionsNavigation";
+import DrawerMenu from "./components/DrawerMenu";
 
 const accoutsNavitation = createStackNavigator({
   ManageAccounts: {
@@ -46,10 +40,12 @@ const mainNvigation = createStackNavigator(
   }
 );
 
+
 const drawerNavigation = createDrawerNavigator (
   {
     Dashboard: mainNvigation,
-    Accounts: accoutsNavitation
+    Accounts: accoutsNavitation,
+    Transactions: transactionsNavigation
   },{
     defaultNavigationOptions: {
       headerStyle: {
@@ -66,7 +62,7 @@ const MainSwitchNavigation = createSwitchNavigator(
     MainNavigation: drawerNavigation,
   },
   {
-    initialRouteName: "noLogedInSplash"
+    initialRouteName: "MainNavigation"
   }
 );
 
