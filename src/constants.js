@@ -72,6 +72,8 @@ export const ACOUNT_MODEL = [
 export const NAVIGATION_SCREENS = {
   BashBoard: "BashBoard",
   NewAccount: "NewAccount",
+  Transactions: "Transactions",
+  AddTransaction: "AddTransaction"
 };
 
 //Functions
