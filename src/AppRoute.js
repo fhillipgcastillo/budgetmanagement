@@ -40,12 +40,17 @@ const mainNvigation = createStackNavigator(
   }
 );
 
-
 const drawerNavigation = createDrawerNavigator (
   {
     Dashboard: mainNvigation,
     Accounts: accoutsNavitation,
-    Transactions: transactionsNavigation
+    Transactions: transactionsNavigation,
+    noLogedInSplash:  {
+      screen: NoLogedScreen,
+      navigationOptions: {
+        title: "Log out"
+      }      
+    }
   },{
     defaultNavigationOptions: {
       headerStyle: {
