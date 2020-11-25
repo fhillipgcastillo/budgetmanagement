@@ -1,5 +1,5 @@
 //import liraries
-import { Container, Content, Form, Input, Item } from "native-base";
+import { Container, Content, Form, Input, Item, Label } from "native-base";
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { Header } from "react-native/Libraries/NewAppScreen";
@@ -17,11 +17,13 @@ class NoLogedScreen extends Component {
         <Header />
         <Content>
           <Form style={styles.container}>
-            <Item>
-              <Input placeholder="Username" />
+            <Item floatingLabel>
+              <Label>Username</Label>
+              <Input />
             </Item>
-            <Item last>
-              <Input placeholder="Password" />
+            <Item floatingLabel last>
+              <Label>Password</Label>
+              <Input />
             </Item>
             <Button title="Log in" onPress={() => this.changeScreen("Dashboard")} />
           </Form>
@@ -36,7 +38,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    padding: 10
   }
 });
 
