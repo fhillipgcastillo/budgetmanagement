@@ -3,7 +3,7 @@ import { createDrawerNavigator, DrawerActions } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator  } from "react-navigation";
 import ManageAccountsScreen from "./components/ManageAccounts";
 import NewAccount from "./components/NewAccount";
-import AccountDetail from "./components/AccountDetails";
+import AccountDetail from "./screens/AccountDetails";
 import NoLogedScreen from "./screens/NoLogedScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import React from 'react';
