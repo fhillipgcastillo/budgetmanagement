@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "row",
     maxHeight: 30,
+    margin: 10,
     marginBottom: 10,
     marginTop: 15
   },

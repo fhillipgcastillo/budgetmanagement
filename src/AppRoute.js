@@ -8,6 +8,7 @@ import NoLogedScreen from "./screens/NoLogedScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import React from 'react';
 import { Button, Icon } from "native-base";
+import PaymentsScreen from "./screens/PaymentsScreen";
 
 const DrawerMenu = ({scene}) => (
   <Button transparent onPress={()=> (scene.descriptor.navigation.openDrawer())} style={{top: 20}}>
@@ -46,10 +47,21 @@ const mainNvigation = createStackNavigator(
   }
 );
 
+const paymentNavigations = createStackNavigator({
+ Payments: { 
+   screen: PaymentsScreen,
+    navigationOptions: {
+      title: "Payments",
+      headerLeft: DrawerMenu,
+    }
+  }
+});
+
 const drawerNavigation = createDrawerNavigator (
   {
     Dashboard: mainNvigation,
-    Accounts: accoutsNavitation
+    Accounts: accoutsNavitation,
+    Payments: paymentNavigations
   },{
     defaultNavigationOptions: {
       headerStyle: {
