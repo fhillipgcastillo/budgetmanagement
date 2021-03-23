@@ -33,22 +33,22 @@ const PaymentsScreen = (props) => {
       <Content padder>
         <H2>Payments History</H2>
         <Container>
-          <Card>
-            {
-              props.states.payments.map( p => (
-                <CardItem button key={p.id}>
-                  <Icon name="information-circle-outline" />
-                  <Body>
-                    <Text>Pago {p.account}</Text>
-                    <Text>${p.amount} {p.currency}</Text>
-                  </Body>
-                  <Right>
-                    <Icon name="arrow-forward" disabled />
-                  </Right>
-                </CardItem>
-              ))
-            }
-          </Card>
+          {props.states.payments.map((p) => (
+            <Card>
+              <CardItem button key={p.id} style={{ marginBottom: 10 }}>
+                <Icon name="information-circle-outline" />
+                <Body>
+                  <Text>Pago {p.account}</Text>
+                  <Text>
+                    ${p.amount} {p.currency}
+                  </Text>
+                </Body>
+                <Right>
+                  <Icon name="arrow-forward" disabled />
+                </Right>
+              </CardItem>
+            </Card>
+          ))}
         </Container>
       </Content>
     </Container>
@@ -57,15 +57,15 @@ const PaymentsScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
-    states: {payments: state.paymentsStates.payments}
+    states: { payments: state.paymentsStates.payments },
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      syncPayments: () => dispatch(getPayment())
-    }
+      syncPayments: () => dispatch(getPayment()),
+    },
   };
 }
 
