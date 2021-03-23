@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,26 +20,14 @@ import {
   H2,
 } from "native-base";
 import { connect } from "react-redux";
+import { getPayment } from "../actions";
 
-const PaymentsScreen = () => {
-  const [payments, setPayments] = useState([
-    {
-      id: 1,
-      date: "03/21/2021",
-      accountId: 1,
-      account: "Apartamento",
-      amount: 9000,
-      currency: "DOP"
-    },
-    {
-      id: 2,
-      date: "03/21/2021",
-      accountId: 1,
-      account: "Apartamento",
-      amount: 9000,
-      currency: "DOP"
-    }
-  ]);
+const PaymentsScreen = (props) => {
+  useEffect(() => {
+    props.actions.syncPayments();
+    console.log("Payments render", props.states);
+  }, []);
+
   return (
     <Container>
       <Content padder>
@@ -47,7 +35,7 @@ const PaymentsScreen = () => {
         <Container>
           <Card>
             {
-              payments.map( p => (
+              props.states.payments.map( p => (
                 <CardItem button key={p.id}>
                   <Icon name="information-circle-outline" />
                   <Body>
@@ -69,12 +57,16 @@ const PaymentsScreen = () => {
 
 function mapStateToProps(state) {
   return {
-    // states: {accountDetail:state.accountDetail}
+    states: {payments: state.paymentsStates.payments}
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    actions: {
+      syncPayments: () => dispatch(getPayment())
+    }
+  };
 }
 
 //make this component available to the app
