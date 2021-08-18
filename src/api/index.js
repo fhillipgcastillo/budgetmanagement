@@ -1,24 +1,27 @@
 import { AsyncStorage } from "react-native";
 import { DBKEY, TYPEOFPAYMENTS } from "../constants";
+import transactionApi from "./transactions.api";
 
 //TODO: Add encription to DB with some unique key for the phone
-const getDB = async () => {
+export const getDB = async (key = DBKEY) => {
   //getting and formating data
-  var dbPure = await AsyncStorage.getItem(DBKEY);
+  var dbPure = await AsyncStorage.getItem(key);
   let db = JSON.parse(dbPure);
   return db;
 };
-const updateDB = async newDBData => {
+export const updateDB = async newDBData => {
   dbPure = JSON.stringify(newDBData);
   //commiting changes
   await AsyncStorage.setItem(DBKEY, dbPure);
 };
-const RESULT_TEMPLATE = {
+export const RESULT_TEMPLATE = {
   success: false,
   fail: false,
   failMessage: null,
   data: null
 };
+
+
 export default API = {
   getAccounts: async () => {
     let success = false;
@@ -142,5 +145,6 @@ export default API = {
       result.failMessage = error;
     }
     return result;
-  }
+  },
+  transaction: transactionApi
 };

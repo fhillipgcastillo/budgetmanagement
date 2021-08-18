@@ -45,7 +45,7 @@ class DashboardScreen extends Component {
           </Text>
 
           <AccountListCard 
-            data={this.props.states.currentWeek}
+            data={this.props.states.currentWeek || []}
             type="current"
             navigation={this.props.navigation}
           />
@@ -55,7 +55,7 @@ class DashboardScreen extends Component {
           </Text>
 
           <AccountListCard 
-            data={this.props.states.nextWeek}
+            data={this.props.states.nextWeek || []}
             type="next"
             navigation={this.props.navigation}
           />
@@ -66,7 +66,7 @@ class DashboardScreen extends Component {
           </Text>
 
           <AccountListCard 
-            data={this.props.states.accountsOfTheMonth}
+            data={this.props.states.accountsOfTheMonth || []}
             type="All month"
             navigation={this.props.navigation}
           />

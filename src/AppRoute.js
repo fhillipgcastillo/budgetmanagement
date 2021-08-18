@@ -9,6 +9,7 @@ import DashboardScreen from "./screens/DashboardScreen";
 import React from 'react';
 import { Button, Icon } from "native-base";
 import PaymentsScreen from "./screens/PaymentsScreen";
+import AddPaymentsScreen from "./screens/AddPaymentsScreen";
 
 const DrawerMenu = ({scene}) => (
   <Button transparent onPress={()=> (scene.descriptor.navigation.openDrawer())} style={{top: 20}}>
@@ -54,7 +55,14 @@ const paymentNavigations = createStackNavigator({
       title: "Payments",
       headerLeft: DrawerMenu,
     }
-  }
+  },
+  AddPayments: { 
+    screen: AddPaymentsScreen,
+     navigationOptions: {
+       title: "Payments",
+      //  headerLeft: DrawerMenu,
+     }
+   }
 });
 
 const drawerNavigation = createDrawerNavigator (

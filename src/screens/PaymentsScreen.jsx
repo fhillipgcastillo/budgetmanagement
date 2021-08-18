@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
   ScrollView,
   TouchableHighlight,
@@ -18,20 +17,30 @@ import {
   Right,
   H1,
   H2,
+  Button,
 } from "native-base";
 import { connect } from "react-redux";
 import { getPayment } from "../actions";
+import { NAVIGATION_SCREENS } from "../constants";
 
 const PaymentsScreen = (props) => {
   useEffect(() => {
     props.actions.syncPayments();
-    console.log("Payments render", props.states);
   }, []);
-
+  const handleAdd = () => {
+    props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
+      // account: this.props.navigation.getParam("account"),
+    });
+  }
   return (
     <Container>
       <Content padder>
-        <H2>Payments History</H2>
+        <View style={{display: "flex", flexDirection:"row", flex: 1}}>
+          <H2 padder>Payments History</H2>
+          <Right>
+            <Button rounded onPress={handleAdd}><Icon name="add-circle-outline" /></Button>
+          </Right>
+        </View>
         <Container>
           {props.states.payments.map((p) => (
             <Card>

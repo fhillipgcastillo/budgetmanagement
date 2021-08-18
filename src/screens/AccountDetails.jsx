@@ -13,6 +13,63 @@ import {
 } from "../constants";
 import { changeCurrentView, removeAccount } from "../actions";
 
+export const AccontDetailsCp = ({ account }) => {
+  return (account && <React.Fragment>
+      <View style={styles.inlineDetails}>
+        <Text style={styles.title}>{account.title}</Text>
+        <Text style={styles.detail}>{account.description}</Text>
+      </View>
+      <View style={styles.inlineDetails}>
+        <Text style={(styles.label, styles.detail)}>Dept of </Text>
+        <Text style={styles.detail}>{account.amount}</Text>
+      </View>
+      <View style={styles.inlineDetails}>
+        <Text style={(styles.label, styles.detail)}>Category as </Text>
+        <Text style={styles.detail}>
+          {getCategory(account.category)}
+        </Text>
+      </View>
+      <View style={styles.inlineDetails}>
+        <Text style={styles.detail}>
+          {getPaymentType(account.paymentType)}
+        </Text>
+        <Text style={(styles.label, styles.detail)}>Payment </Text>
+      </View>
+      {account.paymentType !== TYPEOFPAYMENTS.Unique ? (
+        <React.Fragment>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.label, styles.detail)}>Limit to Spend: </Text>
+            <Text style={styles.detail}>{account.amountLimit}</Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.label, styles.detail)}>
+              Day of month to pay:{" "}
+            </Text>
+            <Text style={styles.detail}>{account.dayOfMothToPay}</Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.label, styles.detail)}>
+              Max day of month to pay:{" "}
+            </Text>
+            <Text style={styles.detail}>{account.maxDayOfMothToPay}</Text>
+          </View>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.label, styles.detail)}>customDateToPay: </Text>
+            <Text style={styles.detail}>{account.customDateToPay}</Text>
+          </View>
+          <View style={styles.inlineDetails}>
+            <Text style={(styles.detail, styles.label)}>maxDateToPay: </Text>
+            <Text style={styles.detail}>{account.maxDateToPay}</Text>
+          </View>
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
+};
+
 // create a component
 class AccountDetail extends Component {
   // static navigationOptions = {
@@ -65,7 +122,7 @@ class AccountDetail extends Component {
     });
   };
   handlePay = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREENS.MAKEAPAY, {
+    this.props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
       account: this.props.navigation.getParam("account"),
     });
   };
@@ -74,68 +131,7 @@ class AccountDetail extends Component {
 
     return (
       <View style={styles.container}>
-        <React.Fragment>
-          {/* Create a component name InlineDetails */}
-          <View style={styles.inlineDetails}>
-            <Text style={styles.title}>{this.state.title}</Text>
-            <Text style={styles.detail}>{this.state.description}</Text>
-          </View>
-          <View style={styles.inlineDetails}>
-            <Text style={(styles.label, styles.detail)}>Dept of </Text>
-            <Text style={styles.detail}>{this.state.amount}</Text>
-          </View>
-          <View style={styles.inlineDetails}>
-            <Text style={(styles.label, styles.detail)}>Category as </Text>
-            <Text style={styles.detail}>
-              {this.getCategory(this.state.category)}
-            </Text>
-          </View>
-          <View style={styles.inlineDetails}>
-            <Text style={styles.detail}>
-              {this.getPaymentType(this.state.paymentType)}
-            </Text>
-            <Text style={(styles.label, styles.detail)}>Payment </Text>
-          </View>
-          {this.state.paymentType !== TYPEOFPAYMENTS.Unique ? (
-            <React.Fragment>
-              <View style={styles.inlineDetails}>
-                <Text style={(styles.label, styles.detail)}>
-                  Limit to Spend:{" "}
-                </Text>
-                <Text style={styles.detail}>{this.state.amountLimit}</Text>
-              </View>
-              <View style={styles.inlineDetails}>
-                <Text style={(styles.label, styles.detail)}>
-                  Day of month to pay:{" "}
-                </Text>
-                <Text style={styles.detail}>{this.state.dayOfMothToPay}</Text>
-              </View>
-              <View style={styles.inlineDetails}>
-                <Text style={(styles.label, styles.detail)}>
-                  Max day of month to pay:{" "}
-                </Text>
-                <Text style={styles.detail}>
-                  {this.state.maxDayOfMothToPay}
-                </Text>
-              </View>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <View style={styles.inlineDetails}>
-                <Text style={(styles.label, styles.detail)}>
-                  customDateToPay:{" "}
-                </Text>
-                <Text style={styles.detail}>{this.state.customDateToPay}</Text>
-              </View>
-              <View style={styles.inlineDetails}>
-                <Text style={(styles.detail, styles.label)}>
-                  maxDateToPay:{" "}
-                </Text>
-                <Text style={styles.detail}>{this.state.maxDateToPay}</Text>
-              </View>
-            </React.Fragment>
-          )}
-        </React.Fragment>
+        <AccontDetailsCp account={account} />
         <View style={styles.actionContainer}>
           <Button
             // style={styles.actionBtn}
@@ -152,9 +148,10 @@ class AccountDetail extends Component {
           >
             <Text>Edit</Text>
           </Button>
-          <Button 
-          // style={styles.actionBtn} 
-           onPress={this.handlePay}>
+          <Button
+            // style={styles.actionBtn}
+            onPress={this.handlePay}
+          >
             <Text>Pay</Text>
           </Button>
         </View>

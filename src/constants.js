@@ -11,9 +11,11 @@ export const ACCOUNTS_SYNC = "ACCOUNTS_SYNC";
 export const UPDATE_CURRENT_WEEK = "UPDATE_CURRENT_WEEK";
 export const UPDATE_NEXT_WEEK = "UPDATE_NEXT_WEEK";
 export const UPDATE_PAYMENTS = "UPDATE_PAYMENTS";
+export const START_ACCOUNT_PAYMENT = "START_ACCOUNT_PAYMENT";
 
 // SINGLE VALUE
 export const DBKEY = "budget_acount";
+export const DB_PAYMENTS = "DB_PAYMENTS";
 
 //Objects/Enums
 export const PAGES = {
@@ -73,7 +75,8 @@ export const ACOUNT_MODEL = [
 export const NAVIGATION_SCREENS = {
   BashBoard: "BashBoard",
   NewAccount: "NewAccount",
-  MAKEAPAY: "Payments"
+  Payments: "Payments",
+  MakeAPay: "AddPayments",
 };
 
 //Functions

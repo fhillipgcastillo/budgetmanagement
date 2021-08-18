@@ -32,7 +32,7 @@ const AccountPreviewItem = props => {
         <Icon name={'timer'} />
         <Body>
           <H2>{props.account.title}</H2>
-          <H3 style>${props.account.amount}</H3>
+          <H3>${props.account.amount}</H3>
         </Body>
         <Icon name={"md-arrow-forward"}/>
       </CardItem>

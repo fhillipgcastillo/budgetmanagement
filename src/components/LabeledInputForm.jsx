@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
-export const LabeledInputForm = props => (<View style={styles.LabelInputForm}>
-  <Text style={styles.inputTitle}>{props.title}: </Text>
-  <TextInput style={styles.inputTitle} placeholder={props.title || ""} onChangeText={props.onChangeText || null} value={props.value || ""} />
-</View>);
+import { View, Text, TextInput, StyleSheet
+ } from "react-native";
+export const LabeledInputForm = props => (
+  <View style={styles.LabelInputForm}>
+    <Text style={styles.inputTitle}>{props.title}: </Text>
+    <TextInput style={styles.inputTitle} placeholder={props.title || ""} onChangeText={props.onChangeText || null} value={props.value || ""} />
+  </View>);
 
 const styles = StyleSheet.create({
   container: {

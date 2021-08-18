@@ -1,5 +1,5 @@
 Run the App with
-  npm start
+  yarn start
 
 
 ## Requirements
@@ -28,4 +28,10 @@ Node v12.13.0 with its respective npm version
   1. Upgrade react and the components to newer version pattern
   2. Upgrade all dependencies to newest versions
   3. Upgrade React-navigation to v5 (for easier use)
+## 5. categories
+  1. Add categiries
+  2. change logic to use categories instead of  accounts for the payments
+  3. accounts are only for cash
 
+Applying TypeScript
+[https://github.com/expo/examples/tree/master/with-typescript](https://github.com/expo/examples/tree/master/with-typescript)
