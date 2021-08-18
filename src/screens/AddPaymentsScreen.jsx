@@ -25,52 +25,59 @@ import {
   Picker,
 } from "native-base";
 import { connect } from "react-redux";
-import { getPayment } from "../actions";
+import { getAccounts, getPayment } from "../actions";
 import { getCategory, getPaymentType } from "../constants";
 import AccountDetails, { AccontDetailsCp } from "./AccountDetails";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const AddPaymentsScreen = (props) => {
-  const [account, setAccount] = useState({});
+  const [account, setAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState("key0");
   useEffect(() => {
-    // setAccount(props.navigation.getParam("account"));
     let paramAccount = props.navigation.getParam("account");
-    console.log("account to pay", paramAccount);
-    setAccount(paramAccount);
+
+    paramAccount && setAccount(paramAccount);
+    // sync accounts list
+    props.actions.getAccounts();
+
+    !paramAccount && props.actions.getAccounts();
   }, []);
+
+  useEffect(() => {
+    let accountFound = props.states.accounts.find(
+      (ac) => ac.id === selectedAccount
+    );
+    if (accountFound) setAccount(accountFound);
+  }, [selectedAccount]);
+
+  const handleSelectedAccountChange = (newSelectedAccount) =>
+    setSelectedAccount(newSelectedAccount);
+
   return (
     <Container style={{ backgroundColor: "#2c3e50" }}>
       <Content padder>
         <View style={{ flexDirection: "column", flex: 1 }}>
           <H2 padder>Add Payments</H2>
-          <Content style={{ flex: 1, alignContent: "center" }}>
+          <Content
+            style={{ flex: 1, alignContent: "center", flexBasis: "100%" }}
+          >
             <Form>
-              {account ? (
+              <Label>Account</Label>
+              <Picker
+                note
+                mode="dropdown"
+                style={{ width: 120, flex: 1, minWidth: 200, minHeight: 50 }}
+                selectedValue={selectedAccount}
+                onValueChange={handleSelectedAccountChange.bind(this)}
+              >
+                {props.states.accounts &&
+                  props.states.accounts.map((acc) => (
+                    <Picker.Item label={acc.title} value={acc.id} />
+                  ))}
+              </Picker>
+
+              {account && selectedAccount && (
                 <AccontDetailsCp account={account} />
-              ) : (
-                <React.Fragment>
-                  <Item floatingLabel>
-                    <Label>Account</Label>
-                    <Picker
-                      note
-                      mode="dropdown"
-                      style={{ width: 120 }}
-                      // selectedValue={this.state.selected}
-                      // onValueChange={this.onValueChange.bind(this)}
-                    >
-                      <Picker.Item label="Wallet" value="key0" />
-                      <Picker.Item label="ATM Card" value="key1" />
-                      <Picker.Item label="Debit Card" value="key2" />
-                      <Picker.Item label="Credit Card" value="key3" />
-                      <Picker.Item label="Net Banking" value="key4" />
-                    </Picker>
-                    <Label>(optional)</Label>
-                  </Item>
-                  <Item floatingLabel>
-                    <Label>Title</Label>
-                    <Input />
-                  </Item>
-                </React.Fragment>
               )}
             </Form>
           </Content>
@@ -120,7 +127,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    states: { payments: state.paymentsStates.payments },
+    states: {
+      payments: state.paymentsStates.payments,
+      accounts: state.accountStates.accounts,
+    },
   };
 }
 
@@ -128,6 +138,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       syncPayments: () => dispatch(getPayment()),
+      getAccounts: () => dispatch(getAccounts(dispatch)),
     },
   };
 }

@@ -14,7 +14,8 @@ import {
 import { changeCurrentView, removeAccount } from "../actions";
 
 export const AccontDetailsCp = ({ account }) => {
-  return (account && <React.Fragment>
+  return (account && 
+    <React.Fragment>
       <View style={styles.inlineDetails}>
         <Text style={styles.title}>{account.title}</Text>
         <Text style={styles.detail}>{account.description}</Text>

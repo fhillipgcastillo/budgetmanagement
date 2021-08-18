@@ -28,8 +28,8 @@ const PaymentsScreen = (props) => {
     props.actions.syncPayments();
   }, []);
   const handleAdd = () => {
-    props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
-      // account: this.props.navigation.getParam("account"),
+      props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
+      account: {},
     });
   }
   return (
@@ -43,8 +43,8 @@ const PaymentsScreen = (props) => {
         </View>
         <Container>
           {props.states.payments.map((p) => (
-            <Card>
-              <CardItem button key={p.id} style={{ marginBottom: 10 }}>
+            <Card key={p.id}>
+              <CardItem button  style={{ marginBottom: 10 }}>
                 <Icon name="information-circle-outline" />
                 <Body>
                   <Text>Pago {p.account}</Text>

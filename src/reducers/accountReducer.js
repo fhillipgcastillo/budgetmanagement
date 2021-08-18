@@ -23,11 +23,6 @@ const INITIAL_STATE = {
 };
 
 export default AccountReducer = (prevState = INITIAL_STATE, action) => {
-  console.log(
-    `Reducer - changing state for ${action.type} with payload ${JSON.stringify(
-      action.payload
-    )}`
-  );
   switch (action.type) {
     case CHANGE_CURRENT_VIEW:
       return {
