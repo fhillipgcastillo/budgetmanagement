@@ -1,4 +1,4 @@
-import { UPDATE_PAYMENTS, START_ACCOUNT_PAYMENT } from "../constants";
+import { UPDATE_PAYMENTS, CREATE_PAYMENT, PAYMENT_DONE } from "../constants";
 
 const INITIAL_STATE = {
   payments: [],
@@ -7,12 +7,17 @@ const INITIAL_STATE = {
 export default paymentsReducer = (prevState = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_PAYMENTS:
-      console.log(`Payments - ${action.type} with payload`);
       return {
         ...prevState,
         payments: action.payload,
       };
-    
+    case CREATE_PAYMENT:
+      return {
+        ...prevState,
+        payments: [...prevState.payments, action.payload],
+      };
+    case PAYMENT_DONE:
+      console.log("Payment done successfully");
     default:
       return prevState;
   }

@@ -7,12 +7,13 @@ export const getDB = async (key = DBKEY) => {
   //getting and formating data
   var dbPure = await AsyncStorage.getItem(key);
   let db = JSON.parse(dbPure);
-  return db;
+  if(!db) updateDB(key, []);
+  return db || [];
 };
-export const updateDB = async newDBData => {
+export const updateDB = async (key = DBKEY, newDBData) => {
   dbPure = JSON.stringify(newDBData);
   //commiting changes
-  await AsyncStorage.setItem(DBKEY, dbPure);
+  await AsyncStorage.setItem(key, dbPure);
 };
 export const RESULT_TEMPLATE = {
   success: false,

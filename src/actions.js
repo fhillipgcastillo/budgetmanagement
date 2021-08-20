@@ -10,6 +10,9 @@ import {
   UPDATE_CURRENT_WEEK,
   UPDATE_NEXT_WEEK,
   UPDATE_PAYMENTS,
+  CREATE_PAYMENT,
+  PAYMENT_DONE,
+  PAYMENT_FAILED,
 } from "./constants";
 import API from "./api";
 
@@ -32,7 +35,7 @@ export function updateAccounts(accounts) {
   };
 }
 
-export function getAccounts() {
+export function syncAccounts() {
   return (dispatch) => {
     API.getAccounts()
       .then((res) => {
@@ -111,7 +114,7 @@ export const updateAccountsDependantes = () => {
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   return (dispatch) => {
-    dispatch(getAccounts());
+    dispatch(syncAccounts());
     dispatch(getAccountsByDateRange(firstDay, lastDay));
     dispatch(accountsSync());
   };
@@ -227,31 +230,32 @@ export const updateAccount = (account) => {
     });
 };
 
-export const updatePayments = (payload = []) => {
-  return { type: UPDATE_PAYMENTS, payload };
+export const syncPaymentDispatcher = (payload=[]) => {
+  return {
+    type: UPDATE_PAYMENTS,
+    payload
+  }
+}
+
+export const syncPaymentsState = () => {
+  return dispatch => API.transaction.all()
+  .then(res => getPayloadFromResponse(res))
+  .then(payload => dispatch(syncPaymentDispatcher(payload)))
 };
 
-export const getPayment = () => {
-  return (dispatch) => {
-    dispatch(
-      updatePayments([
-        {
-          id: 1,
-          date: "03/21/2021",
-          accountId: 1,
-          account: "Apartamento",
-          amount: 9000,
-          currency: "DOP",
-        },
-        {
-          id: 2,
-          date: "03/21/2021",
-          accountId: 1,
-          account: "Apartamento",
-          amount: 9000,
-          currency: "DOP",
-        },
-      ])
-    );
-  };
+export const createPaymentDispatcher = payload => ({type: CREATE_PAYMENT, payload})
+export const paymentDoneDispatcher = payload => ({type: PAYMENT_DONE, payload});
+export const paymentFailedDispatcher = (payload=undefined) => ({type: PAYMENT_FAILED, payload});
+
+export const createPayment = (payment) => {
+  return (dispatch) => API.transaction.create(payment)
+  .then(res => getPayloadFromResponse(res))
+  .then(payload => {
+    dispatch(createPaymentDispatcher(payload));
+    dispatch(paymentDoneDispatcher(payload));
+    syncPaymentsState();
+    return res;
+  })
+  .catch(err => dispatch(paymentFailedDispatcher(err)))
 };
+

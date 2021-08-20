@@ -16,7 +16,7 @@ import { changeCurrentView, removeAccount } from "../actions";
 export const AccontDetailsCp = ({ account }) => {
   return (account && 
     <React.Fragment>
-      <View style={styles.inlineDetails}>
+      <View style={styles.detailGroup}>
         <Text style={styles.title}>{account.title}</Text>
         <Text style={styles.detail}>{account.description}</Text>
       </View>
@@ -25,7 +25,7 @@ export const AccontDetailsCp = ({ account }) => {
         <Text style={styles.detail}>{account.amount}</Text>
       </View>
       <View style={styles.inlineDetails}>
-        <Text style={(styles.label, styles.detail)}>Category as </Text>
+        <Text style={(styles.label, styles.detail)}>Categorized as </Text>
         <Text style={styles.detail}>
           {getCategory(account.category)}
         </Text>
@@ -169,9 +169,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#2c3e50",
   },
+  detailGroup: {
+    display: "flex",
+    flexDirection: "column"
+  },
   title: {
     fontSize: 28,
     color: "#fff",
+    flexBasis: "100%"
   },
   detail: {
     fontSize: 18,

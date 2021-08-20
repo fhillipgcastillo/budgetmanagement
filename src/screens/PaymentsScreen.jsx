@@ -20,7 +20,7 @@ import {
   Button,
 } from "native-base";
 import { connect } from "react-redux";
-import { getPayment } from "../actions";
+import { syncPaymentsState } from "../actions";
 import { NAVIGATION_SCREENS } from "../constants";
 
 const PaymentsScreen = (props) => {
@@ -66,14 +66,16 @@ const PaymentsScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
-    states: { payments: state.paymentsStates.payments },
+    states: { 
+      payments: state.paymentsStates.payments
+    },
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      syncPayments: () => dispatch(getPayment()),
+      syncPayments: () => dispatch(syncPaymentsState()),
     },
   };
 }

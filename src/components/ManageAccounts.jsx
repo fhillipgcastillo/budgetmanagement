@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import {
   changeAccountDetail,
   changeCurrentView,
-  getAccounts
+  syncAccounts
 } from "../actions";
 import { PAGES, ACOUNT_MODEL } from "../constants";
 import Title from "./Title";
@@ -37,7 +37,7 @@ class ManageAccounts extends Component {
     this.updateDataFromDB();
   };
   updateDataFromDB = async () => {
-    this.props.actions.getAccounts();
+    this.props.actions.syncAccounts();
   };
   handleCreateNewPress = () => {
     this.props.navigation.navigate("NewAccount");
@@ -125,7 +125,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       goTo: page => dispatch(changeCurrentView(page)),
       changeAccountDetail: account => dispatch(changeAccountDetail(account)),
-      getAccounts: () => dispatch(getAccounts(dispatch))
+      syncAccounts: () => dispatch(syncAccounts(dispatch))
     },
     goTo: page => dispatch(changeCurrentView(page))
   };
