@@ -51,10 +51,13 @@ const PaymentsScreen = (props) => {
                   <Text>
                     ${p.amount} {p.currency}
                   </Text>
+                  <Text style={{color:"gray"}}>
+                    {new Date(p.date).toLocaleString()}
+                  </Text>
                 </Body>
-                <Right>
+                {/* <Right>
                   <Icon name="arrow-forward" disabled />
-                </Right>
+                </Right> */}
               </CardItem>
             </Card>
           ))}
