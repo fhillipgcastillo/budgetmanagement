@@ -34,7 +34,7 @@ export const AccontDetailsCp = ({ account }) => {
         <Text style={styles.detail}>
           {getPaymentType(account.paymentType)}
         </Text>
-        <Text style={(styles.label, styles.detail)}>Payment </Text>
+        <Text style={(styles.label, styles.detail)}> Payment</Text>
       </View>
       {account.paymentType !== TYPEOFPAYMENTS.Unique ? (
         <React.Fragment>

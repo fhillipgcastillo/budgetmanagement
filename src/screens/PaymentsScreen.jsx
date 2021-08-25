@@ -28,38 +28,51 @@ const PaymentsScreen = (props) => {
     props.actions.syncPayments();
   }, []);
   const handleAdd = () => {
-      props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
+    props.navigation.navigate(NAVIGATION_SCREENS.MakeAPay, {
       account: {},
     });
-  }
+  };
+  const handleShowDetails = (payment) => {
+    props.navigation.navigate(NAVIGATION_SCREENS.ShowPaymentInfo, {
+      payment,
+    });
+  };
   return (
     <Container>
       <Content padder>
-        <View style={{display: "flex", flexDirection:"row", flex: 1}}>
+        <View style={{ display: "flex", flexDirection: "row", flex: 1 }}>
           <H2 padder>Payments History</H2>
           <Right>
-            <Button rounded onPress={handleAdd}><Icon name="add-circle-outline" /></Button>
+            <Button rounded onPress={handleAdd}>
+              <Icon name="add-circle-outline" />
+            </Button>
           </Right>
         </View>
         <Container>
           {props.states.payments.map((p) => (
-            <Card key={p.id}>
-              <CardItem button  style={{ marginBottom: 10 }}>
-                <Icon name="information-circle-outline" />
-                <Body>
-                  <Text>Pago {p.account}</Text>
-                  <Text>
-                    ${p.amount} {p.currency}
-                  </Text>
-                  <Text style={{color:"gray"}}>
-                    {new Date(p.date).toLocaleString()}
-                  </Text>
-                </Body>
-                {/* <Right>
+            <TouchableHighlight
+              key={p.id}
+              onPress={() => handleShowDetails(p)}
+            >
+              <Card>
+                <CardItem style={{ marginBottom: 10 }}>
+                  <Icon name="information-circle-outline" />
+                  <Body>
+                    <Text>Pago {p.account}</Text>
+                    <Text>
+                      ${p.amount} {p.currency}
+                    </Text>
+                    <Text style={{ color: "gray" }}>
+                      {new Date(p.date).toLocaleString()}
+                    </Text>
+                  </Body>
+                  {/* <Icon name="arrow-forward" disabled /> */}
+                  {/* <Right>
                   <Icon name="arrow-forward" disabled />
                 </Right> */}
-              </CardItem>
-            </Card>
+                </CardItem>
+              </Card>
+            </TouchableHighlight>
           ))}
         </Container>
       </Content>
@@ -69,8 +82,8 @@ const PaymentsScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
-    states: { 
-      payments: state.paymentsStates.payments
+    states: {
+      payments: state.paymentsStates.payments,
     },
   };
 }

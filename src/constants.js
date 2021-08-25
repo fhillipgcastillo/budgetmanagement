@@ -80,6 +80,7 @@ export const NAVIGATION_SCREENS = {
   NewAccount: "NewAccount",
   Payments: "Payments",
   MakeAPay: "AddPayments",
+  ShowPaymentInfo: "ShowPaymentInfo"
 };
 
 //Functions

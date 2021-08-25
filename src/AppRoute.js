@@ -10,6 +10,7 @@ import React from 'react';
 import { Button, Icon } from "native-base";
 import PaymentsScreen from "./screens/PaymentsScreen";
 import AddPaymentsScreen from "./screens/AddPaymentsScreen";
+import ShowPaymentInfo from "./screens/PaymentInfoScreen";
 
 const DrawerMenu = ({scene}) => (
   <Button transparent onPress={()=> (scene.descriptor.navigation.openDrawer())} style={{top: 20}}>
@@ -61,6 +62,12 @@ const paymentNavigations = createStackNavigator({
      navigationOptions: {
        title: "Payments",
       //  headerLeft: DrawerMenu,
+     }
+   },
+   ShowPaymentInfo: {
+     screen: ShowPaymentInfo,
+     navigationOptions: {
+       title: "Payment details"
      }
    }
 });
