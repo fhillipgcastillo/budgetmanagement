@@ -12,10 +12,8 @@ import { changeAccountDetail, changeCurrentView} from '../actions'
 
 // create a component
 class App extends Component {
-  componentWillMount(){
-    this.setState({...this.props.states});
-  };
   componentDidMount(){
+    this.setState({...this.props.states});
     this.constructDB();
   }
   constructDB = async ()=>{

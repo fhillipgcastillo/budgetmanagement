@@ -49,7 +49,7 @@ const PaymentsScreen = (props) => {
           </Right>
         </View>
         <Container>
-          {props.states.payments.map((p) => (
+          {props.states.payments && props.states.payments.map((p) => (
             <TouchableHighlight
               key={p.id}
               onPress={() => handleShowDetails(p)}

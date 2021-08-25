@@ -26,7 +26,7 @@ import {
 } from "native-base";
 import { connect } from "react-redux";
 import { syncAccounts, getPayment, createPayment } from "../actions";
-import AccountDetails, { AccontDetailsCp } from "./AccountDetails";
+import AccountDetails, { AccontDetailsCp } from "./AccountDetailsScreen";
 
 const AddPaymentsScreen = (props) => {
   const [account, setAccount] = useState(null);

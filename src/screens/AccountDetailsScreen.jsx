@@ -76,7 +76,7 @@ class AccountDetail extends Component {
   // static navigationOptions = {
   //   title: this.state.title || "Details"
   // };
-  componentWillMount() {
+  componentDidMount() {
     let account = this.props.navigation.getParam("account");
     this.refleshAccount(account);
   }

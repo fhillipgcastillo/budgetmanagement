@@ -27,11 +27,9 @@ const budgetKey = "budget_acount";
 
 // create a component
 class ManageAccounts extends Component {
-  state = { refleshing: false };
-  componentWillMount() {
+  componentDidMount() {
     this.updateDataFromDB();
   }
-  componentDidMount() {}
   resetDbData = async () => {
     //use existent functionality for this -- the API
     await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
@@ -56,38 +54,41 @@ class ManageAccounts extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <Title text="Active Accounts" style={{ flex: 1 }} /> */}
-        <ScrollView
-          style={{ flex: 4, width: "100%" }}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.props.states.global.refreshing}
-              onRefresh={this.updateDataFromDB.bind(this)}
-            />
-          }
-        >
-          <AccountListCard
-            data={this.props.states.accounts}
-            navigation={this.props.navigation}
-          />
-        </ScrollView>
-        <View style={styles.actionContainer}>
-          <Button
-            style={styles.actionBtn}
-            title="New One"
-            onPress={this.handleCreateNewPress}
-          />
-          <Button
-            style={styles.actionBtn}
-            title="Full data reset"
-            onPress={this.fullDataReset}
-          />
-          <Button
-            style={styles.actionBtn}
-            title="reset data"
-            onPress={this.resetDbData}
-          />
-        </View>
+        {this.props.states && (
+          <>
+            <ScrollView
+              style={{ flex: 4, width: "100%" }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.props.states.global.refreshing}
+                  onRefresh={this.updateDataFromDB.bind(this)}
+                />
+              }
+            >
+              <AccountListCard
+                data={this.props.states.accounts}
+                navigation={this.props.navigation}
+              />
+            </ScrollView>
+            <View style={styles.actionContainer}>
+              <Button
+                style={styles.actionBtn}
+                title="New One"
+                onPress={this.handleCreateNewPress}
+              />
+              <Button
+                style={styles.actionBtn}
+                title="Full data reset"
+                onPress={this.fullDataReset}
+              />
+              <Button
+                style={styles.actionBtn}
+                title="reset data"
+                onPress={this.resetDbData}
+              />
+            </View>
+          </>
+        )}
       </View>
     );
   }

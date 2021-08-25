@@ -62,7 +62,7 @@ class NewAccount extends Component {
     };
   }
 
-  componentWillMount() {}
+  componentDidMount() {}
   handleSave = () => {
     let account = {
       id: this.state.id,
