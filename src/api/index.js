@@ -55,10 +55,8 @@ export default API = {
       let db = await getDB(DBKEY);
       account.id = db && db.length > 0 ? db.sort(x => -x.id)[0].id + 1 : 1;
       //TODO: validate the same title doesn't exist
-      console.log("new account", account);
       db.push(account);
       await updateDB(DBKEY, db);
-      console.log("DB updated", db);
       success = true;
     } catch (error) {
       fail = false;
