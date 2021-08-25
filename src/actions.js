@@ -107,6 +107,7 @@ export const removeAccount = (accountId) => {
       .catch(console.error);
   };
 };
+
 export const UpdateAcountsOfTheMonth = (accounts) => {
   return {
     type: UPDATE_ACCOUNTS_OF_THE_MONTH,
@@ -180,6 +181,7 @@ const getFilteredThisWeekData = (currentDate, fullMonth) => {
 
   return filtered;
 };
+
 const getFilteredNextWeekData = (currentDate, fullMonth) => {
   let isDayBwFirstBisweek =
     currentDate.getDate() >= 1 && currentDate.getDate() <= 14;

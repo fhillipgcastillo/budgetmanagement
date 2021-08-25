@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator, DrawerActions } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator  } from "react-navigation";
-import ManageAccountsScreen from "./components/ManageAccounts";
+import ManageAccountsScreen from './screens/accounts/ManageAccounts';
 import NewAccount from "./components/NewAccount";
 import AccountDetail from "./screens/AccountDetails";
 import NoLogedScreen from "./screens/NoLogedScreen";

@@ -82,10 +82,10 @@ export default API = {
     };
 
     try {
-      db = await getDB();
+      db = await getDB(DBKEY);
       if (db.find(a => a.id === accountId)) {
         let filtered = db.filter(account => account.id !== accountId);
-        await updateDB(filtered);
+        await updateDB(DBKEY, filtered);
         result.success = true;
       } else {
         result.fail = true;
@@ -105,7 +105,7 @@ export default API = {
     let data = [];
 
     try {
-      let db = await getDB();
+      let db = await getDB(DBKEY);
       data = db.filter(a => {
         let date = new Date();
         if (a.dayOfMothToPay <= 0 ) {
@@ -131,17 +131,16 @@ export default API = {
     };
   },
   updateAccount: async account => {
-    let db = null;
+    let db = [];
     let result = Object.create(RESULT_TEMPLATE);
 
     try {
-      db = await getDB();
-
+      db = await getDB(DBKEY) || [];
       let accountIndex = db.findIndex(a => a.id === account.id);
       if (!accountIndex) throw "Account doesn't exist";
       db[accountIndex] = account;
 
-      await updateDB(db);
+      await updateDB(DBKEY, db);
       result.data = account;
     } catch (error) {
       result.fail = true;

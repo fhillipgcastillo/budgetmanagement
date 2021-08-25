@@ -17,11 +17,11 @@ import {
   changeCurrentView,
   changeRefreshing,
   syncAccounts,
-} from "../actions";
-import { PAGES, ACOUNT_MODEL } from "../constants";
-import Title from "./Title";
-import AccountPreviewItem from "./AccountPreviewItem";
-import AccountListCard from "./AccountListCard";
+} from "../../actions";
+import { PAGES, ACOUNT_MODEL } from "../../constants";
+import Title from "../../components/Title";
+import AccountPreviewItem from "../../components/AccountPreviewItem";
+import AccountListCard from "../../components/AccountListCard";
 
 const budgetKey = "budget_acount";
 
