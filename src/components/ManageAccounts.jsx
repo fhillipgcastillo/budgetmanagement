@@ -1,20 +1,22 @@
 //import liraries
 import React, { Component } from "react";
 import {
-  AsyncStorage,
   Button,
   FlatList,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
-  ScrollView
+  ScrollView,
+  RefreshControl,
 } from "react-native";
 import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   changeAccountDetail,
   changeCurrentView,
-  syncAccounts
+  changeRefreshing,
+  syncAccounts,
 } from "../actions";
 import { PAGES, ACOUNT_MODEL } from "../constants";
 import Title from "./Title";
@@ -25,19 +27,28 @@ const budgetKey = "budget_acount";
 
 // create a component
 class ManageAccounts extends Component {
+  state = { refleshing: false };
   componentWillMount() {
     this.updateDataFromDB();
   }
   componentDidMount() {}
   resetDbData = async () => {
+    //use existent functionality for this -- the API
     await AsyncStorage.setItem(budgetKey, JSON.stringify(ACOUNT_MODEL));
   };
   fullDataReset = async () => {
     await AsyncStorage.setItem(budgetKey, JSON.stringify([]));
     this.updateDataFromDB();
   };
+  updateRefreshing = async (refleshing) => {
+    this.props.actions.changeRefreshing({ refleshing });
+  };
   updateDataFromDB = async () => {
-    this.props.actions.syncAccounts();
+    this.updateRefreshing.bind(true);
+    this.props.actions
+      .syncAccounts()
+      .then(() => this.updateRefreshing.bind(this, false))
+      .catch(() => this.updateRefreshing.bind(this, false));
   };
   handleCreateNewPress = () => {
     this.props.navigation.navigate("NewAccount");
@@ -46,8 +57,16 @@ class ManageAccounts extends Component {
     return (
       <View style={styles.container}>
         {/* <Title text="Active Accounts" style={{ flex: 1 }} /> */}
-        <ScrollView style={{ flex: 4, width: "100%" }}>
-        <AccountListCard
+        <ScrollView
+          style={{ flex: 4, width: "100%" }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.states.global.refreshing}
+              onRefresh={this.updateDataFromDB.bind(this)}
+            />
+          }
+        >
+          <AccountListCard
             data={this.props.states.accounts}
             navigation={this.props.navigation}
           />
@@ -82,17 +101,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#2c3e50",
     width: "100%",
-    height: "100%"
+    height: "100%",
   },
   item: {
     backgroundColor: "#4691df",
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16
+    margin: 15,
   },
   title: {
     fontSize: 32,
-    color: "#fff"
+    color: "#fff",
   },
   actionContainer: {
     flex: 1,
@@ -101,33 +119,35 @@ const styles = StyleSheet.create({
     maxHeight: 30,
     margin: 10,
     marginBottom: 10,
-    marginTop: 15
+    marginTop: 15,
   },
   actionBtn: {
     height: 20,
-    margin: 5
-  }
+    margin: 5,
+  },
 });
 
 function mapStateToProps(state) {
   return {
     states: {
+      global: state.global,
       accounts: state.accountStates.accounts,
       currentView: state.accountStates.currentView,
       accountDetail: state.accountStates.accountDetail,
-      DUMMY_DATA: state.accountStates.ACOUNT_MODEL
-    }
+      DUMMY_DATA: state.accountStates.ACOUNT_MODEL,
+    },
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      goTo: page => dispatch(changeCurrentView(page)),
-      changeAccountDetail: account => dispatch(changeAccountDetail(account)),
-      syncAccounts: () => dispatch(syncAccounts(dispatch))
+      goTo: (page) => dispatch(changeCurrentView(page)),
+      changeAccountDetail: (account) => dispatch(changeAccountDetail(account)),
+      syncAccounts: () => dispatch(syncAccounts(dispatch)),
+      changeRefreshing: (refreshing) => dispatch(changeRefreshing(refreshing)),
     },
-    goTo: page => dispatch(changeCurrentView(page))
+    goTo: (page) => dispatch(changeCurrentView(page)),
   };
 }
 

@@ -14,6 +14,7 @@ export const UPDATE_PAYMENTS = "UPDATE_PAYMENTS";
 export const CREATE_PAYMENT = "CREATE_PAYMENT";
 export const PAYMENT_DONE = "PAYMENT_DONE";
 export const PAYMENT_FAILED = "PAYMENT_FAILED";
+export const CHANGE_REFRESHING = "CHANGE_REFRESHING";
 
 // SINGLE VALUE
 export const DBKEY = "budget_acount";

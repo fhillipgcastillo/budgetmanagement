@@ -15,10 +15,10 @@ import { changeCurrentView, removeAccount } from "../actions";
 
 export const AccontDetailsCp = ({ account }) => {
   return (account && 
-    <React.Fragment>
+    <View>
       <View style={styles.detailGroup}>
         <Text style={styles.title}>{account.title}</Text>
-        <Text style={styles.detail}>{account.description}</Text>
+        <Text style={styles.detail}>{account.description && account.description}</Text>
       </View>
       <View style={styles.inlineDetails}>
         <Text style={(styles.label, styles.detail)}>Dept of </Text>
@@ -67,7 +67,7 @@ export const AccontDetailsCp = ({ account }) => {
           </View>
         </React.Fragment>
       )}
-    </React.Fragment>
+    </View>
   );
 };
 
@@ -135,14 +135,14 @@ class AccountDetail extends Component {
         <AccontDetailsCp account={account} />
         <View style={styles.actionContainer}>
           <Button
-            // style={styles.actionBtn}
+            style={styles.actionBtn}
             // title="Remove"
             onPress={this.handleRemove}
           >
             <Text>Remove</Text>
           </Button>
           <Button
-            // style={styles.actionBtn}
+            style={styles.actionBtn}
             // title="Edit"
             onPress={this.handleEdit}
             disabled={account === null || account.id <= 0}
@@ -150,7 +150,7 @@ class AccountDetail extends Component {
             <Text>Edit</Text>
           </Button>
           <Button
-            // style={styles.actionBtn}
+            style={styles.actionBtn}
             onPress={this.handlePay}
           >
             <Text>Pay</Text>
@@ -164,10 +164,14 @@ class AccountDetail extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#2c3e50",
+    flexDirection:"column",
+    justifyContent:"space-evenly",
+    padding: 15
   },
   detailGroup: {
     display: "flex",
@@ -176,7 +180,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     color: "#fff",
-    flexBasis: "100%"
   },
   detail: {
     fontSize: 18,
@@ -191,16 +194,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   actionContainer: {
+    display: "flex",
     flex: 1,
     justifyContent: "space-around",
     flexDirection: "row",
-    maxHeight: 30,
+    // maxHeight: 30,
     marginBottom: 10,
     marginTop: 15,
+    padding: 10,
+    // width: "100%"
   },
   actionBtn: {
-    height: 20,
     margin: 5,
+    padding: 15
   },
 });
 

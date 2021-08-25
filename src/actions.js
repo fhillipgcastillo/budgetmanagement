@@ -13,6 +13,7 @@ import {
   CREATE_PAYMENT,
   PAYMENT_DONE,
   PAYMENT_FAILED,
+  CHANGE_REFRESHING,
 } from "./constants";
 import API from "./api";
 
@@ -37,13 +38,24 @@ export function updateAccounts(accounts) {
 
 export function syncAccounts() {
   return (dispatch) => {
-    API.getAccounts()
+    return API.getAccounts()
       .then((res) => {
         return dispatch(updateAccounts(res.data));
       })
       .catch(console.error);
   };
 }
+
+export function changeRefreshingAction(refreshing){
+  return {
+    type: CHANGE_REFRESHING,
+    payload: refreshing,
+  };
+};
+
+export function changeRefreshing(refreshing) {
+  return (dispatch) =>  dispatch(changeRefreshingAction(refreshing));
+};
 
 export function changeCurrentView(data) {
   return {
@@ -114,9 +126,9 @@ export const updateAccountsDependantes = () => {
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   return (dispatch) => {
+    dispatch(accountsSync());
     dispatch(syncAccounts());
     dispatch(getAccountsByDateRange(firstDay, lastDay));
-    dispatch(accountsSync());
   };
 };
 

@@ -1,6 +1,8 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage, StatusBar, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// remove asyncstorange from here and use api db and redux workflow
 import { connect } from 'react-redux';
 import Dashboard from "./ManageAccounts";
 import NewAccount from "./NewAccount";

@@ -1,19 +1,19 @@
-import React from 'react';
-import AccountPreviewItem from './AccountPreviewItem';
-import {Card } from 'native-base';
+import React from "react";
+import AccountPreviewItem from "./AccountPreviewItem";
+import { Card, View } from "native-base";
 
-const AccountListCard = ({data=[], type="", navigation=null}) => (
-    <Card style={{padding: 0, display: "flex", flex:1, width:"100%"}} >
-    { data && data.map((item, i) => (
+const AccountListCard = ({ data = [], type = "", navigation = null }) => (
+  <View style={{ margin: 10 }}>
+    {data &&
+      data.map((item, i) => (
         <AccountPreviewItem
-            key={item.id}
-            account={item}
-            type={type}
-            navigation={navigation}
+          key={item.id}
+          account={item}
+          type={type}
+          navigation={navigation}
         />
-    ))
-    }
-    </Card>
+      ))}
+  </View>
 );
 
 export default AccountListCard;

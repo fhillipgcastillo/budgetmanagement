@@ -1,4 +1,4 @@
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DBKEY, TYPEOFPAYMENTS } from "../constants";
 import transactionApi from "./transactions.api";
 
@@ -7,11 +7,11 @@ export const getDB = async (key = DBKEY) => {
   //getting and formating data
   var dbPure = await AsyncStorage.getItem(key);
   let db = JSON.parse(dbPure);
-  if(!db) updateDB(key, []);
+  if(!db) updateDB(key,  JSON.parse([]));
   return db || [];
 };
 export const updateDB = async (key = DBKEY, newDBData) => {
-  dbPure = JSON.stringify(newDBData);
+  var dbPure = JSON.stringify(newDBData);
   //commiting changes
   await AsyncStorage.setItem(key, dbPure);
 };
@@ -52,11 +52,13 @@ export default API = {
     let failMessage;
 
     try {
-      let db = await getDB();
+      let db = await getDB(DBKEY);
       account.id = db && db.length > 0 ? db.sort(x => -x.id)[0].id + 1 : 1;
       //TODO: validate the same title doesn't exist
+      console.log("new account", account);
       db.push(account);
-      await updateDB(db);
+      await updateDB(DBKEY, db);
+      console.log("DB updated", db);
       success = true;
     } catch (error) {
       fail = false;

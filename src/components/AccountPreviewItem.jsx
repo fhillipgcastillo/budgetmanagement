@@ -1,26 +1,26 @@
 //import liraries
-import { Body, CardItem, H2, H3, Icon } from "native-base";
+import { Body, Card, CardItem, H2, H3, Icon } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { connect } from "react-redux";
 import { changeAccountDetail, changeCurrentView } from "../actions";
 import { PAGES } from "../constants";
 
-const AccountPreviewItem = props => {
+const AccountPreviewItem = (props) => {
   let handleShowDetail = () => {
     props.actions.changeAccountDetail(props.account);
     props.navigation &&
       props.navigation.navigate("AccountDetail", { account: props.account });
   };
   let bg = "#ff6c6c";
-  if(props.type){
-    if(props.type === "current" ){
-      bg = "#1db91d" 
-    } else if(props.type === "next" ){
-      bg = "#4691df"
-    } 
+  if (props.type) {
+    if (props.type === "current") {
+      bg = "#1db91d";
+    } else if (props.type === "next") {
+      bg = "#4691df";
+    }
   }
-    
+
   const _style = {};
   for (key in styles.itemContainer) {
     _style[key] = styles.itemContainer[key];
@@ -28,14 +28,16 @@ const AccountPreviewItem = props => {
   _style.backgroundColor = bg;
   return (
     <TouchableHighlight onPress={handleShowDetail}>
-      <CardItem key={props.key} bottomDivider>
-        <Icon name={'timer'} />
-        <Body>
-          <H2>{props.account.title}</H2>
-          <H3>${props.account.amount}</H3>
-        </Body>
-        <Icon name={"md-arrow-forward"}/>
-      </CardItem>
+      <Card>
+        <CardItem key={props.key} bottomDivider>
+          <Icon name={"timer"} />
+          <Body>
+            <H2>{props.account.title}</H2>
+            <H3>${props.account.amount}</H3>
+          </Body>
+          <Icon name={"md-arrow-forward"} />
+        </CardItem>
+      </Card>
     </TouchableHighlight>
   );
 };
@@ -53,8 +55,8 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 18,
-    color: "#fff"
-  }
+    color: "#fff",
+  },
 });
 
 function mapStateToProps(state) {
@@ -63,17 +65,17 @@ function mapStateToProps(state) {
       accounts: state.accountStates.accounts,
       currentView: state.accountStates.currentView,
       accountDetail: state.accountStates.accountDetail,
-      DUMMY_DATA: state.accountStates.ACOUNT_MODEL
-    }
+      DUMMY_DATA: state.accountStates.ACOUNT_MODEL,
+    },
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      goTo: page => dispatch(changeCurrentView(page)),
-      changeAccountDetail: account => dispatch(changeAccountDetail(account))
-    }
+      goTo: (page) => dispatch(changeCurrentView(page)),
+      changeAccountDetail: (account) => dispatch(changeAccountDetail(account)),
+    },
   };
 }
 
