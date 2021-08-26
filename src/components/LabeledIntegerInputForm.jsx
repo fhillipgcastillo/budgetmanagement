@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-export const LabeledIntegerInputForm = props => (<View style={styles.LabelInputForm}>
+
+export const LabeledIntegerInputForm = props => (
+<View style={styles.LabelInputForm}>
   <Text style={styles.inputTitle}>{props.title}: </Text>
   <TextInput style={styles.inputTitle} placeholder={props.title || ""} selectTextOnFocus={true} onChangeText={props.onChangeText
     ? newValue => props.onChangeText(parseFloat(newValue + ".00"))

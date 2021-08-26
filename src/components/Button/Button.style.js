@@ -1,8 +1,5 @@
-import { Button } from "native-base";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
-export const ButtonStyled = styled(Button)`
-  margin: 5;
-  padding: 15;
-  color: ${props => props.textColor || "white"};
+export const ButtonStyled = styled.Button`
+ ${props => props.secundary ? "background-color : green" : ""}
 `;

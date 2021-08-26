@@ -1,8 +1,8 @@
 import React from "react";
 import { ButtonStyled } from "./Button.style";
+import { View, Text, StyleSheet } from "react-native";
 
 const Button = (props) => {
-  let { onPress=null, children=null } = props;
   return (
     <ButtonStyled {...props} />
   );

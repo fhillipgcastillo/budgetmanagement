@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Button from "../components/Button";
 
 class NoLogedScreen extends Component {
   
@@ -11,8 +12,7 @@ class NoLogedScreen extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text style={{textAlign: "center"}}>Home</Text>
-        <Button title="Log in" onPress={() => this.changeScreen("MainNavigation")} style={{flexBasis: "30%"}}/>
+        <Button title="Log in" onPress={() => this.changeScreen("MainNavigation")}  />
       </View>
     );
   }
