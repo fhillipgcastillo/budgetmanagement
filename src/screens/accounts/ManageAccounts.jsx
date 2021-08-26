@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
     width: "100%",
     height: "100%",
   },
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    color: "#fff",
+    color: "#000",
   },
   actionContainer: {
     flex: 1,

@@ -92,19 +92,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
+    
   },
   title: {
     fontSize: 28,
-    color: "#fff",
+    color: "#000",
   },
   detail: {
     fontSize: 18,
-    color: "#fff",
+    color: "#000",
   },
   inlineDetails: {
     flexDirection: "row",
-    color: "white",
   },
   label: {
     fontWeight: "bold",

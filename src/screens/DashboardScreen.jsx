@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
     paddingVertical: 10,
     width: "100%",
     padding: 15,
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 22,
-    color: "#fff",
+    color: "#000",
     marginTop: 15
   },
   centerText: {

@@ -26,9 +26,9 @@ import {
 import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
 import { DatePicker } from "./DatePicker";
-import { LabeledFloatInputForm } from "./LabeledFloatInputForm";
+import LabeledFloatInputForm from "./LabeledFloatInputForm";
 import { LabeledIntegerInputForm } from "./LabeledIntegerInputForm";
-import { LabeledInputForm } from "./LabeledInputForm";
+import LabeledInputForm  from "./LabeledInputForm";
 
 // create a component
 class NewAccount extends Component {
@@ -162,9 +162,10 @@ class NewAccount extends Component {
       <View style={styles.container}>
         <ScrollView>
           <LabeledInputForm
-            title={"Account name"}
+            title="Account name"
             value={this.state.title}
             onChangeText={text => this.setState({ title: text })}
+            placeholder="Add an account name"
           />
 
           <LabeledInputForm
@@ -271,7 +272,6 @@ export const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
     width: "100%",
     height: "100%",
     padding: 20
@@ -282,7 +282,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around"
   },
   inputTitle: {
-    color: "#fff",
+    color: "#000",
     fontSize: 20
   },
   actionBtns: {

@@ -79,10 +79,7 @@ const drawerNavigation = createDrawerNavigator (
     Payments: paymentNavigations
   },{
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#fff"
-      },
-      headerTintColor: "#2c3e50"
+
     }
   }
 );

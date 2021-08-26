@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 18,
-    color: "#fff",
+    color: "#000",
   },
 });
 

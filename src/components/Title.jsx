@@ -14,11 +14,11 @@ export const SubTitle = props => (
 const styles = StyleSheet.create({
   title: {
     fontSize: 32,
-    color: "#fff"
+    color: "#000"
   },
   subtitle: {
     fontSize: 18,
-    color: "#fff"
+    color: "#000"
   }
 });
 

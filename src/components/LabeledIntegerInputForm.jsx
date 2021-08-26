@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
     width: "100%",
     height: "100%",
     padding: 20
@@ -25,7 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around"
   },
   inputTitle: {
-    color: "#fff",
+    color: "#000",
     fontSize: 20
   },
   actionBtns: {
