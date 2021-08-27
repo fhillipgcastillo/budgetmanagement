@@ -73,7 +73,7 @@ const AddPaymentsScreen = (props) => {
   };
 
   return (
-    <Container style={{ backgroundColor: "#2c3e50" }}>
+    <Container>
       <Content padder>
         <View style={{ flexDirection: "column", flex: 1 }}>
           <H2 padder>Add Payments</H2>
