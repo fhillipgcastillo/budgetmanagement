@@ -27,7 +27,7 @@ import CategorySelect from "./categorySelect";
 import PaymentTypeSelect from "./paymentTypeSelect";
 import { DatePicker } from "./DatePicker";
 import LabeledFloatInputForm from "./LabeledFloatInputForm";
-import { LabeledIntegerInputForm } from "./LabeledIntegerInputForm";
+import LabeledIntegerInputForm from "./LabeledIntegerInputForm";
 import LabeledInputForm  from "./LabeledInputForm";
 
 // create a component
