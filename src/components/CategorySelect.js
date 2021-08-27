@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Picker } from "react-native";
 import { SPENTS_CATEGORIES, getCategory } from "../constants";
+import LabeledInputWrapper from "./LabeledInputWrapper";
 
 // create a component
 class CategorySelect extends Component {
@@ -9,36 +10,37 @@ class CategorySelect extends Component {
     super(props);
     this.state = {
       category: props.category || 1,
-      enabled: props.enabled || false
+      enabled: props.enabled || false,
     };
   }
-  getCategory = key => {
+  getCategory = (key) => {
     return getCategory(key);
   };
-  handleSelectedValueChange = newValue => {
+  handleSelectedValueChange = (newValue) => {
     this.setState({ category: newValue });
     this.props.handleSelectedValueChange &&
       this.props.handleSelectedValueChange(newValue);
   };
   render() {
     return (
-      <View style={styles.LabelInputForm}>
+      <LabeledInputWrapper>
         <Text style={styles.inputTitle}>Category: </Text>
-        <Picker
-          style={(styles.inputTitle)}
-          selectedValue={this.state.category}
-          onValueChange={this.handleSelectedValueChange}
-          enabled={this.state.enabled}
-        >
-          {Object.keys(SPENTS_CATEGORIES).map(cat => (
-            <Picker.Item
-              key={SPENTS_CATEGORIES[cat].toString()}
-              label={cat}
-              value={SPENTS_CATEGORIES[cat]}
-            />
-          ))}
-        </Picker>
-      </View>
+        <View style={styles.picker}>
+          <Picker
+            selectedValue={this.state.category}
+            onValueChange={this.handleSelectedValueChange}
+            enabled={this.state.enabled}
+          >
+            {Object.keys(SPENTS_CATEGORIES).map((cat) => (
+              <Picker.Item
+                key={SPENTS_CATEGORIES[cat].toString()}
+                label={cat}
+                value={SPENTS_CATEGORIES[cat]}
+              />
+            ))}
+          </Picker>
+        </View>
+      </LabeledInputWrapper>
     );
   }
 }
@@ -49,28 +51,36 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    
+
     width: "100%",
-    height: "100%"
+    height: "100%",
   },
   actionContainer: {
     // flex:1,
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   inputTitle: {
     flex: 1,
     color: "#000",
-    fontSize: 20
+    fontSize: 20,
   },
   actionBtns: {
     height: 20,
-    margin: 5
+    margin: 5,
   },
   LabelInputForm: {
     display: "flex",
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+  },
+  picker: {
+    flex: 1,
+    paddingHorizontal: 3.5,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#000",
+    width: "100%",
+  },
 });
 
 //make this component available to the app

@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
-import { Button } from "native-base";
+import Button from '../components/Button';
 import { connect } from "react-redux";
 import {
   PAGES,
@@ -135,26 +135,18 @@ class AccountDetail extends Component {
         <AccontDetailsCp account={account} />
         <View style={styles.actionContainer}>
           <Button
-            style={styles.actionBtn}
-            // title="Remove"
+            title="Remove"
             onPress={this.handleRemove}
-          >
-            <Text>Remove</Text>
-          </Button>
+          />
           <Button
-            style={styles.actionBtn}
-            // title="Edit"
+            title="Edit"
             onPress={this.handleEdit}
             disabled={account === null || account.id <= 0}
-          >
-            <Text>Edit</Text>
-          </Button>
+          />
           <Button
-            style={styles.actionBtn}
+            title="Pay"
             onPress={this.handlePay}
-          >
-            <Text>Pay</Text>
-          </Button>
+          />
         </View>
       </View>
     );
@@ -193,19 +185,14 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     display: "flex",
-    flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     flexDirection: "row",
     // maxHeight: 30,
     marginBottom: 10,
     marginTop: 15,
     padding: 10,
-    // width: "100%"
-  },
-  actionBtn: {
-    margin: 5,
-    padding: 15
-  },
+    width: "100%"
+  }
 });
 
 function mapStateToProps(state) {

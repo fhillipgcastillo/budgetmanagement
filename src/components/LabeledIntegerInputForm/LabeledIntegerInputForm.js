@@ -6,7 +6,7 @@ import { InputTitle } from "./LabeledIntegerInputForm.style";
 const LabeledIntegerInputForm = (props) => {
   return (
     <LabeledInputWrapper>
-      <InputTitle>{props.title}: </InputTitle>
+      <InputTitle>{props.title}</InputTitle>
       <InputForm
         placeholder={props.title || ""}
         selectTextOnFocus={true}

@@ -9,7 +9,7 @@ const LabeledInputForm = (props) => {
   const handleOnBlur = (e) => setEditing(false);
   return (
     <LabeledInputWrapper>
-      { !props.dynamicTitle || (props.dynamicTitle && !editing) ? (<InputTitle>{props.title}: </InputTitle>) : null}
+      { !props.dynamicTitle || (props.dynamicTitle && !editing) ? (<InputTitle>{props.title}</InputTitle>) : null}
       <InputForm
         placeholder={props.placeholder || null}
         onChangeText={props.onChangeText || null}

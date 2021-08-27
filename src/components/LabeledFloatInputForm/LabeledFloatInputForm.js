@@ -6,7 +6,7 @@ import { InputTitle } from "./LabeledFloatInputForm.style";
 const LabeledFloatInputForm = (props) => {
   return (
     <LabeledInputWrapper>
-      <InputTitle>{props.title}: </InputTitle>
+      <InputTitle>{props.title}</InputTitle>
       <InputForm
         selectTextOnFocus={true}
         placeholder={props.placeholder || null}

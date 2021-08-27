@@ -4,11 +4,9 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   ScrollView,
-  Switch
 } from "react-native";
-import Title from "./Title";
+import Button from './Button'
 import {
   SPENTS_CATEGORIES,
   TYPEOFPAYMENTS,
@@ -23,9 +21,9 @@ import {
   updateAccount,
   changeAccountDetail
 } from "../actions";
-import CategorySelect from "./categorySelect";
-import PaymentTypeSelect from "./paymentTypeSelect";
-import { DatePicker } from "./DatePicker";
+import CategorySelect from "./CategorySelect";
+import PaymentTypeSelect from "./PaymentTypeSelect";
+import DatePicker from "./DatePicker";
 import LabeledFloatInputForm from "./LabeledFloatInputForm";
 import LabeledIntegerInputForm from "./LabeledIntegerInputForm";
 import LabeledInputForm  from "./LabeledInputForm";
@@ -225,7 +223,6 @@ class NewAccount extends Component {
                 <Text style={styles.inputTitle}>customDateToPay: </Text>
                 <DatePicker
                   date={this.state.customDateToPay}
-                  style={styles.inputTitle}
                   selectTextOnFocus={true}
                   changeValue={value =>
                     this.setState({ customDateToPay: value })
@@ -237,7 +234,6 @@ class NewAccount extends Component {
                 <Text style={styles.inputTitle}>Max date to pay: </Text>
                 <DatePicker
                   date={this.state.maxDateToPay}
-                  style={styles.inputTitle}
                   changeValue={value => this.setState({ maxDateToPay: value })}
                 />
               </View>
@@ -246,17 +242,14 @@ class NewAccount extends Component {
         </ScrollView>
         <View style={styles.actionContainer}>
           <Button
-            style={styles.actionBtns}
             title="Save"
             onPress={this.handleSave}
           />
           <Button
-            style={styles.actionBtns}
             title="Cancel"
             onPress={this.handleCancel}
           />
           <Button
-            style={styles.actionBtns}
             title="Test"
             onPress={this.handleTest}
           />
@@ -269,15 +262,13 @@ class NewAccount extends Component {
 // define your styles
 export const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100%",
-    padding: 20
+    marginBottom: 10,
   },
   actionContainer: {
-    // flex:1,
     flexDirection: "row",
     justifyContent: "space-around"
   },
